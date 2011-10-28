@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-10-28T12:12:41Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks/"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks//</id><content type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-10-28T12:17:55Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
        
     
     &lt;p&gt;If you tried &lt;code&gt;hg help --debug&lt;/code&gt;, you may be familiar with the commands prefixed
@@ -117,12 +117,12 @@ o  changeset:   0:6965ee5bb884
 &lt;/code&gt;&lt;/pre&gt;
     
     
-   </content></entry><entry><title>Keeping Informed with Progress</title><author><name>David Harrigan</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress/"/><updated>2010-03-24T00:00:00Z</updated><published>2010-03-24T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress//</id><content type="html">
+   </content></entry><entry><title>Keeping Informed with Progress</title><author><name>David Harrigan</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html"/><updated>2010-03-24T00:00:00Z</updated><published>2010-03-24T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html/</id><content type="html">
        
     
     &lt;p&gt;Sometimes when using Mercurial it seems to sit at the command prompt for quite
 some time as it churns over some files. Thankfully, since Mercurial 1.5 you
-can now take advantage of a new extension! You&amp;#8217;ll want to &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your &amp;#8216;~/.hgrc&amp;#8217;
+can now take advantage of a new extension! You&amp;#8217;ll want to &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial.html&quot;&gt;edit your &amp;#8216;~/.hgrc&amp;#8217;
 file&lt;/a&gt; to contain something like&amp;nbsp;this:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[extensions]
 progress =
@@ -152,7 +152,7 @@ Mercurial. For more information on this extension, you can refer to &lt;a href=&
 page&lt;/a&gt; on the Mercurial&amp;nbsp;website.&lt;/p&gt;
     
     
-   </content></entry><entry><title>Merging MQ Patches with Rebase</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase/"/><updated>2010-02-11T00:00:00Z</updated><published>2010-02-11T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase//</id><content type="html">
+   </content></entry><entry><title>Merging MQ Patches with Rebase</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html"/><updated>2010-02-11T00:00:00Z</updated><published>2010-02-11T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html/</id><content type="html">
        
     
     &lt;p&gt;&lt;strong&gt;First of all:&lt;/strong&gt; I want to try something new with this tip. This is the first
@@ -175,7 +175,7 @@ this in the screencast&amp;nbsp;below:&lt;/p&gt;
 &lt;/div&gt;
     
     
-   </content></entry><entry><title>Styling Mercurial’s CLI</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli/"/><updated>2010-01-15T00:00:00Z</updated><published>2010-01-15T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli//</id><content type="html">
+   </content></entry><entry><title>Styling Mercurial’s CLI</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli.html"/><updated>2010-01-15T00:00:00Z</updated><published>2010-01-15T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli.html/</id><content type="html">
        
     
     &lt;p&gt;Mercurial has a great command line interface and many people use it without
@@ -212,7 +212,7 @@ looks&amp;nbsp;like:&lt;/p&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;To use this template you can &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;p&gt;To use this template you can &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial.html&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[alias]
 slog = log --style=/full/path/to/map-cmdline.slog
 &lt;/code&gt;&lt;/pre&gt;
@@ -228,7 +228,7 @@ alias, which looks like&amp;nbsp;this:&lt;/p&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;To use this template you can &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;p&gt;To use this template you can &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial.html&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[alias]
 nlog = log --style=/full/path/to/map-cmdline.nlog
 &lt;/code&gt;&lt;/pre&gt;
@@ -244,7 +244,7 @@ with another template. The result looks like&amp;nbsp;this:&lt;/p&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;To use this template you can &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;p&gt;To use this template you can &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial.html&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[alias]
 sglog = glog --style=/full/path/to/map-cmdline.sglog
 &lt;/code&gt;&lt;/pre&gt;
@@ -253,7 +253,7 @@ sglog = glog --style=/full/path/to/map-cmdline.sglog
 feel free to fork the &lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;repository&lt;/a&gt; on&amp;nbsp;BitBucket!&lt;/p&gt;
     
     
-   </content></entry><entry><title>Finding Uncommon Changesets</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets/"/><updated>2009-12-09T00:00:00Z</updated><published>2009-12-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets//</id><content type="html">
+   </content></entry><entry><title>Finding Uncommon Changesets</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html"/><updated>2009-12-09T00:00:00Z</updated><published>2009-12-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html/</id><content type="html">
        
     
     &lt;p&gt;This post was inspired by &lt;a href=&quot;http://www.selenic.com/pipermail/mercurial-devel/2009-December/017417.html&quot;&gt;an email&lt;/a&gt; on the &lt;a href=&quot;http://mercurial.selenic.com/wiki/MailingLists&quot;&gt;mercurial-devel mailing
@@ -366,7 +366,7 @@ show you additional changesets that would be included &amp;#8212; it will not me
 changesets that are included in &lt;code&gt;SOURCE&lt;/code&gt; but &lt;strong&gt;not&lt;/strong&gt; in &lt;code&gt;DESTINATION&lt;/code&gt;.&lt;/p&gt;
     
     
-   </content></entry><entry><title>Handling Binary Files in a Merge</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files/"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files//</id><content type="html">
+   </content></entry><entry><title>Handling Binary Files in a Merge</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html/</id><content type="html">
        
     
     &lt;p&gt;Say you&amp;#8217;re building a website and you keep your images in the Mercurial
@@ -441,7 +441,7 @@ update --clean&lt;/code&gt; for&amp;nbsp;this.&lt;/p&gt;
 &lt;/ul&gt;
     
     
-   </content></entry><entry><title>Reverting Dirty Files</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files/"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files//</id><content type="html">
+   </content></entry><entry><title>Reverting Dirty Files</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files.html/</id><content type="html">
        
     
     &lt;p&gt;So you have a change you don&amp;#8217;t want to keep.&amp;nbsp;Example:&lt;/p&gt;
@@ -464,7 +464,7 @@ reverting filetwo.txt
 familiar with&amp;nbsp;git.&lt;/p&gt;
     
     
-   </content></entry><entry><title>Combining Repositories</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories/"/><updated>2009-11-17T00:00:00Z</updated><published>2009-11-17T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories//</id><content type="html">
+   </content></entry><entry><title>Combining Repositories</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html"/><updated>2009-11-17T00:00:00Z</updated><published>2009-11-17T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html/</id><content type="html">
        
     
     &lt;p&gt;Thomas&amp;#8217; last tip about &lt;a href=&quot;/tips/advanced/2009-11-16-using-convert-to-decompose-your-repository/&quot;&gt;decomposing repositories&lt;/a&gt; made me want to
@@ -647,7 +647,7 @@ means that we can easily merge changesets from people that are still using the
 old, separate&amp;nbsp;repositories.&lt;/p&gt;
     
     
-   </content></entry><entry><title>Using Convert to Decompose Your Repository</title><author><name>Thomas G. Willis</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository/"/><updated>2009-11-16T00:00:00Z</updated><published>2009-11-16T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository//</id><content type="html">
+   </content></entry><entry><title>Using Convert to Decompose Your Repository</title><author><name>Thomas G. Willis</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository.html"/><updated>2009-11-16T00:00:00Z</updated><published>2009-11-16T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository.html/</id><content type="html">
        
     
     &lt;p&gt;Say you have a repository that has evolved to contain many projects (folders).
@@ -670,7 +670,7 @@ expensive&amp;nbsp;operation.&lt;/p&gt;
 &lt;p&gt;Well lucky for you, the convert extension can help you undo this embarrassing
 decision before you show your work to the Venture Capitalist you&amp;#8217;re meeting
 for&amp;nbsp;lunch.&lt;/p&gt;
-&lt;p&gt;First &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial/&quot;&gt;enable the convert extension&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;First &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial.html&quot;&gt;enable the convert extension&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[extensions]
 convert =
 &lt;/code&gt;&lt;/pre&gt;
@@ -687,7 +687,7 @@ rename .
 &lt;p&gt;And that&amp;#8217;s it. AnotherDamnContentManagementSystem is now its own Mercurial&amp;nbsp;repository.&lt;/p&gt;
     
     
-   </content></entry><entry><title>Create a Git Mirror</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-09-create-a-git-mirror/"/><updated>2009-11-09T00:00:00Z</updated><published>2009-11-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-09-create-a-git-mirror//</id><content type="html">
+   </content></entry><entry><title>Create a Git Mirror</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-09-create-a-git-mirror.html"/><updated>2009-11-09T00:00:00Z</updated><published>2009-11-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-09-create-a-git-mirror.html/</id><content type="html">
        
     
     &lt;p&gt;Of all the distributed revision control systems like Mercurial,
@@ -699,7 +699,7 @@ that git users can&amp;nbsp;contribute!&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;easy_install dulwich
 hg clone http://bitbucket.org/durin42/hg-git/
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your &lt;code&gt;~/.hgrc&lt;/code&gt; file&lt;/a&gt; to&amp;nbsp;contain:&lt;/p&gt;
+&lt;p&gt;Now &lt;a href=&quot;/beginner/2009-09-30-configuring-mercurial.html&quot;&gt;edit your &lt;code&gt;~/.hgrc&lt;/code&gt; file&lt;/a&gt; to&amp;nbsp;contain:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[extensions]
 hggit = /path/to/hg-git
 &lt;/code&gt;&lt;/pre&gt;
