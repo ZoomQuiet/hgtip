@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Stay Sane with Graphlog / hg tip</title>
+        <title>用Graphlog观察 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -60,7 +60,7 @@
             
             <div id="content">
                 
-                    <h2>Stay Sane with Graphlog</h2>
+                    <h2>用Graphlog观察</h2>
                 
                 
     <p id="tip-info">
@@ -70,9 +70,7 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>One of the very first Mercurial commands you learn is <code>hg log</code>. It lets you
-view a log of all the commits in the repository. Here&#8217;s a sample of what its
-output looks&nbsp;like:</p>
+    <p>最先学到的Mercurial 命令可能就是 <code>hg log</code>.&nbsp;用来对仓库中的所有检入进行观察.通常输出的样子如下:</p>
 <pre><code>$ hg log
 changeset:   2:7b393734ccf7
 tag:         tip
@@ -92,9 +90,7 @@ summary:     Initial commit.
 
 $
 </code></pre>
-<p>Not too bad! It works just fine if you&#8217;ve just got a straight line of changes
-with no branches, but once you start branching it can get hard to read. Let&#8217;s
-look at the output after a few more&nbsp;commits:</p>
+<p>还成!这个命令,在你没有分支时很得力,但是,一但开始使用分支,就极难读懂了.&nbsp;这给个例子:</p>
 <pre><code>$ hg log
 changeset:   8:b58f37a6f0af
 tag:         tip
@@ -149,16 +145,14 @@ summary:     Initial commit.
 
 $
 </code></pre>
-<p>Now it&#8217;s not quite so easy to see exactly what&#8217;s going on. There&#8217;s at least
-one merge (because changeset <code>7</code> has two parents) so there must be a branch
-somewhere. Can you spot it easily at a glance, or does trying to figure it out
-drive you&nbsp;crazy?</p>
-<p>To make the log easier to understand, you can enable the <a href="http://mercurial.selenic.com/wiki/GraphlogExtension">graphlog
-extension</a> by <a href="/beginner/2009-09-30-configuring-mercurial.html">editing your <code>~/.hgrc</code> file</a> to&nbsp;contain:</p>
+<p>好了,这会儿要明白仓库发生了什么就不那么轻松了.
+现在至少有一个分支发生了合并行为(因为变更集 <code>7</code> 有两个父版本).&nbsp;你能快速扫视一下就指出哪些个分支进行了合并?!</p>
+<p>要让日志更加容易理解,你需要激活 <a href="http://mercurial.selenic.com/wiki/GraphlogExtension">graphlog 扩展</a> ,
+<a href="/beginner/2009-09-30-configuring-mercurial.html">修订 <code>~/.hgrc</code> 文件</a>&nbsp;包含以下参数:</p>
 <pre><code>[extensions]
 graphlog =
 </code></pre>
-<p>Now you can use <code>hg glog</code> to view an <span class="caps">ASCII</span>-art graph of the log, like&nbsp;this:</p>
+<p>再使用 <code>hg glog</code> 命令,就可以见到 字符艺术(<span class="caps">ASCII</span>-art)&nbsp;风格的图形化日志:</p>
 <pre><code>$ hg glog
 @  changeset:   8:b58f37a6f0af
 |  tag:         tip
@@ -213,14 +207,15 @@ o  changeset:   0:ef4afb3d9699
 
 $
 </code></pre>
-<p>Now it&#8217;s much easier to see exactly where things&nbsp;branched.</p>
-<p>I personally like to have a bit more compact output from <code>hg glog</code> because I
-usually don&#8217;t need most of the information about each commit. I&#8217;ve edited my
-<code>~/.hgrc</code> file to&nbsp;contain:</p>
+<p>现在,就能非常轻松的理解分支间的关系鸟&nbsp;;-)</p>
+<p>俺个人来说,还习惯进一步压缩 <code>hg glog</code> 的输出,
+因为实际上并不需要过于详细的信息输出.
+俺一般编辑 <code>~/.hgrc</code> 文件包含以下声明:</p>
 <pre><code>[defaults]
 glog = --template 'changeset:   {rev}:{node|short} {tags}\nsummary:     {desc|firstline|fill68|tabindent|tabindent}\n\n'
 </code></pre>
-<p>With that template set as the default, my <code>hg glog</code> output looks like&nbsp;this:</p>
+<p>用定制的输出模板来替代默认的,
+于是俺的 <code>hg glog</code> 输出就变成以下形式:</p>
 <pre><code>$ hg glog
 @  changeset:   8:b58f37a6f0af tip 
 |  summary:     Oh god the server is on fire fix it now.
@@ -251,9 +246,8 @@ o  changeset:   0:ef4afb3d9699
 
 $
 </code></pre>
-<p>For me, that&#8217;s much easier to read and it gives me all the information I need.
-If I want to know more about a particular changeset I can use <code>hg log -r REV</code>
-or <a href="/tips/beginner/2009-09-29-show-changeset-info/"><code>hg show REV</code></a>.</p>
+<p>对我而言,这样的输出包含了足够的信息.
+如果想查阅详细信息,俺就用 <code>hg log -r REV</code> 或是 <a href="/tips/beginner/2009-09-29-show-changeset-info/"><code>hg show REV</code></a>.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -267,8 +261,7 @@ or <a href="/tips/beginner/2009-09-29-show-changeset-info/"><code>hg show REV</c
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Using <code>hg log</code> works great until you have a few branches, then it gets crazy.
-Graphlog can&nbsp;save&nbsp;you.</p>
+                        <p>使用 <code>hg log</code> 来观察有复杂分支的仓库时忒累了,用&nbsp;Graphlog&nbsp;哈;-)</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
