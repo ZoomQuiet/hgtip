@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Configuring Mercurial / hg tip</title>
+        <title>配置Mercurial / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -14,11 +14,11 @@
         
         
         
-            <link rel="stylesheet" href="./media/css/aal.css"
+            <link rel="stylesheet" href="http://zoomquiet.github.com/hgtip/media/css/aal.css"
                   type="text/css" media="screen" charset="utf-8" />
-            <link rel="stylesheet" href="./media/css/calluna.css"
+            <link rel="stylesheet" href="http://zoomquiet.github.com/hgtip/media/css/calluna.css"
                   type="text/css" media="screen" charset="utf-8" />
-            <link rel="stylesheet" href="./media/css/style.css"
+            <link rel="stylesheet" href="http://zoomquiet.github.com/hgtip/media/css/style.css"
                   type="text/css" media="screen" charset="utf-8" />
             
         
@@ -44,15 +44,15 @@
     <body>
         <div id="main-wrap">
             <div id="header">            
-                <h1><a href=".">hg tip</a></h1>
-                <p id="tagline">Learn Mercurial one bite-sized tip at a time.</p>
+                <h1><a href="http://zoomquiet.github.com/hgtip">hg tip</a></h1>
+                <p id="tagline">学习 Mercurial 羽级技巧;-)</p>
             </div>
             
             <p id="navigation">
-                <a href="tips/">all</a> /
-                <a href="tips/beginner/">beginner</a> /
-                <a href="tips/advanced/">advanced</a> &mdash;
-                <a href="contribute/">contribute</a> &mdash;
+                <a href="http://zoomquiet.github.com/hgtip/">all</a> /
+                <a href="http://zoomquiet.github.com/hgtip/beginner">beginner</a> /
+                <a href="http://zoomquiet.github.com/hgtip/advanced">advanced</a> &mdash;
+                <a href="http://hgtip.com/contribute/">contribute</a> &mdash;
                 <a href="http://feeds.feedburner.com/hgtip/">feed</a> &mdash;
                 <a href="http://twitter.com/hgtip/">twitter</a> &mdash;
                 <a href="about/">about</a>
@@ -60,7 +60,7 @@
             
             <div id="content">
                 
-                    <h2>Configuring Mercurial</h2>
+                    <h2>配置Mercurial</h2>
                 
                 
     <p id="tip-info">
@@ -70,11 +70,9 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Mercurial&#8217;s behavior is controlled by a couple of plain old text files. Let&#8217;s
-take a look at each these files and see how they&nbsp;work.</p>
-<h3 id="config-file-format">Config File&nbsp;Format</h3>
-<p>Mercurial&#8217;s config files are broken up into sections. Each section can have
-several entries. For&nbsp;example:</p>
+    <p>Mercurial的行为,由一组纯文本文件控制.&nbsp;让我们来逐一理解是她们是怎么配合工作的.</p>
+<h3 id="">配置文件格式</h3>
+<p>Mercurial的配置文件,由段落组成.&nbsp;每个段落包含一系列参数.例如:</p>
 <pre><code>[ui]
 username = Steve Losh &lt;steve@stevelosh.com&gt;
 editor = vim
@@ -82,37 +80,31 @@ editor = vim
 [alias]
 killitwithfire = revert --no-backup --all
 </code></pre>
-<p>This sample file has two sections: <code>[ui]</code> and <code>[alias]</code>. The <code>[ui]</code> section
-has two entries and the <code>[alias]</code> section has one entry. The name of each
-entry is to the left of the equal sign, the value is to the&nbsp;right.</p>
-<p>You can edit the config files with any text editor you&nbsp;like.</p>
-<h3 id="config-file-levels">Config File&nbsp;Levels</h3>
-<p>Every time you run Mercurial it looks in a couple of different places for
-config files and applies the settings from <em>all</em> the files it finds. Settings
-in more &#8220;specific&#8221; config files will override settings in more &#8220;general&#8221;
-files. We&#8217;ll see learn what &#8220;specific&#8221; and &#8220;general&#8221; mean as we go&nbsp;along.</p>
-<h3 id="install-wide-and-system-wide-config-files"><span class="dquo">&#8220;</span>Install-wide&#8221; and &#8220;System-wide&#8221; Config&nbsp;Files</h3>
-<p>These are the most general config files you&#8217;ll find. Any settings inside these
-files will apply to every user running in any&nbsp;directory.</p>
-<p>You probably won&#8217;t use them very much unless you&#8217;re administering a multi-user
-system. For now, we&#8217;ll ignore them. If you want to learn more, check out the
-<a href="http://www.selenic.com/mercurial/hgrc.5.html">man page</a>.</p>
-<h3 id="user-wide-config-files"><span class="dquo">&#8220;</span>User-wide&#8221; Config&nbsp;Files</h3>
-<p>Each user on a system can have a Mercurial config file just for them. These
-files are more &#8220;specific&#8221; than the install-wide and system-wide files, and
-they&#8217;re the config files you&#8217;ll be using most of the&nbsp;time.</p>
-<p>On <span class="caps">UNIX</span>, Linux, <span class="caps">OS</span> X systems your personal config file is located at
-<code>$HOME/.hgrc</code> (aka <code>~/.hgrc</code>).</p>
-<p>On Windows it can be in any of the following locations (you can pick one you
-like and create the&nbsp;file):</p>
+<p>样例文本,包含了两个段落: <code>[ui]</code> 和 <code>[alias]</code> .
+ <code>[ui]</code> 段落,包含了两组参数;
+ <code>[alisa]</code> 段落,包含了一组参数;&nbsp;每组参数,由等号连接左边的参数名,和右边的参数而成.</p>
+<p>你可以用任何你习惯的文本编译器来修订配置文件.</p>
+<h3 id="_1">配置文件层级</h3>
+<p>每次运行 Mercural 时,她会到不同的地方尝试找到 <em>所有</em> 配置文件,并统一执行.
+&#8220;特殊&#8221;配置文件中的参数将覆盖&#8221;通用&#8221;配置文件中的,&nbsp;那什么是&#8221;特殊&#8221;又什么是&#8221;通用&#8221;配置?这就来逐一分析.</p>
+<h3 id="_2"><span class="dquo">&#8220;</span>安装级&#8221; 以及 &#8220;系统级&#8221;&nbsp;配置文件</h3>
+<p>通用配置文件中的设定,将在任何用户在任何目录使用 Mercural&nbsp;时起作用.</p>
+<p>不过,除非是系统管理员,一般不用关注这级的配置.
+所以,先前我们将无视这些配置.
+如果你有兴趣深入学习,请参考: <a href="http://www.selenic.com/mercurial/hgrc.5.html">系统帮助</a>.</p>
+<h3 id="_3"><span class="dquo">&#8220;</span>用户级&#8221;&nbsp;配置文件</h3>
+<p>每位用户都有专用的Mercural 配置文件.
+用户的&#8221;特殊&#8221;配置文件参数优先级高于安装/系统级的文件,&nbsp;并且这也是我们最常用的配置文件.</p>
+<p>在 <span class="caps">UNIX</span>, Linux, <span class="caps">OS</span> X 系统中,你的私人配置文件在
+<code>$HOME/.hgrc</code> (同 <code>~/.hgrc</code>).</p>
+<p>在Windows 中,可能存在下列地点&nbsp;(你可以随便选择一个,来创建私人配置文件):</p>
 <pre><code>%HOME%\Mercurial.ini
 %HOME%\.hgrc
 %USERPROFILE%\Mercurial.ini
 %USERPROFILE%\.hgrc
 </code></pre>
-<p>Settings in this file will override settings of the same section/name
-combination in the install-wide and system-wide config&nbsp;files.</p>
-<p>This is the place to put all the settings specific to you as a user. For&nbsp;example:</p>
+<p>对这一文件的配置,将覆盖安装/系统级配置文件中同名段落/参数名的值.</p>
+<p>以下是作为普通用户,可以设定的特殊段落:</p>
 <pre><code>[ui]
 username = Your Name &lt;your@email.com&gt;
 editor = your_favorite_editor_command
@@ -123,46 +115,36 @@ editor = your_favorite_editor_command
 [alias]
 ... any aliases you find convenient ...
 </code></pre>
-<h3 id="repository-wide-config-files"><span class="dquo">&#8220;</span>Repository-wide&#8221; Config&nbsp;Files</h3>
-<p>These are the most &#8220;specific&#8221; config files, and the settings inside of them
-only apply to commands run on the repository they&#8217;re inside&nbsp;of.</p>
-<p>The location of a repository-wide config file is always:
-<code>[repository-path]/.hg/hgrc</code>. Be careful, that&#8217;s <code>hgrc</code> with <strong>no dot</strong> in
-front of&nbsp;it!</p>
-<p>Why would you want to specify settings just for a single repository? A common
-example is when you want to use a different email address when committing to a
-certain&nbsp;repository.</p>
-<p>You might have a user-wide config file that contains&nbsp;this:</p>
+<h3 id="_4"><span class="dquo">&#8220;</span>仓库级&#8221;&nbsp;配置文件</h3>
+<p>有种&#8221;特殊&#8221;配置文件,仅当我们在仓库目录中执行 Mercural&nbsp;时,才起作用.</p>
+<p>这就是&#8221;仓库级&#8221;配置文件,一般存在于:
+<code>[repository-path]/.hg/hgrc</code>. 
+注意,这里的 <code>hgrc</code> 前缀 <strong>没有 .</strong>!</p>
+<p>为什么我们需要对指定仓库的特殊配置?&nbsp;通常是因为,我们需要针对不同的仓库聲明不同的邮箱地址.</p>
+<p>比如说,你在用户级配置中聲明了:</p>
 <pre><code>[ui]
 username = Your Name &lt;you@personal.com&gt;
 </code></pre>
-<p>But for a specific repository you might want to use your work email, so you
-would put this into the <code>[repository-path]/.hg/hgrc</code> file for that&nbsp;repository:</p>
+<p>但是,在另外一个特殊仓库中,你期望使用你的工作邮箱,
+那么你就得在 <code>[repository-path]/.hg/hgrc</code> 中进行配置:</p>
 <pre><code>[ui]
 username = Your Name &lt;you@work.com&gt;
 </code></pre>
-<p>Now when you commit to that repository it will use your work email address,
-because the repository-wide config file is more specific than the user-wide
-config file and overrides&nbsp;it.</p>
-<h3 id="who-does-mercurial-trust">Who Does Mercurial&nbsp;Trust?</h3>
-<p>As you start to use Mercurial more and more, you may eventually run into error
-messages that look like&nbsp;this:</p>
+<p>现在,当你在这个仓库中检入时,记录的是你的工作邮箱.&nbsp;因为仓库级配置比用户级配置还要特殊,会覆盖对应的参数值.</p>
+<h3 id="mercural-who-does-mercurial-trust">Mercural 信任谁? Who Does Mercurial&nbsp;Trust?</h3>
+<p>当你越来越多的使用 Mercural&nbsp;后,可能就会遇到这种错误信息:</p>
 <pre><code>Not trusting file /home/alice/repo/.hg/hgrc from untrusted user alice, group users
 </code></pre>
-<p>When you see a message like this, Mercurial is telling you that there&#8217;s an
-<code>hgrc</code> file that it would normally use, but it&#8217;s owned by someone else that may
-have made nefarious changes to&nbsp;it.</p>
-<p>To learn more about this situation you should take a look at the <a href="http://mercurial.selenic.com/wiki/Trust">Trust</a> page
-on the Mercurial&nbsp;wiki.</p>
-<h3 id="learn-more">Learn&nbsp;More</h3>
-<p>This tip just showed you where to find config files and how to edit them.
-There&#8217;s a lot more information on the <a href="http://www.selenic.com/mercurial/hgrc.5.html">hgrc man page</a> if you want to
-know&nbsp;more.</p>
+<p>这是Mercural 告诉你那儿有个 <code>hgrc</code> 文件在使用,&nbsp;但是,在被其它人恶意修订的可能.</p>
+<p>对此情况,想了解更多,你得查阅 Mercural 维基中的 <a href="http://mercurial.selenic.com/wiki/Trust">Trust</a> </p>
+<h3 id="learn-more">进一步的 Learn&nbsp;More</h3>
+<p>本贴士,仅仅展示了你可以到哪儿找到配置文件,以及怎么编辑她们.
+如果你想知道更多,请参考: <a href="http://www.selenic.com/mercurial/hgrc.5.html">hgrc&nbsp;帮助手册</a></p>
     
     <!-- Hyde::Article::End -->
     
     <div id="tip-comments">
-        <h2>Comments</h2>
+        <h2>评注</h2>
         <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/hgtip/embed.js"></script><noscript><a href="http://hgtip.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
 
@@ -171,18 +153,18 @@ know&nbsp;more.</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Learn how to configure Mercurial to behave however&nbsp;you&nbsp;like.</p>
+                        <p>学习如何根据你的喜好来配置Mercural.</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
         </div>
         <div id='footer'>
-            site by <a href="http://stevelosh.com">steve</a> and <a href="/about/">others</a> &mdash;
-            built with <a href="http://github.com/lakshmivyas/hyde">hyde</a> &mdash;
-            licensed as <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">cc-by-sa</a> &mdash;
+            网站由 <a href="http://stevelosh.com">steve</a> 及 <a href="/http://hgtip.com/about/">其同伙</a> &mdash;
+            用 <a href="http://github.com/lakshmivyas/hyde">hyde</a> 创建 &mdash;
+            使用 <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">cc-by-sa</a> 许可协议&mdash;
             we've got <a id="rhythm" href="#">rhythm</a>
             <br />
-            available in:
+            支持:
             <a href="http://hgtip.com/">english</a> &mdash;
             <a href="http://zoomquiet.github.com/hgtip/">中文</a> &mdash;
             <a href="http://de.hgtip.com/">deutsch</a> &mdash;
