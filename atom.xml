@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/./atom.xml" rel="self"/><link href="http://hgtip.com/."/><updated>2011-10-28T10:30:36Z</updated><id>http://hgtip.com/./</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/./advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/./advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
+       
+    
+    &lt;p&gt;If you tried &lt;code&gt;hg help --debug&lt;/code&gt;, you may be familiar with the commands prefixed
+with &amp;#8216;debug&amp;#8217;. Most of them are used to inspect Mercurial&amp;#8217;s internal storage,
+but some can come handy in certain situations. Two of these commands are &lt;code&gt;hg
+debugsetparents&lt;/code&gt; and &lt;code&gt;hg debugrebuildstate&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The first command forces Mercurial to forget the &amp;#8220;real&amp;#8221; parent revisions of a
+working-copy in favor of the specified revisions in &amp;#8216;debugsetparents&amp;#8217;. The
+second command is forcing Mercurial to rebuild its internal&amp;nbsp;state.&lt;/p&gt;
+&lt;p&gt;So how can this be useful in normal conditions at all? Here are 3 scenarios
+where it comes handy to work with&amp;nbsp;them:&lt;/p&gt;
+&lt;h3 id=&quot;1-late-binding-working-copy-with-repository&quot;&gt;1. Late-binding working-copy with&amp;nbsp;repository.&lt;/h3&gt;
+&lt;p&gt;Imagine an interesting project hosted with Mercurial. At first you only
+download a snapshot of the project to inspect the code and try something out.
+You didn&amp;#8217;t clone it fully, because you wanted to avoid the overhead to just
+check the&amp;nbsp;source.&lt;/p&gt;
+&lt;p&gt;Later in the process of playing with the code, you realize that this is going
+to be a longer-lasting relationship, so you decide to clone the repo and
+commit your changes. Since it is quite a big working-copy and you
+renamed/deleted/added some files, you don&amp;#8217;t want to copy the whole thing over
+some checkout in order to not confuse the working-copy state. So how to commit
+this state at the proper&amp;nbsp;location?&lt;/p&gt;
+&lt;p&gt;The solution is to copy the .hg folder into the snapshot&amp;#8217;s root and&amp;nbsp;issue:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg debugsetparent tip
+$ hg debugrebuildstate
+$ hg commit -Am &quot;my snapshot&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;2-creating-alternate-check-ins&quot;&gt;2. Creating alternate&amp;nbsp;check-ins.&lt;/h3&gt;
+&lt;p&gt;If you are anything like me, you don&amp;#8217;t trust yourself. Therefore, you&amp;#8217;d want
+to add alternative work &lt;span class=&quot;caps&quot;&gt;BEFORE&lt;/span&gt; you delete one of the alternatives. So the
+usual workflow of using rollback to take back an ill-composed commit is not
+your&amp;nbsp;thing.&lt;/p&gt;
+&lt;p&gt;Instead, it is possible to&amp;nbsp;simply:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg debugsetparent tip^^
+$ hg debugrebuildstate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And you are back at the state you where before you commited, just with the
+&amp;#8220;wrong&amp;#8221; commit still&amp;nbsp;there.&lt;/p&gt;
+&lt;h3 id=&quot;3-simulate-gits-no-ff-merges-with-anonymous-heads&quot;&gt;3. Simulate Git&amp;#8217;s &amp;#8212;no-ff merges with anonymous&amp;nbsp;heads.&lt;/h3&gt;
+&lt;p&gt;Most of the workflows for Git are easily reproducible with Mercurial, but some
+of them (&lt;a href=&quot;http://nvie.com/git-model&quot;&gt;gitflow&lt;/a&gt;) use so-called &amp;#8220;non-fast-forward&amp;#8221; merges. These merges
+can be done in Mercurial, too, but only with&amp;nbsp;named-branches:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg sl
+$ echo x &amp;gt; x
+$ hg ci -Am &quot;base&quot;
+adding x
+$ hg branch feature
+marked working directory as branch feature
+$ echo y &amp;gt; x
+$ hg ci -m &quot;feature&quot;
+$ hg up default
+1 files updated, 0 files merged, 0 files removed, 0 files unresolved
+$ hg merge feature
+1 files updated, 0 files merged, 0 files removed, 0 files unresolved
+(branch merge, don&#39;t forget to commit)
+$ hg ci -m &quot;merged&quot;
+$ hg glog
+@    changeset:   2:e0502e1d12c6
+|\   tag:         tip
+| |  parent:      0:387ca709aeaf
+| |  parent:      1:205ec0dce78f
+| |  summary:     merged
+| |
+| o  changeset:   1:205ec0dce78f
+|/   branch:      feature
+|    summary:     feature
+|
+o  changeset:   0:387ca709aeaf
+   summary:     base
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see in the above graphlog output, the merge contains no actual
+information besides indicating the merging of two named-branches (&amp;#8216;default&amp;#8217;
+and &amp;#8216;feature&amp;#8217;). As with Mercurial 1.5.1, you can&amp;#8217;t do that with anonymous&amp;nbsp;heads:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ echo x &amp;gt; x
+$ hg ci -Am &quot;base&quot;
+adding x
+$ echo y &amp;gt; x
+$ hg ci -m &quot;feature&quot;
+$ hg up 0
+1 files updated, 0 files merged, 0 files removed, 0 files unresolved
+$ hg merge 1
+abort: nothing to merge (use &#39;hg update&#39; or check &#39;hg heads&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Why would you want to do that with anonymous heads, anyway? Well, one way of
+simulating Git branches is the bookmark extension. Unfortunately, using
+bookmarks (to name anonymous heads) is still using anonymous heads, so the
+above problem gets in your&amp;nbsp;way:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg bookmark master
+$ hg bookmark feature -r 1
+$ hg bookmark
+ * master                    0:6965ee5bb884
+   feature                   1:2061809a8e23
+$ hg merge feature
+abort: nothing to merge (use &#39;hg update&#39; or check &#39;hg heads&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The&amp;nbsp;solution:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg debugsetparents master feature
+$ hg revert -a -r feature
+reverting x
+$ hg ci -m &quot;merged&quot;
+$ hg glog
+@    changeset:   2:0dfae55684f6
+|\   tag:         master
+| |  tag:         tip
+| |  parent:      0:6965ee5bb884
+| |  parent:      1:2061809a8e23
+| |  summary:     merged
+| |
+| o  changeset:   1:2061809a8e23
+|/   tag:         feature
+|    summary:     feature
+|
+o  changeset:   0:6965ee5bb884
+   summary:     base
+&lt;/code&gt;&lt;/pre&gt;
+    
+    
+   </content></entry><entry><title>Keeping Informed with Progress</title><author><name>David Harrigan</name></author><link href="http://hgtip.com/./beginner/2010-03-24-keeping-informed-with-progress.html"/><updated>2010-03-24T00:00:00Z</updated><published>2010-03-24T00:00:00Z</published><id>http://hgtip.com/./beginner/2010-03-24-keeping-informed-with-progress.html/</id><content type="html">
+       
+    
+    &lt;p&gt;Sometimes when using Mercurial it seems to sit at the command prompt for quite
+some time as it churns over some files. Thankfully, since Mercurial 1.5 you
+can now take advantage of a new extension! You&amp;#8217;ll want to &lt;a href=&quot;/tips/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your &amp;#8216;~/.hgrc&amp;#8217;
+file&lt;/a&gt; to contain something like&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[extensions]
+progress =
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When this nifty little extension is enabled you should see something like&amp;nbsp;this:&lt;/p&gt;
+&lt;div class=&quot;screenshot&quot;&gt;
+    &lt;a href=&quot;http://picasaweb.google.com/lh/photo/H_whTt3_9qWgidsk6Ao6pw?feat=directlink&quot;
+       title=&quot;Progress when verifying a Mercurial repository&quot;&gt;
+        &lt;img src=&quot;http://lh3.ggpht.com/_VHXliiKPwhU/S6k5xh1fsAI/AAAAAAAABCg/2FDGDmPpNdM/s400/progress-verify.png&quot;
+             class=&quot;force-border&quot;
+             alt=&quot;Progress when verifying a Mercurial repository&quot;/&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Notice the nice new progress bar? Here&amp;#8217;s another little&amp;nbsp;example:&lt;/p&gt;
+&lt;div class=&quot;screenshot&quot;&gt;
+    &lt;a href=&quot;http://picasaweb.google.com/lh/photo/ALwS1lIo-p7DFD8YRZzKMg?feat=embedwebsite&quot;
+       title=&quot;Progress when cloning a remote Mercurial repository&quot;&gt;
+        &lt;img src=&quot;http://lh5.ggpht.com/_VHXliiKPwhU/S6k5xp_VMfI/AAAAAAAABCk/pyn7z_WLr98/s400/progress-clone-remote.png&quot;
+             class=&quot;force-border&quot;
+             alt=&quot;Progress when cloning a remote Mercurial repository&quot;/&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I hope you find this little tip useful and it helps you in your daily usage of
+Mercurial. For more information on this extension, you can refer to &lt;a href=&quot;http://mercurial.selenic.com/wiki/ProgressExtension&quot;&gt;its
+page&lt;/a&gt; on the Mercurial&amp;nbsp;website.&lt;/p&gt;
+    
+    
+   </content></entry><entry><title>Merging MQ Patches with Rebase</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/./advanced/2010-02-11-merging-mq-patches-with-rebase.html"/><updated>2010-02-11T00:00:00Z</updated><published>2010-02-11T00:00:00Z</published><id>http://hgtip.com/./advanced/2010-02-11-merging-mq-patches-with-rebase.html/</id><content type="html">
+       
+    
+    &lt;p&gt;&lt;strong&gt;First of all:&lt;/strong&gt; I want to try something new with this tip. This is the first
+tip that includes a screencast. It&amp;#8217;s a complex topic and I think a screencast
+is the best way to talk about it. Please post a comment and let me know if you
+like it or if you think hgtip should stick to text-only&amp;nbsp;tips!&lt;/p&gt;
+&lt;p&gt;This tip is for those of you that are familiar and comfortable with using
+&lt;a href=&quot;http://mercurial.selenic.com/wiki/MqExtension&quot;&gt;&lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;&lt;/a&gt; to handle patches. If you use &lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt; regularly you may have noticed some
+problems. One of the biggest problems appears when you have some patches and
+someone else commits something that changes the files you&amp;#8217;re working&amp;nbsp;on.&lt;/p&gt;
+&lt;p&gt;The normal workflow is to pull their changes, &lt;code&gt;qpop&lt;/code&gt; your patches, update to
+the new repository (or branch) tip, and &lt;code&gt;qpush&lt;/code&gt; your patches. Unfortunately &lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;
+doesn&amp;#8217;t keep track of the parents of patches, so it can&amp;#8217;t intelligently merge
+changes when you &lt;code&gt;qpush&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The way to get around this limitation is to use the &lt;a href=&quot;http://mercurial.selenic.com/wiki/RebaseExtension&quot;&gt;rebase extension&lt;/a&gt; to
+rebase your &lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt; patches while they&amp;#8217;re still applied. I&amp;#8217;ll demonstrate how to do
+this in the screencast&amp;nbsp;below:&lt;/p&gt;
+&lt;div class=&quot;screencast&quot;&gt;
+&lt;object classid=&#39;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&#39; codebase=&#39;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0&#39; width=&#39;560&#39; height=&#39;345&#39;&gt;&lt;param name=&#39;movie&#39; value=&#39;http://screenr.com/Content/assets/screenr_1116090935.swf&#39; /&gt;&lt;param name=&#39;flashvars&#39; value=&#39;i=46386&#39; /&gt;&lt;param name=&#39;allowFullScreen&#39; value=&#39;true&#39; /&gt;&lt;embed src=&#39;http://screenr.com/Content/assets/screenr_1116090935.swf&#39; flashvars=&#39;i=46386&#39; allowFullScreen=&#39;true&#39; width=&#39;560&#39; height=&#39;345&#39; pluginspage=&#39;http://www.macromedia.com/go/getflashplayer&#39;&gt;&lt;/embed&gt;&lt;/object&gt;
+&lt;/div&gt;
+    
+    
+   </content></entry><entry><title>Styling Mercurial’s CLI</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/./advanced/2010-01-15-styling-mercurials-cli.html"/><updated>2010-01-15T00:00:00Z</updated><published>2010-01-15T00:00:00Z</published><id>http://hgtip.com/./advanced/2010-01-15-styling-mercurials-cli.html/</id><content type="html">
+       
+    
+    &lt;p&gt;Mercurial has a great command line interface and many people use it without
+ever feeling the need for a &lt;span class=&quot;caps&quot;&gt;GUI&lt;/span&gt; to manage their repositories. However, we can
+make it even better by taking advantage of Mercurial&amp;#8217;s templating&amp;nbsp;features.&lt;/p&gt;
+&lt;p&gt;In this tip I&amp;#8217;m going to post some of the templates I use and show you how to
+use them yourself. Check out &lt;code&gt;hg help templating&lt;/code&gt; if you want more details on
+how the templating actually&amp;nbsp;works.&lt;/p&gt;
+&lt;p&gt;If you like what you see you can grab my templates by cloning their
+&lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;repository&lt;/a&gt; from&amp;nbsp;BitBucket:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hg clone http://bitbucket.org/sjl/mercurial-cli-templates/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class=&quot;caps&quot;&gt;NOTE&lt;/span&gt;:&lt;/strong&gt; I&amp;#8217;ve customized the colors of my Terminal, so the colors will look
+different for you. If you like the colors I&amp;#8217;m using you can read the
+&lt;a href=&quot;http://stevelosh.com/blog/2009/03/candy-colored-terminal/&quot;&gt;blog entry&lt;/a&gt; I wrote about&amp;nbsp;it.&lt;/p&gt;
+&lt;div class=&quot;toc&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#short-log&quot;&gt;Short&amp;nbsp;Log&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#nice-log&quot;&gt;Nice&amp;nbsp;Log&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#short-graphlog&quot;&gt;Short&amp;nbsp;Graphlog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#contribute&quot;&gt;Contribute&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;short-log&quot;&gt;Short&amp;nbsp;Log&lt;/h2&gt;
+&lt;p&gt;In a &lt;a href=&quot;/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/&quot;&gt;previous tip&lt;/a&gt; I described how to create an &lt;code&gt;hg slog&lt;/code&gt; alias that
+can be very useful for counting changesets. With the right styling it can be
+useful in your day-to-day work. Here&amp;#8217;s what the output of my &lt;code&gt;hg slog&lt;/code&gt; command
+looks&amp;nbsp;like:&lt;/p&gt;
+&lt;div class=&quot;screenshot&quot;&gt;
+    &lt;a href=&quot;http://www.flickr.com/photos/sjl7678/4277311247/&quot;
+       title=&quot;hg-slog by Steve Losh, on Flickr&quot;&gt;
+        &lt;img src=&quot;http://farm5.static.flickr.com/4064/4277311247_343f88a399.jpg&quot;
+             width=&quot;500&quot; height=&quot;488&quot; alt=&quot;hg-slog&quot; /&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To use this template you can &lt;a href=&quot;/tips/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[alias]
+slog = log --style=/full/path/to/map-cmdline.slog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;nice-log&quot;&gt;Nice&amp;nbsp;Log&lt;/h2&gt;
+&lt;p&gt;The short log is great a quick review of the past few changesets, but for a
+much more detailed view of a particular changeset I&amp;#8217;ve created an &lt;code&gt;hg nlog&lt;/code&gt;
+alias, which looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;div class=&quot;screenshot&quot;&gt;
+    &lt;a href=&quot;http://www.flickr.com/photos/sjl7678/4278058138/&quot;
+       title=&quot;hg-nlog by Steve Losh, on Flickr&quot;&gt;
+        &lt;img src=&quot;http://farm5.static.flickr.com/4054/4278058138_4ecb312f11.jpg&quot;
+             width=&quot;412&quot; height=&quot;500&quot; alt=&quot;hg-nlog&quot; /&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To use this template you can &lt;a href=&quot;/tips/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[alias]
+nlog = log --style=/full/path/to/map-cmdline.nlog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;short-graphlog&quot;&gt;Short&amp;nbsp;Graphlog&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&quot;/tips/beginner/2009-10-03-stay-sane-with-graphlog/&quot;&gt;graphlog&lt;/a&gt; command is wonderful for reviewing the history of
+repositories with branches, but we can make it more compact and easier to read
+with another template. The result looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;div class=&quot;screenshot&quot;&gt;
+    &lt;a href=&quot;http://www.flickr.com/photos/sjl7678/4277311549/&quot;
+       title=&quot;hg-sglog by Steve Losh, on Flickr&quot;&gt;
+        &lt;img src=&quot;http://farm5.static.flickr.com/4045/4277311549_ae56e22012.jpg&quot;
+             width=&quot;441&quot; height=&quot;500&quot; alt=&quot;hg-sglog&quot; /&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To use this template you can &lt;a href=&quot;/tips/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[alias]
+sglog = glog --style=/full/path/to/map-cmdline.sglog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;contribute&quot;&gt;Contribute&lt;/h2&gt;
+&lt;p&gt;If you have any other templates you find useful, or some improvements to mine,
+feel free to fork the &lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;repository&lt;/a&gt; on&amp;nbsp;BitBucket!&lt;/p&gt;
+    
+    
+   </content></entry><entry><title>Finding Uncommon Changesets</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/./beginner/2009-12-09-finding-uncommon-changesets.html"/><updated>2009-12-09T00:00:00Z</updated><published>2009-12-09T00:00:00Z</published><id>http://hgtip.com/./beginner/2009-12-09-finding-uncommon-changesets.html/</id><content type="html">
+       
+    
+    &lt;p&gt;This post was inspired by &lt;a href=&quot;http://www.selenic.com/pipermail/mercurial-devel/2009-December/017417.html&quot;&gt;an email&lt;/a&gt; on the &lt;a href=&quot;http://mercurial.selenic.com/wiki/MailingLists&quot;&gt;mercurial-devel mailing
+list&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The question in a nutshell is: how can you determine which changesets are
+included in revision &lt;code&gt;X&lt;/code&gt; but &lt;em&gt;not&lt;/em&gt; included in revision &lt;code&gt;Y&lt;/code&gt;? This could be
+useful if you&amp;#8217;re updating a piece of software you use and want to know
+everything that changed between the old revision and the new&amp;nbsp;one.&lt;/p&gt;
+&lt;p&gt;It sounds like a simple task, but there are a few tricky things that you need
+to watch out&amp;nbsp;for.&lt;/p&gt;
+&lt;p&gt;Note: In this tip I&amp;#8217;ll be using the &lt;a href=&quot;/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/&quot;&gt;shortlog alias&lt;/a&gt; instead of the
+normal &lt;code&gt;hg log&lt;/code&gt; command to make the output more readable. Everything will work
+exactly the same with &lt;code&gt;hg log&lt;/code&gt; (because &lt;code&gt;hg slog&lt;/code&gt; is just an alias to &lt;code&gt;hg log&lt;/code&gt;
+with an extra template), so feel free to use that instead if you prefer more&amp;nbsp;detail.&lt;/p&gt;
+&lt;h3 id=&quot;the-simple-and-incorrect-way&quot;&gt;The Simple (and Incorrect)&amp;nbsp;Way&lt;/h3&gt;
+&lt;p&gt;Let&amp;#8217;s start with the simplest way to list revisions: the &lt;code&gt;--rev&lt;/code&gt; option. Say
+we have a simple repository whose graph looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg glog
+o  4 Fix another bug. (6 seconds ago by Steve Losh) tip 
+|
+o  3 Fix a bug. (16 seconds ago by Steve Losh)  
+|
+@  2 Add another simple feature. (34 seconds ago by Steve Losh)  
+|
+o  1 Add a simple feature. (40 seconds ago by Steve Losh)  
+|
+o  0 Initial revision. (7 minutes ago by Steve Losh)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you&amp;#8217;re currently at revision &lt;code&gt;2&lt;/code&gt; and want to know what changes would be
+included if you updated to &lt;code&gt;tip&lt;/code&gt;, you might use something like&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; $ hg slog --rev 2:tip
+ 2 Add another simple feature. (5 minutes ago by Steve Losh) 
+ 3 Fix a bug. (5 minutes ago by Steve Losh) 
+ 4 Fix another bug. (5 minutes ago by Steve Losh) tip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can see that the output includes revision &lt;code&gt;2&lt;/code&gt;, which really shouldn&amp;#8217;t be
+listed because it&amp;#8217;s the one you&amp;#8217;re already at. This probably isn&amp;#8217;t a big deal
+because you can just ignore&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;However, this approach doesn&amp;#8217;t work if you have multiple branches in the
+repository that are being worked on simultaneously. For&amp;nbsp;example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg glog
+@  6 Fix a critical bug. (1 second ago by Steve Losh) tip 
+|
+| o  5 Start the rewrite of the UI. (24 seconds ago by Steve Losh)  ui-rewrite
+| |
+o |  4 Fix another bug. (8 minutes ago by Steve Losh)  
+| |
+o |  3 Fix a bug. (8 minutes ago by Steve Losh)  
+| |
+o |  2 Add another simple feature. (9 minutes ago by Steve Losh)  
+|/
+o  1 Add a simple feature. (9 minutes ago by Steve Losh)  
+|
+o  0 Initial revision. (16 minutes ago by Steve Losh)
+
+$ hg slog --rev 2:tip
+2 Add another simple feature. (9 minutes ago by Steve Losh) 
+3 Fix a bug. (9 minutes ago by Steve Losh) 
+4 Fix another bug. (9 minutes ago by Steve Losh) 
+5 Start the rewrite of the UI. (54 seconds ago by Steve Losh) 
+6 Fix a critical bug. (31 seconds ago by Steve Losh) tip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that the output of the &lt;code&gt;hg slog&lt;/code&gt; command included changeset &lt;code&gt;5&lt;/code&gt;. It&amp;#8217;s
+on a separate branch, so updating from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;tip&lt;/code&gt; (&lt;code&gt;6&lt;/code&gt;) won&amp;#8217;t actually
+include changes from &lt;code&gt;5&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This happens because when you specify a range of revisions Mercurial will step
+through them in the revision-number order. That means saying &lt;code&gt;1:4&lt;/code&gt; really
+means &amp;#8220;&lt;code&gt;1&lt;/code&gt;, &lt;code&gt;2&lt;/code&gt;, &lt;code&gt;3&lt;/code&gt;, and &lt;code&gt;4&lt;/code&gt; no matter which branches they happen to be&amp;nbsp;on.&amp;#8221;&lt;/p&gt;
+&lt;p&gt;We can do better than this by using some extra &lt;code&gt;hg log&lt;/code&gt; options.&lt;/p&gt;
+&lt;h3 id=&quot;the-correct-way&quot;&gt;The Correct&amp;nbsp;Way&lt;/h3&gt;
+&lt;p&gt;If we step back and think about the problem we&amp;#8217;re trying to solve, we can
+reduce it to a simple definition.  We want to see all changesets&amp;nbsp;that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Are included by (i.e. ancestors of) the destination&amp;nbsp;revision.&lt;/li&gt;
+&lt;li&gt;Are &lt;strong&gt;not&lt;/strong&gt; included by the source&amp;nbsp;revision.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To solve the first problem, we can use a combination of two options, &lt;code&gt;--rev&lt;/code&gt;
+and &lt;code&gt;--follow&lt;/code&gt;, like&amp;nbsp;so:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg slog --rev tip:0 --follow
+6 Fix a critical bug. (11 minutes ago by Steve Losh) tip
+4 Fix another bug. (20 minutes ago by Steve Losh) 
+3 Fix a bug. (20 minutes ago by Steve Losh) 
+2 Add another simple feature. (20 minutes ago by Steve Losh) 
+1 Add a simple feature. (21 minutes ago by Steve Losh) 
+0 Initial revision. (28 minutes ago by Steve Losh)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice how the extra changeset on the other branch isn&amp;#8217;t&amp;nbsp;shown.&lt;/p&gt;
+&lt;p&gt;Using &lt;code&gt;--rev DESTINATION:0&lt;/code&gt; with &lt;code&gt;--follow&lt;/code&gt; means &amp;#8220;show me every changeset
+that is an ancestor of &lt;code&gt;DESTINATION&lt;/code&gt;&amp;#8220;. Check out &lt;code&gt;hg help log&lt;/code&gt; for the details
+of what each option&amp;nbsp;does.&lt;/p&gt;
+&lt;p&gt;We&amp;#8217;ve still got one more thing to do &amp;#8212; we want to remove changesets that are
+already included in our current revision from the&amp;nbsp;list:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg slog --rev tip:0 --follow --prune 2
+6 Fix a critical bug. (16 minutes ago by Steve Losh) tip
+4 Fix another bug. (25 minutes ago by Steve Losh) 
+3 Fix a bug. (25 minutes ago by Steve Losh)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That&amp;#8217;s it! Changesets &lt;code&gt;6&lt;/code&gt;, &lt;code&gt;4&lt;/code&gt; and &lt;code&gt;3&lt;/code&gt; are the changesets that will take
+effect if we update from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;6&lt;/code&gt; in our sample&amp;nbsp;repository.&lt;/p&gt;
+&lt;p&gt;The general form for this command looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hg slog --rev DESTINATION:0 --follow --prune SOURCE
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Of course you can use all the normal shortcuts for specifying revisions. If
+you want to see would be included in an update to &lt;code&gt;tip&lt;/code&gt; from the current
+revision you&amp;#8217;re working&amp;nbsp;on:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hg slog -r tip:0 -fP .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note: this command &lt;strong&gt;won&amp;#8217;t&lt;/strong&gt; work if you&amp;#8217;re updating &amp;#8220;backwards&amp;#8221;. It can only
+show you additional changesets that would be included &amp;#8212; it will not mention
+changesets that are included in &lt;code&gt;SOURCE&lt;/code&gt; but &lt;strong&gt;not&lt;/strong&gt; in &lt;code&gt;DESTINATION&lt;/code&gt;.&lt;/p&gt;
+    
+    
+   </content></entry><entry><title>Handling Binary Files in a Merge</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/./advanced/2009-11-30-merging-binary-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/./advanced/2009-11-30-merging-binary-files.html/</id><content type="html">
+       
+    
+    &lt;p&gt;Say you&amp;#8217;re building a website and you keep your images in the Mercurial
+repository for the site. Eventually two people are going to change that file
+at the same time and have a merge&amp;nbsp;conflict.&lt;/p&gt;
+&lt;h3 id=&quot;setting-up-mercurial-for-different-merge-tools&quot;&gt;Setting up Mercurial for Different Merge&amp;nbsp;Tools&lt;/h3&gt;
+&lt;p&gt;In your &lt;code&gt;~/.hgrc&lt;/code&gt; file, you should add the following&amp;nbsp;section:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[merge-tools]
+diff_images.args = $output $other
+
+[merge-patterns]
+**.png = diff_images
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, create a &lt;code&gt;diff_images&lt;/code&gt; shell script, set it to executable, and put it on
+your $&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;. Mine&amp;nbsp;is:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;open -a GraphicConverter $1 $2 -W 
+# opens the first and second parameter with GraphicConverter, waiting
+# until same is quit before letting the shell continue.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now a merge that contains &lt;code&gt;.png&lt;/code&gt; files that conflict will open up
+GraphicConverter. There will be two images that open up: one as it exists in
+the your source tree now, and one from Mercurial. You can tell the difference
+because the one from Mercurial will have a lot of random-seeming letters after
+the file extension. For example, if your conflicting file is &lt;code&gt;image.png&lt;/code&gt;,
+GraphicConverter will open up two windows: &lt;code&gt;image.png&lt;/code&gt; and
+&lt;code&gt;image.png~other.bQkQxd&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Manually move your changes from the new file into the original file
+(&lt;code&gt;image.png&lt;/code&gt;), saving the original when done and quitting GraphicConverter.
+These are the changes that will be&amp;nbsp;committed.&lt;/p&gt;
+&lt;h3 id=&quot;how-this-setup-works&quot;&gt;How this Setup&amp;nbsp;Works&lt;/h3&gt;
+&lt;p&gt;First, &lt;code&gt;diff_images.args&lt;/code&gt; sets up two parameters to pass into the graphics&amp;nbsp;tool:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$output&lt;/code&gt; is the file that Mercurial will commit, and contains the version
+  from the first&amp;nbsp;parent.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$other&lt;/code&gt; is the version from revision you are merging&amp;nbsp;in.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are other options that the &lt;code&gt;.args&lt;/code&gt; parameter&amp;nbsp;provides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$local&lt;/code&gt; is a copy of &lt;code&gt;$output&lt;/code&gt;, but changes to this file will be ignored in
+  the&amp;nbsp;merge.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$base&lt;/code&gt; is the file from the revision right before the contents of the file&amp;nbsp;diverged.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You could use these to set up a three way merge, if you desired, or enhance
+&lt;code&gt;diff_images&lt;/code&gt; to show the user the contents of the file &lt;em&gt;before&lt;/em&gt; this merge
+mess&amp;nbsp;happened.&lt;/p&gt;
+&lt;p&gt;Next, the &lt;code&gt;[merge-patterns]&lt;/code&gt; section associates what merge tool to use when a
+file name matches a particular&amp;nbsp;pattern.&lt;/p&gt;
+&lt;p&gt;Without the merge-pattern section, &lt;code&gt;diff_images&lt;/code&gt; would be considered for a
+diff candidate, but skipped over because Mercurial will assume that
+&lt;code&gt;diff_images&lt;/code&gt; can&amp;#8217;t handle diffing binary files. Adding lines to
+&lt;code&gt;[merge-pattern]&lt;/code&gt; will tell Mercurial that &lt;code&gt;diff_images&lt;/code&gt; can handle the file
+types&amp;nbsp;specified.&lt;/p&gt;
+&lt;p&gt;Instead of putting in a merge-patterns section, you could add a line, like
+&lt;code&gt;diff_images.args&lt;/code&gt;, that tells Mercurial that &lt;code&gt;diff_images&lt;/code&gt; can handle binary
+documents: &lt;code&gt;diff_images.binary = True&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;However, this will make &lt;code&gt;diff_images&lt;/code&gt; a candidate for &lt;em&gt;all&lt;/em&gt; binary differences,
+which GraphicConverter may not be up to (for example, diffing mp3s would not
+be a good task for&amp;nbsp;GraphicConverter).&lt;/p&gt;
+&lt;h3 id=&quot;when-things-go-terribly-wrong-aborting-the-merge&quot;&gt;When Things Go Terribly Wrong: Aborting the&amp;nbsp;Merge&lt;/h3&gt;
+&lt;p&gt;Merges can &lt;em&gt;not&lt;/em&gt; be aborted via the standard &lt;code&gt;hg revert&lt;/code&gt; mechanism. Try it and
+you&amp;#8217;ll&amp;nbsp;get:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg revert --all
+abort: uncommitted merge - please provide a specific revision
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But you just want to blow away your merge work and start from scratch. Use &lt;code&gt;hg
+update --clean&lt;/code&gt; for&amp;nbsp;this.&lt;/p&gt;
+&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://mercurial.selenic.com/wiki/MergeToolConfiguration&quot;&gt;Merge Tool Configuration on the Mercurial&amp;nbsp;Wiki&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://mercurial.selenic.com/bts/issue1533&quot;&gt;Issue 1533: &amp;#8220;abort: outstanding uncommitted merges should mention update&amp;nbsp;-C&amp;#8221;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://mercurial.selenic.com/wiki/BinaryFiles&quot;&gt;Binary Files in Mercurial explained, on the Mercurial&amp;nbsp;Wiki&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+    
+    
+   </content></entry><entry><title>Reverting Dirty Files</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/./beginner/2009-11-30-reverting-dirty-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/./beginner/2009-11-30-reverting-dirty-files.html/</id><content type="html">
+       
+    
+    &lt;p&gt;So you have a change you don&amp;#8217;t want to keep.&amp;nbsp;Example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg status
+M fileone.txt
+M filetwo.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Upon reviewing your changes you find out that &lt;code&gt;filetwo.txt&lt;/code&gt; is junk you want
+to get rid of. You &lt;em&gt;could&lt;/em&gt; go into the file and manually remove your changes,
+but Mercurial gives you a better tool for this: &lt;code&gt;hg revert&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg revert filetwo.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you have many files that have changes (for example, you want to throw away
+all your work and start again), use the &lt;code&gt;--all&lt;/code&gt; command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg revert --all
+reverting fileone.txt
+reverting filetwo.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This works like the &lt;code&gt;git reset --hard HEAD^&lt;/code&gt; command, for those of you
+familiar with&amp;nbsp;git.&lt;/p&gt;
+    
+    
+   </content></entry><entry><title>Combining Repositories</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/./advanced/2009-11-17-combining-repositories.html"/><updated>2009-11-17T00:00:00Z</updated><published>2009-11-17T00:00:00Z</published><id>http://hgtip.com/./advanced/2009-11-17-combining-repositories.html/</id><content type="html">
+       
+    
+    &lt;p&gt;Thomas&amp;#8217; last tip about &lt;a href=&quot;/tips/advanced/2009-11-16-using-convert-to-decompose-your-repository/&quot;&gt;decomposing repositories&lt;/a&gt; made me want to
+write about the inverse: combining two separate repositories into a single&amp;nbsp;repository.&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s say you&amp;#8217;ve working on a project. The code lives in &lt;code&gt;project&lt;/code&gt; while the
+documentation lives in &lt;code&gt;docs&lt;/code&gt;. You might decide that it would be nice to have
+them in the same repository, so when someone clones your project&amp;#8217;s code they
+get the documentation&amp;nbsp;too.&lt;/p&gt;
+&lt;p&gt;You &lt;em&gt;could&lt;/em&gt; just create a new repository and copy all the data into it, but
+that wouldn&amp;#8217;t let you keep your nice history of changesets. Let&amp;#8217;s take a look
+at how to combine these separate&amp;nbsp;repositories.&lt;/p&gt;
+&lt;h2 id=&quot;create-the-new-combined-repository&quot;&gt;Create the New, Combined&amp;nbsp;Repository&lt;/h2&gt;
+&lt;p&gt;First we&amp;#8217;ll create the new repository where everything is going to&amp;nbsp;live:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ls
+total 24
+drwxr-xr-x  5 sjl   170B Nov 17 19:56 docs
+drwxr-xr-x  4 sjl   136B Nov 17 19:58 project
+
+$ mv project project-code
+
+$ hg init project
+
+$ ls
+total 24
+drwxr-xr-x  5 sjl   170B Nov 17 19:56 docs
+drwxr-xr-x  3 sjl   102B Nov 17 20:04 project
+drwxr-xr-x  4 sjl   136B Nov 17 19:58 project-code
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We&amp;#8217;ve moved &lt;code&gt;project&lt;/code&gt; to &lt;code&gt;project-code&lt;/code&gt; to get it out of the way for the&amp;nbsp;moment.&lt;/p&gt;
+&lt;h2 id=&quot;prepare-each-repository&quot;&gt;Prepare Each&amp;nbsp;Repository&lt;/h2&gt;
+&lt;p&gt;We probably don&amp;#8217;t want to just dump everything into the root folder of the new
+repository, so let&amp;#8217;s move things around a bit. First we&amp;#8217;ll move everything in
+the &lt;code&gt;project&lt;/code&gt; repository into a &lt;code&gt;src/&lt;/code&gt; directory:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cd project-code
+
+$ mkdir src
+
+$ mv * src
+mv: rename src to src/src: Invalid argument
+
+$ ls
+total 0
+drwxr-xr-x  3 sjl   102B Nov 17 20:08 src
+
+$ hg addremove --similarity 100
+removing myproject.py
+adding src/myproject.py
+recording removal of myproject.py as rename to src/myproject.py (100% similar)
+
+$ hg commit -m &#39;Move the code into the src/ directory.&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we&amp;#8217;ll do the same for the &lt;code&gt;docs&lt;/code&gt; repository:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cd ../docs
+
+$ mkdir docs
+
+$ mv * docs
+mv: rename docs to docs/docs: Invalid argument
+
+$ ls
+total 0
+drwxr-xr-x  4 sjl   136B Nov 17 20:11 docs
+
+$ hg addremove --similarity 100
+removing LICENSE
+removing README
+adding docs/LICENSE
+adding docs/README
+recording removal of LICENSE as rename to docs/LICENSE (100% similar)
+recording removal of README as rename to docs/README (100% similar)
+
+$ hg commit -m &#39;Move the documentation into the docs/ directory.&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;pull-both-repositories&quot;&gt;Pull Both&amp;nbsp;Repositories&lt;/h2&gt;
+&lt;p&gt;Now that we&amp;#8217;ve adjusted the structure to our liking, we need to pull both
+repositories into &lt;code&gt;project&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cd ..
+
+$ ls
+total 24
+drwxr-xr-x  4 sjl   136B Nov 17 20:12 docs
+drwxr-xr-x  3 sjl   102B Nov 17 20:04 project
+drwxr-xr-x  4 sjl   136B Nov 17 20:08 project-code
+
+$ cd project
+
+$ ls
+
+$ hg pull --update ../project-code
+pulling from ../project-code
+requesting all changes
+adding changesets
+adding manifests
+adding file changes
+added 4 changesets with 4 changes to 2 files
+1 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+$ ls
+total 0
+drwxr-xr-x  3 sjl   102B Nov 17 20:15 src
+
+$ hg pull --force --update ../docs
+pulling from ../docs
+searching for changes
+warning: repository is unrelated
+adding changesets
+adding manifests
+adding file changes
+added 3 changesets with 4 changes to 4 files (+1 heads)
+not updating, since new heads added
+(run &#39;hg heads&#39; to see heads, &#39;hg merge&#39; to merge)
+
+$ ls
+total 0
+drwxr-xr-x  3 sjl   102B Nov 17 20:15 src
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that we used the &lt;code&gt;--force&lt;/code&gt; flag with &lt;code&gt;hg pull&lt;/code&gt; to say to Mercurial:
+&amp;#8220;It&amp;#8217;s okay, I know what I&amp;#8217;m doing, I really do want to combine these&amp;nbsp;repositories.&amp;#8221;&lt;/p&gt;
+&lt;h2 id=&quot;merge-the-repositories&quot;&gt;Merge the&amp;nbsp;Repositories&lt;/h2&gt;
+&lt;p&gt;Take a look at the output of the last &lt;code&gt;ls&lt;/code&gt; command. See how there&amp;#8217;s still just
+the &lt;code&gt;src/&lt;/code&gt; directory? We need to merge the two repositories together to get a
+truly &amp;#8220;combined&amp;#8221;&amp;nbsp;repository.&lt;/p&gt;
+&lt;p&gt;To make this a bit more clear, let&amp;#8217;s look at the graph of our new&amp;nbsp;repository:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg glog
+o  6 Move the documentation into the docs/ directory. (7 minutes ago by Steve Losh) tip
+|
+o  5 Add a LICENSE file. (22 minutes ago by Steve Losh)
+|
+o  4 Add a README file. (22 minutes ago by Steve Losh)
+
+@  3 Move the code into the src/ directory. (10 minutes ago by Steve Losh)
+|
+o  2 Fix a bug. (21 minutes ago by Steve Losh)
+|
+o  1 Implement some basic functionality. (21 minutes ago by Steve Losh)
+|
+o  0 Start the project. (21 minutes ago by Steve Losh)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;See how we have two separate graphs? Changesets 0 to 3 are linked, and
+changesets 4 to 6 are linked. Now we need to merge these two graphs together.
+This should be trivial because we&amp;#8217;ve organized the folder structure beforehand
+so there won&amp;#8217;t be any&amp;nbsp;conflicts:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg update 6
+2 files updated, 0 files merged, 1 files removed, 0 files unresolved
+
+$ hg merge 3
+1 files updated, 0 files merged, 0 files removed, 0 files unresolved
+(branch merge, don&#39;t forget to commit)
+
+$ hg commit -m &#39;Combine the source and docs repositories.&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now take a look at the&amp;nbsp;graph:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg glog
+@    7 Combine the source and docs repositories. (37 seconds ago by Steve Losh) tip
+|\
+| o  6 Move the documentation into the docs/ directory. (11 minutes ago by Steve Losh)
+| |
+| o  5 Add a LICENSE file. (26 minutes ago by Steve Losh)
+| |
+| o  4 Add a README file. (27 minutes ago by Steve Losh)
+|
+o  3 Move the code into the src/ directory. (15 minutes ago by Steve Losh)
+|
+o  2 Fix a bug. (25 minutes ago by Steve Losh)
+|
+o  1 Implement some basic functionality. (25 minutes ago by Steve Losh)
+|
+o  0 Start the project. (26 minutes ago by Steve Losh)
+
+$ ls
+total 0
+drwxr-xr-x  4 sjl   136B Nov 17 20:22 docs
+drwxr-xr-x  3 sjl   102B Nov 17 20:22 src
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our two separate repositories are now nicely merged into one, with the
+changesets intact! Now we can delete the old repositories and push the new one
+to our public server for people to&amp;nbsp;use.&lt;/p&gt;
+&lt;p&gt;This is especially nice because we haven&amp;#8217;t changed the changeset hashes, which
+means that we can easily merge changesets from people that are still using the
+old, separate&amp;nbsp;repositories.&lt;/p&gt;
+    
+    
+   </content></entry><entry><title>Using Convert to Decompose Your Repository</title><author><name>Thomas G. Willis</name></author><link href="http://hgtip.com/./advanced/2009-11-16-using-convert-to-decompose-your-repository.html"/><updated>2009-11-16T00:00:00Z</updated><published>2009-11-16T00:00:00Z</published><id>http://hgtip.com/./advanced/2009-11-16-using-convert-to-decompose-your-repository.html/</id><content type="html">
+       
+    
+    &lt;p&gt;Say you have a repository that has evolved to contain many projects (folders).
+And you have decided you&amp;#8217;d be better off if each project (folder) were a
+separate repository. You can use the &lt;code&gt;convert&lt;/code&gt; extension to do just that and
+retain your changeset&amp;nbsp;history.&lt;/p&gt;
+&lt;p&gt;For example, a repository laid out like&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/yourrepository
+    /DatabaseFoo
+    /SweetBusinessLogic
+    /BaseUI
+    /AnotherDamnContentManagementSystem
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You may have decided at some point that AnotherDamnContentManagementSystem
+really should belong in its own repository, and had you been able to predict
+the future so long ago, you would have seen that it was truly a poor choice on
+your part to combine them all together in one like you were still using
+Perforce and assumed that this whole version control thing was a super
+expensive&amp;nbsp;operation.&lt;/p&gt;
+&lt;p&gt;Well lucky for you, the convert extension can help you undo this embarrassing
+decision before you show your work to the Venture Capitalist you&amp;#8217;re meeting
+for&amp;nbsp;lunch.&lt;/p&gt;
+&lt;p&gt;First &lt;a href=&quot;/tips/beginner/2009-09-30-configuring-mercurial/&quot;&gt;enable the convert extension&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[extensions]
+convert =
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The convert command has a &lt;code&gt;--filemap&lt;/code&gt; parameter which allows you to specify
+what you want included in the operation and what you don&amp;#8217;t.  You can even have
+things renamed as part of the operation. A filemap for the operation we are to
+perform will look like&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;include AnotherDamnContentManagementSystem
+rename .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then your command to convert will look like&amp;nbsp;this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ hg convert --filemap myfilemap bigrepo AnotherDamnContentManagementSystem-Repo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And that&amp;#8217;s it. AnotherDamnContentManagementSystem is now its own Mercurial&amp;nbsp;repository.&lt;/p&gt;
+    
+    
+   </content></entry><entry><title>Create a Git Mirror</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/./advanced/2009-11-09-create-a-git-mirror.html"/><updated>2009-11-09T00:00:00Z</updated><published>2009-11-09T00:00:00Z</published><id>http://hgtip.com/./advanced/2009-11-09-create-a-git-mirror.html/</id><content type="html">
+       
+    
+    &lt;p&gt;Of all the distributed revision control systems like Mercurial,
+&lt;a href=&quot;http://git-scm.com&quot;&gt;git&lt;/a&gt; is probably the most popular. If you use Mercurial
+for a project you can quickly and easily make a git mirror of your project so
+that git users can&amp;nbsp;contribute!&lt;/p&gt;
+&lt;h3 id=&quot;install-hg-git&quot;&gt;Install&amp;nbsp;hg-git&lt;/h3&gt;
+&lt;p&gt;First, you&amp;#8217;ll need to download the &lt;a href=&quot;http://hg-git.github.com/&quot;&gt;hg-git&lt;/a&gt;&amp;nbsp;plugin:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;easy_install dulwich
+hg clone http://bitbucket.org/durin42/hg-git/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now &lt;a href=&quot;/tips/beginner/2009-09-30-configuring-mercurial/&quot;&gt;edit your &lt;code&gt;~/.hgrc&lt;/code&gt; file&lt;/a&gt; to&amp;nbsp;contain:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[extensions]
+hggit = /path/to/hg-git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;create-a-github-account&quot;&gt;Create a GitHub&amp;nbsp;Account&lt;/h3&gt;
+&lt;p&gt;You&amp;#8217;ll need a place to put your git mirror, and &lt;a href=&quot;http://github.com/&quot;&gt;GitHub&lt;/a&gt;
+is perfect for that. Go ahead and &lt;a href=&quot;http://github.com/plans&quot;&gt;sign up&lt;/a&gt; for a
+GitHub account if you don&amp;#8217;t already have&amp;nbsp;one.&lt;/p&gt;
+&lt;h3 id=&quot;create-a-repository-on-github&quot;&gt;Create a Repository on&amp;nbsp;GitHub&lt;/h3&gt;
+&lt;p&gt;Now that you have a GitHub account, you&amp;#8217;ll need to create a repository with
+the &amp;#8220;New Repository&amp;#8221;&amp;nbsp;button.&lt;/p&gt;
+&lt;p&gt;Once you create a new repository, you&amp;#8217;ll be looking at a page that looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;div class=&quot;screenshot&quot;&gt;
+    &lt;a href=&quot;http://www.flickr.com/photos/sjl7678/4091674740/&quot; title=&quot;GitHub New Repo Sample by Steve Losh, on Flickr&quot;&gt;&lt;img src=&quot;http://farm3.static.flickr.com/2580/4091674740_f6d488f9a5.jpg&quot; width=&quot;432&quot; height=&quot;500&quot; alt=&quot;GitHub New Repo Sample&quot; /&gt;&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;See the &lt;code&gt;git@github.com:username/project.git&lt;/code&gt; &lt;span class=&quot;caps&quot;&gt;URL&lt;/span&gt;? Remember that, because
+that&amp;#8217;s what you&amp;#8217;ll need to use when you push your&amp;nbsp;mirror.&lt;/p&gt;
+&lt;h3 id=&quot;push-your-project&quot;&gt;Push Your&amp;nbsp;Project&lt;/h3&gt;
+&lt;p&gt;Now that you&amp;#8217;ve installed &lt;code&gt;hg-git&lt;/code&gt; and created a repository for your project
+on GitHub, you need to push your Mercurial repository to GitHub. First, add
+the git &lt;span class=&quot;caps&quot;&gt;URL&lt;/span&gt; to your Mercurial repository by editing the &lt;code&gt;.hg/hgrc&lt;/code&gt; file in
+your project to&amp;nbsp;contain:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[paths]
+git = git+ssh://git@github.com/username/project.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class=&quot;caps&quot;&gt;IMPORTANT&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;NOTE&lt;/span&gt;:&lt;/strong&gt; You will need to replace the &lt;code&gt;:&lt;/code&gt; after &lt;code&gt;github.com&lt;/code&gt; with a
+&lt;code&gt;/&lt;/code&gt; (forward slash). This is necessary because of how Mercurial handles
+repository&amp;nbsp;paths!&lt;/p&gt;
+&lt;p&gt;You&amp;#8217;ll also need to replace &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;project&lt;/code&gt; with the appropriate
+values, of&amp;nbsp;course.&lt;/p&gt;
+&lt;p&gt;Now you just need to push to the &lt;code&gt;git&lt;/code&gt; path to create your&amp;nbsp;mirror:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hg push git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will take a few seconds, especially if you have a big repository. Once it
+finishes you&amp;#8217;ll have a 100% functional git mirror at
+http://github.com/username/project/. Git users can clone your project by
+running &lt;code&gt;git clone git://github.com/username/project.git&lt;/code&gt; and might never even
+realize that you use&amp;nbsp;Mercurial.&lt;/p&gt;
+&lt;h3 id=&quot;accepting-contributions&quot;&gt;Accepting&amp;nbsp;Contributions&lt;/h3&gt;
+&lt;p&gt;Creating a mirror for git users to clone is very nice, but eventually (if your
+project is at all interesting) someone is going to send you a pull request on&amp;nbsp;GitHub.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;hg-git&lt;/code&gt; makes it easy to deal with contributions from git users. First, add
+the contributor&amp;#8217;s fork to your projects&amp;#8217;&amp;nbsp;paths:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[paths]
+git = git+ssh://git@github.com/username/project.git
+contributor = git+ssh://git@github.com/contributor_username/project.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Again, &lt;strong&gt;make sure you replace the &lt;code&gt;:&lt;/code&gt; after &lt;code&gt;github.com&lt;/code&gt; with a &lt;code&gt;/&lt;/code&gt; (forward&amp;nbsp;slash)!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Then pull their changes into your Mercurial&amp;nbsp;repository:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hg pull contributor
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can use &lt;a href=&quot;/tips/beginner/2009-10-03-stay-sane-with-graphlog/&quot;&gt;graphlog&lt;/a&gt; to
+see exactly what your repository looks like at this point (and if you need to&amp;nbsp;merge).&lt;/p&gt;
+&lt;p&gt;Merge if you need (and/or want) to merge, and then push their contributions to
+your main Mercurial repository and your git&amp;nbsp;mirror:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hg push
+hg push git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That covers the basics! Things can get more complicated if you&amp;#8217;ve got a
+heavily branching workflow, but this tip should get your on your way to
+accepting patches from git&amp;nbsp;users.&lt;/p&gt;
+    
+    
+   </content></entry></feed>

@@ -1,0 +1,140 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Save Keystrokes / hg tip</title>
+        
+        
+            <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
+                  title="mercurial tips from hgtip.com" type="application/atom+xml" />
+        
+        
+        
+            <link rel="stylesheet" href="./media/css/aal.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            <link rel="stylesheet" href="./media/css/calluna.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            <link rel="stylesheet" href="./media/css/style.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            
+        
+        
+        
+            <script type="text/javascript" 
+                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('a#rhythm').click(function (){
+                        $('body').css('background', 'url(/media/images/rhythm.png) repeat');
+                        $('#main-wrap').css('background', 'none');
+                        return false;
+                    });
+                });
+            </script>
+            <script src="http://mint.hgtip.com/?js" type="text/javascript"></script>
+            
+        
+    </head>
+    
+    <body>
+        <div id="main-wrap">
+            <div id="header">            
+                <h1><a href=".">hg tip</a></h1>
+                <p id="tagline">Learn Mercurial one bite-sized tip at a time.</p>
+            </div>
+            
+            <p id="navigation">
+                <a href="tips/">all</a> /
+                <a href="tips/beginner/">beginner</a> /
+                <a href="tips/advanced/">advanced</a> &mdash;
+                <a href="contribute/">contribute</a> &mdash;
+                <a href="http://feeds.feedburner.com/hgtip/">feed</a> &mdash;
+                <a href="http://twitter.com/hgtip/">twitter</a> &mdash;
+                <a href="about/">about</a>
+            </p>
+            
+            <div id="content">
+                
+                    <h2>Save Keystrokes</h2>
+                
+                
+    <p id="tip-info">
+        posted by <a href="http://stevelosh.com/">Steve Losh</a>
+        on October 30, 2009
+    </p>
+    
+    <!-- Hyde::Article::Begin -->
+    
+    <p>If you use Mercurial&#8217;s command line interface often, it&#8217;s probably worth your
+time to add some aliases for the commands you use&nbsp;frequently.</p>
+<p>One thing that you might not realize is that you&#8217;re not limited to just
+letters when creating aliases &#8212; pretty much anything that&#8217;s not a shell
+metacharacter is fair&nbsp;game.</p>
+<p>Here are a few ideas to get you started (<a href="{{
+links.tip_edit_hgrc }}">edit your <code>~/.hgrc</code> file</a> to use&nbsp;these):</p>
+<pre><code>[alias]
+cm = commit --message
+up = update --check
+. = summary
+? = compass
+: = status
+
+, = glog -l15 --template '\033[33;40m{rev} \033[37;40m{desc|firstline|fill68} \033[1;30;40m({date|age} ago by {author|person})\033[0;37;40m \033[33;40m{tags}\033[37;40m \033[35;40m{branches}\033[37;40m\n\n'
+
+,+ = , -l1000000000
+</code></pre>
+<p>If you&#8217;ve got a favorite alias, post it in the&nbsp;comments!</p>
+    
+    <!-- Hyde::Article::End -->
+    
+    <div id="tip-comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/hgtip/embed.js"></script><noscript><a href="http://hgtip.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            </div>
+            
+            <div id="excerpt">
+                
+                    <!-- Hyde::Excerpt::Begin -->
+                        <p>Some of the things you can use for aliases might&nbsp;surprise&nbsp;you.</p>
+                    <!-- Hyde::Excerpt::End -->
+                
+            </div>
+        </div>
+        <div id='footer'>
+            site by <a href="http://stevelosh.com">steve</a> and <a href="/about/">others</a> &mdash;
+            built with <a href="http://github.com/lakshmivyas/hyde">hyde</a> &mdash;
+            licensed as <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">cc-by-sa</a> &mdash;
+            we've got <a id="rhythm" href="#">rhythm</a>
+            <br />
+            available in:
+            <a href="http://hgtip.com/">english</a> &mdash;
+            <a href="http://de.hgtip.com/">中文</a> &mdash;
+            <a href="http://de.hgtip.com/">deutsch</a> &mdash;
+            <a href="http://ja.hgtip.com/">日本語</a>
+        </div>
+        
+        
+    <script type="text/javascript">
+    //<![CDATA[
+    (function() {
+        var links = document.getElementsByTagName('a');
+        var query = '?';
+        for(var i = 0; i < links.length; i++) {
+        if(links[i].href.indexOf('#disqus_thread') >= 0) {
+            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+        }
+        }
+        document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/hgtip/get_num_replies.js' + query + '"></' + 'script>');
+    })();
+    //]]>
+    </script>
+
+    </body>
+</html>
+

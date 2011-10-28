@@ -1,0 +1,151 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Quickly Show Changeset Information / hg tip</title>
+        
+        
+            <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
+                  title="mercurial tips from hgtip.com" type="application/atom+xml" />
+        
+        
+        
+            <link rel="stylesheet" href="./media/css/aal.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            <link rel="stylesheet" href="./media/css/calluna.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            <link rel="stylesheet" href="./media/css/style.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            
+        
+        
+        
+            <script type="text/javascript" 
+                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('a#rhythm').click(function (){
+                        $('body').css('background', 'url(/media/images/rhythm.png) repeat');
+                        $('#main-wrap').css('background', 'none');
+                        return false;
+                    });
+                });
+            </script>
+            <script src="http://mint.hgtip.com/?js" type="text/javascript"></script>
+            
+        
+    </head>
+    
+    <body>
+        <div id="main-wrap">
+            <div id="header">            
+                <h1><a href=".">hg tip</a></h1>
+                <p id="tagline">Learn Mercurial one bite-sized tip at a time.</p>
+            </div>
+            
+            <p id="navigation">
+                <a href="tips/">all</a> /
+                <a href="tips/beginner/">beginner</a> /
+                <a href="tips/advanced/">advanced</a> &mdash;
+                <a href="contribute/">contribute</a> &mdash;
+                <a href="http://feeds.feedburner.com/hgtip/">feed</a> &mdash;
+                <a href="http://twitter.com/hgtip/">twitter</a> &mdash;
+                <a href="about/">about</a>
+            </p>
+            
+            <div id="content">
+                
+                    <h2>Quickly Show Changeset Information</h2>
+                
+                
+    <p id="tip-info">
+        posted by <a href="http://stevelosh.com/">Steve Losh</a>
+        on September 29, 2009
+    </p>
+    
+    <!-- Hyde::Article::Begin -->
+    
+    <p>Mercurial has a couple of commands to view information about changesets, but
+if you find yourself reviewing individual commits often you can <a href="/tips/beginner/2009-09-30-configuring-mercurial/">add the
+following alias to your <code>~/.hgrc</code> file</a>:</p>
+<pre><code>[alias]
+show = log --color=always -pr
+</code></pre>
+<p><strong>Note:</strong> If you&#8217;re using a version of Mercurial older than 1.3, you&#8217;ll need
+to enable the <a href="http://mercurial.selenic.com/wiki/AliasExtension">alias extension</a> first, or preferably update&nbsp;Mercurial.</p>
+<p>Now you can use <code>hg show REV</code> to view the details of and changes made by a
+particular revision, like&nbsp;this:</p>
+<pre><code>$ hg show tip
+changeset:   34:386adf7273a8
+tag:         tip
+user:        Steve Losh &lt;steve@stevelosh.com&gt;
+date:        Mon Sep 28 22:16:10 2009 -0400
+summary:     Switch the feed link in the navigation to use FB too.
+
+diff --git a/layout/skeleton/_base.html b/layout/skeleton/_base.html
+--- a/layout/skeleton/_base.html
++++ b/layout/skeleton/_base.html
+@@ -53,7 +53,7 @@
+                 &lt;a href="/tips/beginner/"&gt;beginner&lt;/a&gt; /
+                 &lt;a href="/tips/advanced/"&gt;advanced&lt;/a&gt; &amp;mdash;
+                 &lt;a href="/submit/"&gt;submit&lt;/a&gt; &amp;mdash;
+-                &lt;a href="./tips/atom.xml"&gt;feed&lt;/a&gt; &amp;mdash;
++                &lt;a href="http://feeds.feedburner.com/hgtip/"&gt;feed&lt;/a&gt; &amp;mdash;
+                 &lt;a href="http://twitter.com/hgtip/"&gt;twitter&lt;/a&gt; &amp;mdash;
+                 &lt;a href="/about/"&gt;about&lt;/a&gt;
+             &lt;/p&gt;
+</code></pre>
+    
+    <!-- Hyde::Article::End -->
+    
+    <div id="tip-comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/hgtip/embed.js"></script><noscript><a href="http://hgtip.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            </div>
+            
+            <div id="excerpt">
+                
+                    <!-- Hyde::Excerpt::Begin -->
+                        <p>Want to view <em>all</em> the details of a changeset?  Add an <code>hg show</code> alias.</p>
+                    <!-- Hyde::Excerpt::End -->
+                
+            </div>
+        </div>
+        <div id='footer'>
+            site by <a href="http://stevelosh.com">steve</a> and <a href="/about/">others</a> &mdash;
+            built with <a href="http://github.com/lakshmivyas/hyde">hyde</a> &mdash;
+            licensed as <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">cc-by-sa</a> &mdash;
+            we've got <a id="rhythm" href="#">rhythm</a>
+            <br />
+            available in:
+            <a href="http://hgtip.com/">english</a> &mdash;
+            <a href="http://de.hgtip.com/">中文</a> &mdash;
+            <a href="http://de.hgtip.com/">deutsch</a> &mdash;
+            <a href="http://ja.hgtip.com/">日本語</a>
+        </div>
+        
+        
+    <script type="text/javascript">
+    //<![CDATA[
+    (function() {
+        var links = document.getElementsByTagName('a');
+        var query = '?';
+        for(var i = 0; i < links.length; i++) {
+        if(links[i].href.indexOf('#disqus_thread') >= 0) {
+            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+        }
+        }
+        document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/hgtip/get_num_replies.js' + query + '"></' + 'script>');
+    })();
+    //]]>
+    </script>
+
+    </body>
+</html>
+

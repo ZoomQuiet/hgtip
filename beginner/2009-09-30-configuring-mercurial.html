@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Configuring Mercurial / hg tip</title>
+        
+        
+            <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
+                  title="mercurial tips from hgtip.com" type="application/atom+xml" />
+        
+        
+        
+            <link rel="stylesheet" href="./media/css/aal.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            <link rel="stylesheet" href="./media/css/calluna.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            <link rel="stylesheet" href="./media/css/style.css"
+                  type="text/css" media="screen" charset="utf-8" />
+            
+        
+        
+        
+            <script type="text/javascript" 
+                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('a#rhythm').click(function (){
+                        $('body').css('background', 'url(/media/images/rhythm.png) repeat');
+                        $('#main-wrap').css('background', 'none');
+                        return false;
+                    });
+                });
+            </script>
+            <script src="http://mint.hgtip.com/?js" type="text/javascript"></script>
+            
+        
+    </head>
+    
+    <body>
+        <div id="main-wrap">
+            <div id="header">            
+                <h1><a href=".">hg tip</a></h1>
+                <p id="tagline">Learn Mercurial one bite-sized tip at a time.</p>
+            </div>
+            
+            <p id="navigation">
+                <a href="tips/">all</a> /
+                <a href="tips/beginner/">beginner</a> /
+                <a href="tips/advanced/">advanced</a> &mdash;
+                <a href="contribute/">contribute</a> &mdash;
+                <a href="http://feeds.feedburner.com/hgtip/">feed</a> &mdash;
+                <a href="http://twitter.com/hgtip/">twitter</a> &mdash;
+                <a href="about/">about</a>
+            </p>
+            
+            <div id="content">
+                
+                    <h2>Configuring Mercurial</h2>
+                
+                
+    <p id="tip-info">
+        posted by <a href="http://stevelosh.com/">Steve Losh</a>
+        on September 30, 2009
+    </p>
+    
+    <!-- Hyde::Article::Begin -->
+    
+    <p>Mercurial&#8217;s behavior is controlled by a couple of plain old text files. Let&#8217;s
+take a look at each these files and see how they&nbsp;work.</p>
+<h3 id="config-file-format">Config File&nbsp;Format</h3>
+<p>Mercurial&#8217;s config files are broken up into sections. Each section can have
+several entries. For&nbsp;example:</p>
+<pre><code>[ui]
+username = Steve Losh &lt;steve@stevelosh.com&gt;
+editor = vim
+
+[alias]
+killitwithfire = revert --no-backup --all
+</code></pre>
+<p>This sample file has two sections: <code>[ui]</code> and <code>[alias]</code>. The <code>[ui]</code> section
+has two entries and the <code>[alias]</code> section has one entry. The name of each
+entry is to the left of the equal sign, the value is to the&nbsp;right.</p>
+<p>You can edit the config files with any text editor you&nbsp;like.</p>
+<h3 id="config-file-levels">Config File&nbsp;Levels</h3>
+<p>Every time you run Mercurial it looks in a couple of different places for
+config files and applies the settings from <em>all</em> the files it finds. Settings
+in more &#8220;specific&#8221; config files will override settings in more &#8220;general&#8221;
+files. We&#8217;ll see learn what &#8220;specific&#8221; and &#8220;general&#8221; mean as we go&nbsp;along.</p>
+<h3 id="install-wide-and-system-wide-config-files"><span class="dquo">&#8220;</span>Install-wide&#8221; and &#8220;System-wide&#8221; Config&nbsp;Files</h3>
+<p>These are the most general config files you&#8217;ll find. Any settings inside these
+files will apply to every user running in any&nbsp;directory.</p>
+<p>You probably won&#8217;t use them very much unless you&#8217;re administering a multi-user
+system. For now, we&#8217;ll ignore them. If you want to learn more, check out the
+<a href="http://www.selenic.com/mercurial/hgrc.5.html">man page</a>.</p>
+<h3 id="user-wide-config-files"><span class="dquo">&#8220;</span>User-wide&#8221; Config&nbsp;Files</h3>
+<p>Each user on a system can have a Mercurial config file just for them. These
+files are more &#8220;specific&#8221; than the install-wide and system-wide files, and
+they&#8217;re the config files you&#8217;ll be using most of the&nbsp;time.</p>
+<p>On <span class="caps">UNIX</span>, Linux, <span class="caps">OS</span> X systems your personal config file is located at
+<code>$HOME/.hgrc</code> (aka <code>~/.hgrc</code>).</p>
+<p>On Windows it can be in any of the following locations (you can pick one you
+like and create the&nbsp;file):</p>
+<pre><code>%HOME%\Mercurial.ini
+%HOME%\.hgrc
+%USERPROFILE%\Mercurial.ini
+%USERPROFILE%\.hgrc
+</code></pre>
+<p>Settings in this file will override settings of the same section/name
+combination in the install-wide and system-wide config&nbsp;files.</p>
+<p>This is the place to put all the settings specific to you as a user. For&nbsp;example:</p>
+<pre><code>[ui]
+username = Your Name &lt;your@email.com&gt;
+editor = your_favorite_editor_command
+
+[extensions]
+... any extensions you like to use ...
+
+[alias]
+... any aliases you find convenient ...
+</code></pre>
+<h3 id="repository-wide-config-files"><span class="dquo">&#8220;</span>Repository-wide&#8221; Config&nbsp;Files</h3>
+<p>These are the most &#8220;specific&#8221; config files, and the settings inside of them
+only apply to commands run on the repository they&#8217;re inside&nbsp;of.</p>
+<p>The location of a repository-wide config file is always:
+<code>[repository-path]/.hg/hgrc</code>. Be careful, that&#8217;s <code>hgrc</code> with <strong>no dot</strong> in
+front of&nbsp;it!</p>
+<p>Why would you want to specify settings just for a single repository? A common
+example is when you want to use a different email address when committing to a
+certain&nbsp;repository.</p>
+<p>You might have a user-wide config file that contains&nbsp;this:</p>
+<pre><code>[ui]
+username = Your Name &lt;you@personal.com&gt;
+</code></pre>
+<p>But for a specific repository you might want to use your work email, so you
+would put this into the <code>[repository-path]/.hg/hgrc</code> file for that&nbsp;repository:</p>
+<pre><code>[ui]
+username = Your Name &lt;you@work.com&gt;
+</code></pre>
+<p>Now when you commit to that repository it will use your work email address,
+because the repository-wide config file is more specific than the user-wide
+config file and overrides&nbsp;it.</p>
+<h3 id="who-does-mercurial-trust">Who Does Mercurial&nbsp;Trust?</h3>
+<p>As you start to use Mercurial more and more, you may eventually run into error
+messages that look like&nbsp;this:</p>
+<pre><code>Not trusting file /home/alice/repo/.hg/hgrc from untrusted user alice, group users
+</code></pre>
+<p>When you see a message like this, Mercurial is telling you that there&#8217;s an
+<code>hgrc</code> file that it would normally use, but it&#8217;s owned by someone else that may
+have made nefarious changes to&nbsp;it.</p>
+<p>To learn more about this situation you should take a look at the <a href="http://mercurial.selenic.com/wiki/Trust">Trust</a> page
+on the Mercurial&nbsp;wiki.</p>
+<h3 id="learn-more">Learn&nbsp;More</h3>
+<p>This tip just showed you where to find config files and how to edit them.
+There&#8217;s a lot more information on the <a href="http://www.selenic.com/mercurial/hgrc.5.html">hgrc man page</a> if you want to
+know&nbsp;more.</p>
+    
+    <!-- Hyde::Article::End -->
+    
+    <div id="tip-comments">
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/hgtip/embed.js"></script><noscript><a href="http://hgtip.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+            </div>
+            
+            <div id="excerpt">
+                
+                    <!-- Hyde::Excerpt::Begin -->
+                        <p>Learn how to configure Mercurial to behave however&nbsp;you&nbsp;like.</p>
+                    <!-- Hyde::Excerpt::End -->
+                
+            </div>
+        </div>
+        <div id='footer'>
+            site by <a href="http://stevelosh.com">steve</a> and <a href="/about/">others</a> &mdash;
+            built with <a href="http://github.com/lakshmivyas/hyde">hyde</a> &mdash;
+            licensed as <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">cc-by-sa</a> &mdash;
+            we've got <a id="rhythm" href="#">rhythm</a>
+            <br />
+            available in:
+            <a href="http://hgtip.com/">english</a> &mdash;
+            <a href="http://de.hgtip.com/">中文</a> &mdash;
+            <a href="http://de.hgtip.com/">deutsch</a> &mdash;
+            <a href="http://ja.hgtip.com/">日本語</a>
+        </div>
+        
+        
+    <script type="text/javascript">
+    //<![CDATA[
+    (function() {
+        var links = document.getElementsByTagName('a');
+        var query = '?';
+        for(var i = 0; i < links.length; i++) {
+        if(links[i].href.indexOf('#disqus_thread') >= 0) {
+            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+        }
+        }
+        document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/hgtip/get_num_replies.js' + query + '"></' + 'script>');
+    })();
+    //]]>
+    </script>
+
+    </body>
+</html>
+
