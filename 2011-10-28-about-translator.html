@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Free Hosting at BitBucket / hg tip</title>
+        <title>有关 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,46 +61,61 @@
             
             <div id="content">
                 
-                    <h2>Free Hosting at BitBucket</h2>
+                    <h2>有关</h2>
                 
                 
-    <p id="tip-info">
-        posted by <a href="http://stevelosh.com/">Steve Losh</a>
-        on October 13, 2009
-    </p>
-    
-    <!-- Hyde::Article::Begin -->
-    
-    <p>One undocumented (to my knowledge) feature of <a href="http://bitbucket.org/">BitBucket</a>
-is the ability to have them host a static website for you. It&#8217;s quick and easy
-to get&nbsp;started:</p>
-<ol>
-<li>Create a repository named <code>yourusername.bitbucket.org</code> on&nbsp;BitBucket.</li>
-<li>Clone it to your local&nbsp;machine.</li>
-<li>Add a simple <code>index.html</code> file.</li>
-<li>Push it back up to&nbsp;BitBucket.</li>
+
+<p><a href="http://hgtip.com/">hg tip</a> 从 <a href="http://gitready.com/">git ready</a> 获得灵感.&nbsp;确立了目标: </p>
+<ul>
+<li><strong>制作一个清晰,简洁,易懂好用的 Mercurial&nbsp;技巧集锦.</strong></li>
+</ul>
+<p>网站以源代码形式发布在 <a href="http://bitbucket.org/">BitBucket</a> 提供的 <a href="http://bitbucket.org/sjl/hgtip/">仓库</a>.
+所有贴士收纳在 <a href="http://bitbucket.org/sjl/hgtip-content/">子仓库</a>&nbsp;中.</p>
+<ul>
+<li>中文版本内容收纳在 <a href="https://bitbucket.org/ZoomQuiet/hgtip-content_zh">hgtip-content_zh</a> 仓库中进行维护,同样使用 <a href="http://bitbucket.org/">BitBucket</a>&nbsp;提供的服务.</li>
+</ul>
+<p><a href="http://hgtip.com/">主站点</a>,由 <a href="http://stevelosh.com/">Steve Losh</a> 运维&#8212; 如果你有任何意见/修订/建议 请 <a href="mailto:steve@stevelosh.com">email him</a>.</p>
+<ul>
+<li>中文版本站点由 <a href="http://zoomquiet.github.com/">Zoom.Quiet</a> 运维,使用<a href="http://github.com/">github</a> 的<a href="http://pages.github.com/">Pages</a>服务发布.<ul>
+<li>出于中国特色的原因无法使用 zoomquiet.org&nbsp;进行发布</li>
+<li>而且,需要注意的是,如果你想在本地尝试修订中文版的 <a href="http://hgtip.com/">hg tip</a> 得这么来:<ol>
+<li>克隆 http://bitbucket.org/sjl/hgtip&nbsp;到本地</li>
+<li>克隆 https://bitbucket.org/ZoomQuiet/hgtip-content_zh&nbsp;到本地</li>
+<li>用 <code>hgtip-content_zh</code> 替换 <code>hgtip</code> 目录中的 <code>content</code> 目录<ul>
+<li><strong>提示:</strong> ~&nbsp;简单的使用链接命令就好</li>
+</ul>
+</li>
+<li>安装好必要的软件, 参考 <a href="https://github.com/lakshmivyas/hyde"><span class="caps">HYDE</span></a> , 特别是要另外安装好 <a href="http://sass-lang.com/tutorial.html"><span class="caps">SASS</span></a></li>
+<li>然后就可以使用 <code>hyde -g -s path/2/你的hgtip所在目录</code> 生成静态网站到本地了!</li>
 </ol>
-<p>Now visit <code>http://yourusername.bitbucket.org/</code> and you should see the contents
-of the <code>index.html</code> file you just&nbsp;uploaded.</p>
-<p>BitBucket will serve whatever is in the tip of that special repository as a
-static website. This is similar to GitHub&#8217;s user-level &#8220;pages&#8221; feature, except
-that your files don&#8217;t get run through Jekyll or any other kind of&nbsp;filter.</p>
-<p>Unfortunately, BitBucket does not seem to have an equivalent to GitHub&#8217;s
-project-level&nbsp;&#8220;pages&#8221;.</p>
-    
-    <!-- Hyde::Article::End -->
-    
-    <div id="tip-comments">
-        <h2>评注</h2>
-        <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/hgtip/embed.js"></script><noscript><a href="http://hgtip.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
+</li>
+<li>以上有任何问题/建议/意见,请随时 <a href="mailto:zoomquiet+hgtip@gmail.com">电俺</a>.</li>
+</ul>
+</li>
+</ul>
+<h3>贡献者</h3>
+<p>网站虽然是 <a href="http://stevelosh.com/">Steve</a> 来运维的,&nbsp;但总有N多好人对贴士或贡献内容或提出改进,以及进行了翻译.</p>
+<p>以下列出的就是以各种形式为网站作出了贡献的好人:</p>
+<!-- CONTRIBUTORS -->
+
+<ul>
+<li>David&nbsp;Harrigan</li>
+<li>Johnny&nbsp;Graber</li>
+<li>Ryan&nbsp;Wilcox</li>
+<li>Yuya&nbsp;Nishihara</li>
+<li>Zachary&nbsp;Voase</li>
+</ul>
+<!-- END CONTRIBUTORS -->
+
+<p>你要是想出现在以上列表中,请参考<a href="http://hgtip.com/contribute/">contribute</a>!</p>
+
 
             </div>
             
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>BitBucket will host your static website&nbsp;for&nbsp;free.</p>
+                        
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
@@ -119,21 +134,6 @@ project-level&nbsp;&#8220;pages&#8221;.</p>
         </div>
         
         
-    <script type="text/javascript">
-    //<![CDATA[
-    (function() {
-        var links = document.getElementsByTagName('a');
-        var query = '?';
-        for(var i = 0; i < links.length; i++) {
-        if(links[i].href.indexOf('#disqus_thread') >= 0) {
-            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
-        }
-        }
-        document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/hgtip/get_num_replies.js' + query + '"></' + 'script>');
-    })();
-    //]]>
-    </script>
-
     </body>
 </html>
 

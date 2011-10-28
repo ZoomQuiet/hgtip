@@ -49,13 +49,14 @@
             </div>
             
             <p id="navigation">
-                <a href="http://zoomquiet.github.com/hgtip/">all</a> /
-                <a href="http://zoomquiet.github.com/hgtip/beginner">beginner</a> /
-                <a href="http://zoomquiet.github.com/hgtip/advanced">advanced</a> &mdash;
+                <a href="http://zoomquiet.github.com/hgtip/">所有</a> /
+                <a href="http://zoomquiet.github.com/hgtip/beginner/">初级</a> /
+                <a href="http://zoomquiet.github.com/hgtip/advanced/">高阶</a>贴士 &mdash;
                 <a href="http://hgtip.com/contribute/">contribute</a> &mdash;
                 <a href="http://feeds.feedburner.com/hgtip/">feed</a> &mdash;
                 <a href="http://twitter.com/hgtip/">twitter</a> &mdash;
-                <a href="about/">about</a>
+                <a href="http://hgtip.com/about/">about</a>  &mdash;
+                <a href="http://zoomquiet.github.com/hgtip/2011-10-28-about-translator.html">关于</a>
             </p>
             
             <div id="content">
@@ -148,7 +149,7 @@ $
 <p>好了,这会儿要明白仓库发生了什么就不那么轻松了.
 现在至少有一个分支发生了合并行为(因为变更集 <code>7</code> 有两个父版本).&nbsp;你能快速扫视一下就指出哪些个分支进行了合并?!</p>
 <p>要让日志更加容易理解,你需要激活 <a href="http://mercurial.selenic.com/wiki/GraphlogExtension">graphlog 扩展</a> ,
-<a href="/beginner/2009-09-30-configuring-mercurial.html">修订 <code>~/.hgrc</code> 文件</a>&nbsp;包含以下参数:</p>
+<a href="2009-09-30-configuring-mercurial.html">修订 <code>~/.hgrc</code> 文件</a>&nbsp;包含以下参数:</p>
 <pre><code>[extensions]
 graphlog =
 </code></pre>
@@ -247,7 +248,17 @@ o  changeset:   0:ef4afb3d9699
 $
 </code></pre>
 <p>对我而言,这样的输出包含了足够的信息.
-如果想查阅详细信息,俺就用 <code>hg log -r REV</code> 或是 <a href="/tips/beginner/2009-09-29-show-changeset-info/"><code>hg show REV</code></a>.</p>
+如果想查阅详细信息,俺就用 <code>hg log -r REV</code> 或是 <a href="2009-09-29-show-changeset-info.html"><code>hg show REV</code></a>.</p>
+<p><em>译注:</em>
+进一步的,Mercurial&nbsp;1.7之后,其实内置了类似的模板,而且译者本人习惯的配置是:</p>
+<pre><code>[extensions]
+graphlog =                  ;打开图形日志扩展
+
+[alias]
+ll = glog --style compact   ;用 ll 为别名命令,使用 精简 模式输出
+</code></pre>
+<p>这样使用 <code>hg ll -l7</code> 就可以用前述例子中的精简输出来看指定数目(当前是7个)版本的分支情况了;-)</p>
+<p>~有关 <code>[alisa]</code> 声明请参考 <a href="http://mercurial.selenic.com/wiki/AliasExtension">别名扩展</a>.</p>
     
     <!-- Hyde::Article::End -->
     

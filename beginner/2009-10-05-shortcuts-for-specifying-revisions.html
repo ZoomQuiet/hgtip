@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Shortcuts for Specifying Revisions / hg tip</title>
+        <title>指定版本的捷径 Shortcuts for Specifying Revisions / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -49,18 +49,19 @@
             </div>
             
             <p id="navigation">
-                <a href="http://zoomquiet.github.com/hgtip/">all</a> /
-                <a href="http://zoomquiet.github.com/hgtip/beginner">beginner</a> /
-                <a href="http://zoomquiet.github.com/hgtip/advanced">advanced</a> &mdash;
+                <a href="http://zoomquiet.github.com/hgtip/">所有</a> /
+                <a href="http://zoomquiet.github.com/hgtip/beginner/">初级</a> /
+                <a href="http://zoomquiet.github.com/hgtip/advanced/">高阶</a>贴士 &mdash;
                 <a href="http://hgtip.com/contribute/">contribute</a> &mdash;
                 <a href="http://feeds.feedburner.com/hgtip/">feed</a> &mdash;
                 <a href="http://twitter.com/hgtip/">twitter</a> &mdash;
-                <a href="about/">about</a>
+                <a href="http://hgtip.com/about/">about</a>  &mdash;
+                <a href="http://zoomquiet.github.com/hgtip/2011-10-28-about-translator.html">关于</a>
             </p>
             
             <div id="content">
                 
-                    <h2>Shortcuts for Specifying Revisions</h2>
+                    <h2>指定版本的捷径 Shortcuts for Specifying Revisions</h2>
                 
                 
     <p id="tip-info">
@@ -70,55 +71,47 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>A lot of Mercurial commands allow you to specify a revision to act on. For
-example: <code>hg update REV</code> will update to revision <code>REV</code>, and <code>hg diff -c REV</code>
-will show you the changes made by revision <code>REV</code>.</p>
-<p>The most common way to tell Mercurial which revision to act on is to use local
-revision numbers. For example: <code>hg update 30</code> will update the working
-directory to revision <code>30</code>.</p>
-<p>That&#8217;s fine if you know the revision number you want to use (or don&#8217;t mind
-looking it up with <code>hg log</code>), but Mercurial has some shortcuts that can make
-things&nbsp;easier.</p>
-<h3 id="hashes">Hashes</h3>
-<p>The revision numbers that you use most of the time are only accurate in your
-local repository. Usually this isn&#8217;t a problem, but if you want to talk to
-someone else about a particular revision you should use the <strong>unique hash</strong> of
-that revision as an&nbsp;identifier.</p>
-<p>You can use <code>hg log</code> to look up the revision&#8217;s hash &#8212; it&#8217;s printed right next
-to the revision number. For&nbsp;example:</p>
+    <p>很多Mercurial 命令要求给出指定的版本来处理.
+例如: <code>hg update REV</code> 会更新到版本 <code>REV</code> ,
+而 <code>hg diff -c REV</code> 则展示和版本 <code>REV</code> 的差异.</p>
+<p>多数情况下是使用本地版本号来通知Mercurial 对哪个版本进行操作.
+例如: <code>hg update 30</code> 将工作目录更新到版本 <code>30</code>. </p>
+<p>当你知道版本号时这么作没事儿(否则就要用 <code>hg log</code> 来查阅),
+不过,Mercurial&nbsp;有很多捷径来轻松处理这事儿的.</p>
+<h3 id="hashes">散列&nbsp;Hashes</h3>
+<p>多数情况中,使用的版本号仅正确指代本地仓库的版本.
+一般而言这不会有问题,但是,当你和其它人论及精确的版本时,
+就必须使用 <strong>唯一散列</strong>&nbsp;来指代了.</p>
+<p>用 <code>hg log</code> 就可以观察到版本的散列值 &#8212;&nbsp;就紧跟在版本号之后,例如:</p>
 <pre><code>$ hg log -r 30
 changeset:   30:f7744f53cf93
 ...
 </code></pre>
-<p>In this case <code>f7744f53cf93</code> is the hash you should use if you&#8217;re talking to
-someone&nbsp;else.</p>
-<h3 id="tags">Tags</h3>
-<p>You can use a tag name anywhere you can use a revision number. If you have a
-tag named <code>1.0</code> that points to revision <code>30</code> you can use <code>hg update 1.0</code> and
-it will have the same effect as <code>hg update 30</code>.</p>
-<h3 id="named-branch-names">Named Branch&nbsp;Names</h3>
-<p>If you use named branches (created with <code>hg branch branchname</code>) then using
-<code>branchname</code> instead of a revision number is shorthand for: &#8220;the last revision
-committed in the branchname&nbsp;branch&#8221;.</p>
-<p>This can come in very handy when you need to switch branches&nbsp;often:</p>
+<p>以上变更中 <code>f7744f53cf93</code> 就是你和其它人交流时,应该使用的散列值.</p>
+<h3 id="tags">标签&nbsp;Tags</h3>
+<p>任何使用版本号的情景中都可以用标签.
+如果你对版本 <code>30</code> 打了个 <code>1.0</code> 的标签,
+那么使用 <code>hg update 1.0</code> 的效果同 <code>hg update 30</code>.</p>
+<h3 id="named-branch-names">分支名 Named Branch&nbsp;Names</h3>
+<p>若你有用分支(通过 <code>hg branch 分支名</code> 形式来创建),
+那么使用 <code>分支名</code> 来替代版本号,等效于:&#8221;对指定分支的最新版本进行操作&#8221;.</p>
+<p>当你经常切换分支时,利用这点会很爽:</p>
 <pre><code>$ hg update feature-branch
-... work on a new feature ...
-$ hg commit -m 'Add part of the new feature.'
+... 开始工作在新特性分支中...
+$ hg commit -m '追加修订到新近特性..'
 $ hg update default
-... fix a critical problem on the default branch ...
-$ hg commit -m 'Fix the bug that set the servers on fire.'
+... 回到默认分支修订原先的问题...
+$ hg commit -m '修正了线上服务问题.'
 $ hg update feature-branch
-... go back to where you left off on the feature branch ...
+... 回到特性分支,继续之前的开发...
 </code></pre>
-<p>It&#8217;s also useful when you want to merge (remember, <code>hg merge</code> can take a
-revision to merge&nbsp;with):</p>
+<p>在进行合并时,一样爽(记住, <code>hg merge</code> 能将不同的版本合并到一起):</p>
 <pre><code>$ hg update default
 $ hg merge --rev feature-branch
 $ hg commit -m 'Merge in the new feature.'
 </code></pre>
-<h3 id="the-current-parent">The Current&nbsp;Parent</h3>
-<p>One of the more obscure tricks for specifying revisions is using <code>.</code> to say
-&#8220;the current parent of the working&nbsp;directory&#8221;:</p>
+<h3 id="the-current-parent">父辈版本 The Current&nbsp;Parent</h3>
+<p>有个很隐密的技巧是使用 <code>.</code> 来指代&#8221;工作目录当前的<a href="http://mercurial.selenic.com/wiki/ChineseUnderstandingMercurial#A.2BckhnLA.2C.2BU9hm9JbG.2C.2BWTSQ6A.2C.2BmHaQ6A-">父辈版本</a>&#8221;</p>
 <pre><code>$ hg commit -m 'Finish up some changes.'
 $ hg log --change .
 ... show the changes made by the revision you just committed ...
@@ -128,17 +121,16 @@ $ hg update -C .
 ... blow away any uncommitted changes in the working directory while
     staying at the same revision ...
 </code></pre>
-<h3 id="the-tips-ancestors">The Tip&#8217;s&nbsp;Ancestors</h3>
-<p>If you use a negative number as a revision it means &#8220;X revisions back from the
-tip revision of the repository&#8221;. <code>-1</code> means the tip itself, <code>-2</code> means the
-tip&#8217;s parent, and so&nbsp;on.</p>
-<p>This can get tricky once you hit some merges, but it&#8217;s useful if you just need
-to go back a couple of revisions from the&nbsp;tip.</p>
-<h3 id="other-tricks">Other&nbsp;Tricks</h3>
-<p>There are more ways to specify revisions. Check out <code>hg help revisions</code> to
-learn&nbsp;more.</p>
-<p>If you&#8217;re a git user trying Mercurial and you miss the <code>revision^</code> syntax,
-take a look at the <a href="http://mercurial.selenic.com/wiki/ParentrevspecExtension">parentrevspec extension</a> which adds that syntax to&nbsp;Mercurial.</p>
+<p><strong>提示:</strong> 有关 <a href="http://mercurial.selenic.com/wiki/ChineseUnderstandingMercurial#A.2BckhnLA.2C.2BU9hm9JbG.2C.2BWTSQ6A.2C.2BmHaQ6A-">父辈版本</a> 可以参考Mercurial 官方维基的文章: &#8220;<a href="http://mercurial.selenic.com/wiki/ChineseUnderstandingMercurial#A.2BckhnLA.2C.2BU9hm9JbG.2C.2BWTSQ6A.2C.2BmHaQ6A-">理解水银</a>&#8221;</p>
+<h3 id="the-tips-ancestors">顶端的祖先 The Tip&#8217;s&nbsp;Ancestors</h3>
+<p>如果使用负数的版本号,意味着 &#8220;在当前仓库从顶端版本向回退几个版本&#8221;.
+比如说: <code>-1</code> 指顶端版本自身, <code>-2</code>指顶端版本的父版本,等等.</p>
+<p>这一技巧不仅对批量合并很方便,&nbsp;而且在你需要从顶端回溯版本时也很常用.</p>
+<p><strong>提示:</strong> 同样,涉及到Mercurial 相关基础概念,可以参考Mercurial 官方维基的文章: &#8220;<a href="http://mercurial.selenic.com/wiki/ChineseUnderstandingMercurial#A.2BckhnLA.2C.2BU9hm9JbG.2C.2BWTSQ6A.2C.2BmHaQ6A-">理解水银</a>&#8221;</p>
+<h3 id="other-tricks">其它技巧 Other&nbsp;Tricks</h3>
+<p>还有更多的版本指定技巧, 用 <code>hg help revisions</code> 调出文档进一步学习吧.</p>
+<p>若你作为git用户,尝试 Mercurial 时可能很想念 <code>revision^</code> 的语法,
+参考 <a href="http://mercurial.selenic.com/wiki/ParentrevspecExtension">parentrevspec 扩展</a>,可以增补对应语法到 Mercurial&nbsp;中来!</p>
     
     <!-- Hyde::Article::End -->
     
@@ -152,7 +144,9 @@ take a look at the <a href="http://mercurial.selenic.com/wiki/ParentrevspecExten
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>You don&#8217;t always have to use a number &#8212; Mercurial has a lot of tricks up&nbsp;its&nbsp;sleeve.</p>
+                        <p>You don&#8217;t always have to use a number &#8212; Mercurial has a lot of tricks up its
+sleeve.
+你不必总用数字来指定 &#8212;&nbsp;Mercurial&nbsp;有很多花招来用的</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
