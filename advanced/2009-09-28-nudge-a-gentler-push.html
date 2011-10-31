@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Nudge — A Gentler Version of Push / hg tip</title>
+        <title>Nudge — 温和的推送 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Nudge — A Gentler Version of Push</h2>
+                    <h2>Nudge — 温和的推送</h2>
                 
                 
     <p id="tip-info">
@@ -71,22 +71,16 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>One thing that seems to confuse a lot of <a href="http://git-scm.com/">git</a> users that try out Mercurial
-is the fact that by default Mercurial will try to push <em>all</em> changesets in the
-repository when you run <code>hg push</code>, while git only pushes the current&nbsp;branch.</p>
-<p>If you prefer git&#8217;s behavior (maybe you frequently work on branches that you
-never end up pushing) it&#8217;s simple to add an alias that comes&nbsp;close.</p>
-<p>Mercurial lets you use <code>.</code> as a shortcut to specify &#8220;the parent revision of
-the working directory.&#8221; Using this with push means you can run <code>hg push --rev
-.</code> to push only the working directory’s parent revision (and its ancestors).
-That way you don’t have to worry about pushing any of the other branches
-you&#8217;re not working&nbsp;on.</p>
-<p>To add an alias for this, <a href="2009-09-30-configuring-mercurial.html">edit your <code>~/.hgrc</code> file</a>
-to&nbsp;contain:</p>
+    <p>令 <a href="http://git-scm.com/">git</a> 用户困惑的一件事儿是 Mercurial 在执行 <code>hg push</code> 时,实际上是尝试将<strong>整个</strong>仓库的变更都进行推送,
+而 git&nbsp;仅将当前分支的变更进行推送.</p>
+<p>如果你想保持 git 的习惯(也许你经常工作在永远也不会推送的分支中),&nbsp;这有个简单的操作别名可以作到.</p>
+<p>Mercurial 支持你使用 <code>.</code> 来指代&#8221;当前工作目录的父版本.&#8221;
+在推送时使用就可以使用 <code>hg push --rev .</code> 来仅将当前工作目录的变更推送上去(包含继承的变更).&nbsp;这样,你就不用担心将其它分支的变更意外的推送上去了.</p>
+<p><a href="2009-09-30-configuring-mercurial.html">编辑你的 <code>~/.hgrc</code> </a>&nbsp;增补这样的别名:</p>
 <pre><code>[alias]
 nudge = push --rev .
 </code></pre>
-<p>Now you can run <code>hg nudge</code> to just push what you&#8217;re working on at the&nbsp;moment.</p>
+<p>现在你就可以使用 <code>hg nudge</code> 来仅将刚刚的修订上推了.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -100,7 +94,7 @@ nudge = push --rev .
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Add an <code>hg nudge</code> alias to push only the working&nbsp;directory&#8217;s&nbsp;parent(s).</p>
+                        <p>用 <code>hg nudge</code> 仅将工作目录的变更推送上去.</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

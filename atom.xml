@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-10-31T17:49:27Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-10-31T18:04:56Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
        
     
     &lt;p&gt;If you tried &lt;code&gt;hg help --debug&lt;/code&gt;, you may be familiar with the commands prefixed
@@ -117,19 +117,17 @@ o  changeset:   0:6965ee5bb884
 &lt;/code&gt;&lt;/pre&gt;
     
     
-   </content></entry><entry><title>进度条 运行时保持反馈 用 Progress 保存历史 Keeping Informed with Progress</title><author><name>David Harrigan</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html"/><updated>2010-03-24T00:00:00Z</updated><published>2010-03-24T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html/</id><content type="html">
+   </content></entry><entry><title>进度条</title><author><name>David Harrigan</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html"/><updated>2010-03-24T00:00:00Z</updated><published>2010-03-24T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html/</id><content type="html">
        
     
-    &lt;p&gt;Sometimes when using Mercurial it seems to sit at the command prompt for quite
-some time as it churns over some files. 
-有时 Mercurial 在处理多个文件时,在命令中会顿住不知道是否正常执行中.
+    &lt;p&gt;有时 Mercurial 在处理多个文件时,在命令中会顿住不知道是否正常执行中.
 好在1.5之后,有内置扩展来改进.只要先[修订你的配置文件: &amp;#8216;~/.hgrc&amp;#8217;]hgrc]&amp;nbsp;包含类似声明:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[extensions]
 progress =
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;这个伶俐的小扩展,将使你在比较耗时的操作时的到这样的输出:&lt;/p&gt;
 &lt;div class=&quot;screenshot&quot;&gt;
-    &lt;a href=&quot;http://picasaweb.google.com/lh/photo/H_whTt3_9qWgidsk6Ao6pw?feat=directlink&quot;
+    &lt;a href=&quot;https://github.com/ZoomQuiet/hgtip/blob/gh-pages/beginner/progress-verify.png&quot;
        title=&quot;Progress when verifying a Mercurial repository&quot;&gt;
         &lt;img src=&quot;http://zoomquiet.github.com/hgtip/beginner/progress-verify.png&quot;
              class=&quot;force-border&quot;
@@ -139,7 +137,7 @@ progress =
 
 &lt;p&gt;注意到漂亮的进度条了嘛?&amp;nbsp;这有另外一个实例:&lt;/p&gt;
 &lt;div class=&quot;screenshot&quot;&gt;
-    &lt;a href=&quot;http://picasaweb.google.com/lh/photo/ALwS1lIo-p7DFD8YRZzKMg?feat=embedwebsite&quot;
+    &lt;a href=&quot;https://github.com/ZoomQuiet/hgtip/blob/gh-pages/beginner/progress-clone-remote.png&quot;
        title=&quot;Progress when cloning a remote Mercurial repository&quot;&gt;
         &lt;img src=&quot;http://zoomquiet.github.com/hgtip/beginner/progress-clone-remote.png&quot;
              class=&quot;force-border&quot;
