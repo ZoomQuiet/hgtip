@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Shortlog for Fun and Profit / hg tip</title>
+        <title>酷爽的精简日志模板 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Shortlog for Fun and Profit</h2>
+                    <h2>酷爽的精简日志模板</h2>
                 
                 
     <p id="tip-info">
@@ -71,18 +71,14 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Many Mercurial commands that print out some output are customizable through
-the <code>--template</code> option. For an in-depth look at what you can do with
-templates take a look at <code>hg help templating</code>.</p>
-<p>For this tip, we&#8217;re going to use a very small template that will turn out to
-be very&nbsp;powerful.</p>
-<h3 id="a-shortlog-template">A Shortlog&nbsp;Template</h3>
-<p>Let&#8217;s look at a very simple example of template, used with <code>hg log</code>:</p>
+    <p>很多Mercurial 命令支持一个 <code>--templet</code> 扩展参数,可以定制输出格式.
+使用 <code>hg help templating</code> 可以探知更多细节.</p>
+<p>这个小贴士里,我们将分享一段非常小巧,但是很强大的模板.</p>
+<h3 id="">精简日志模板</h3>
+<p>这是非常简单的配合 <code>hg log</code> 使用的模板:</p>
 <pre><code>hg log --template '{rev}:{node|short} {desc|firstline}\n'
 </code></pre>
-<p>This command will print out a log of all the changesets in the repository, one
-per line, with each line having the revision number, hash identifier, and
-summary. It should look something like&nbsp;this:</p>
+<p>这个命令将仓库所有变更集的日志全部输出,&nbsp;每行包含版本号,散列值,简述.类似如下形式:</p>
 <pre><code>81:966ff708eb3a Add the Shortcuts for Specifying Revisions beginner tip.
 80:3dca217e76a2 Change the title to something better.
 79:4edca6026448 Change the title to something more description.
@@ -95,46 +91,42 @@ summary. It should look something like&nbsp;this:</p>
 72:e44939482007 Mention the feature requirement for HTTP User Auth.
 ... a lot more lines ...
 </code></pre>
-<p>This can be handy if you want to see what&#8217;s happened but you don&#8217;t need a lot
-of information. Go ahead and add an alias for this command by <a href="2009-09-30-configuring-mercurial.html">editing your
-<code>~/.hgrc</code> file</a> to&nbsp;contain:</p>
+<p><code>~/.hgrc</code> file][hgrc] to contain:
+这样帮你掌握仓库变化,并过滤了不必要的信息.
+<a href="2009-09-30-configuring-mercurial.html">编辑 <code>~/.hgrc</code> file</a>&nbsp;来追加这条命令的别名:</p>
 <pre><code>[alias]
 slog = log --template '{rev}:{node|short} {desc|firstline}\n'
 </code></pre>
-<p>Now you can use <code>hg slog</code> to output this very compact log. We&#8217;re not quite
-done yet&nbsp;though.</p>
-<h3 id="counting">Counting</h3>
-<p>There&#8217;s something very special about this template: <strong>every log entry takes up
-one line</strong>. That means we can use the <span class="caps">UNIX</span> <code>wc</code> (wordcount) utility to count
-the number of lines, and therefore the number of&nbsp;changesets.</p>
-<p>For example, we can count the number of changesets in the&nbsp;repository:</p>
+<p>现在,你可以使用 <code>hg slog</code> 来以精简格式观察日志了.&nbsp;嗯嗯嗯,还可以更加爽些嘛?</p>
+<h3 id="counting">统计&nbsp;Counting</h3>
+<p>当前模板有个特性: <strong>每行为一个变更条目</strong>.
+这意味着我们可以使用 <code>wc</code> (wordcount,文字统计) 工具来统计行数,&nbsp;即为变更集总数.</p>
+<p>例如我们可以这么统计仓库的变更次数:</p>
 <pre><code>$ hg slog | wc -l
   82
 </code></pre>
-<p>That&#8217;s fairly useless because we can just look at the revision number of the
-newest changeset. Where it starts to get interesting is when we use <code>hg log</code>&#8216;s
-filtering options to select the changesets we want to&nbsp;count.</p>
-<p>To count the number of&nbsp;merges:</p>
+<p>这对我们了解仓库的整体变更情况很有用.
+而且我们可以用 <code>hg log</code> 的过滤参数来进行特殊统计.</p>
+<p>合并总数:</p>
 <pre><code>hg slog --only-merges | wc -l
 </code></pre>
-<p>To count the number of&nbsp;non-merges:</p>
+<p>非合并操作总数:</p>
 <pre><code>hg slog --no-merges | wc -l
 </code></pre>
-<p>To count the number of commits &#8216;Steve&#8217;&nbsp;made:</p>
+<p><span class="quo">&#8216;</span>Steve&#8217;&nbsp;提交总次数:</p>
 <pre><code>hg slog --user Steve | wc -l
 </code></pre>
-<p>To count the number of commits in the past three&nbsp;days:</p>
+<p>过去3天的提交总数:</p>
 <pre><code>hg slog --date -3 | wc -l
 </code></pre>
-<p>To count the number of commits since February&nbsp;1:</p>
+<p>自一月一号的提交总数:</p>
 <pre><code>hg slog --date '&gt;Feb 1' | wc -l
 </code></pre>
-<p>To count the number of non-merge commits Steve made since&nbsp;March:</p>
+<p>三月以来 Stete&nbsp;所有非合并的提交总数:</p>
 <pre><code>hg slog --no-merges --user Steve --date '&gt;Mar 1' | wc -l
 </code></pre>
-<p>Using a template like this (one changeset per line) makes it easy to count
-anything you can filter with <code>hg log</code>. Check out <code>hg help log</code> for more ways
-to&nbsp;filter.</p>
+<p>瞧,如此简单的模板(仅仅一行)就能配合原生命令 <code>hg log</code> 如此轻松的完成各种统计.
+更多的过滤手法,参考:  <code>hg help log</code> 的内置手册.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -148,7 +140,7 @@ to&nbsp;filter.</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Adding an <code>hg shortlog</code> alias will let you do a lot of&nbsp;nifty&nbsp;things.</p>
+                        <p>追加个 <code>hg shortlog</code> 的别名很爽!</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
