@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Always Use Git Diffs / hg tip</title>
+        <title>要用Git Diffs / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Always Use Git Diffs</h2>
+                    <h2>要用Git Diffs</h2>
                 
                 
     <p id="tip-info">
@@ -71,20 +71,16 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>The default style of diffs that Mercurial outputs for commands like <code>hg diff</code>
-is a style that&#8217;s compatible with the <span class="caps">UNIX</span> <code>patch</code> program. I suppose that&#8217;s
-nice if you use <code>patch</code> a lot, but most of us&nbsp;don&#8217;t.</p>
-<p>Git introduced a new format that has some features that make certain diffs
-more readable, and Mercurial can take advantage of&nbsp;that.</p>
-<p>The <a href="http://mercurial.selenic.com/wiki/GitExtendedDiffFormat">page on the Mercurial wiki</a> explains how to use it, but we&#8217;ll
-show you right now in case you don&#8217;t want to read that. <a href="2009-09-30-configuring-mercurial.html">Edit your <code>~/.hgrc</code>
-file</a> to&nbsp;contain:</p>
+    <p>类似 <code>hg diff</code> 命令进行的Mercurial 差异输出格式,默认使用的是 <span class="caps">UNINX</span> 中 <code>patch</code> 的格式.&nbsp;俺猜你习惯了这种格式,不过有更好的.</p>
+<p>Git在其 diff 命令中创造了一种更加易读的差异格式, Mercurial&nbsp;也可以使用之.</p>
+<p><a href="http://mercurial.selenic.com/wiki/GitExtendedDiffFormat">Mercurial维基</a> 中有说怎么用,
+不过那篇文章忒复杂了,叫俺来说,就酱 <a href="2009-09-30-configuring-mercurial.html">编辑你的 <code>~/.hgrc</code> </a>&nbsp;包含:</p>
 <pre><code>[diff]
 git = True
 </code></pre>
-<p>That&#8217;s it! All of Mercurial&#8217;s commands that output diffs will now use this
-better format. Now when you rename a file with <code>hg rename</code> the diffs will say
-&#8220;file X renamed to Y&#8221; instead of treating it as a separate remove and&nbsp;add.</p>
+<p>齐活! 现在 Mercurial 的差异输出就用了更好的格式.
+比如,你用 <code>hg rename</code> 重命名了文件,
+差异汇报就是 &#8220;file X renamed to Y&#8221;,而不会是原先分开的 <code>remove</code> 和 <code>add</code> 的说明.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -98,7 +94,7 @@ better format. Now when you rename a file with <code>hg rename</code> the diffs 
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Do you really need diffs that are compatible with a program released&nbsp;in&nbsp;1985?</p>
+                        <p>你真的需要diff&nbsp;来对比程序差异嘛?要知道,这货85年发布的哈!</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

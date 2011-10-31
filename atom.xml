@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-10-31T15:02:54Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-10-31T17:49:27Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
        
     
     &lt;p&gt;If you tried &lt;code&gt;hg help --debug&lt;/code&gt;, you may be familiar with the commands prefixed
@@ -117,39 +117,38 @@ o  changeset:   0:6965ee5bb884
 &lt;/code&gt;&lt;/pre&gt;
     
     
-   </content></entry><entry><title>Keeping Informed with Progress</title><author><name>David Harrigan</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html"/><updated>2010-03-24T00:00:00Z</updated><published>2010-03-24T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html/</id><content type="html">
+   </content></entry><entry><title>进度条 运行时保持反馈 用 Progress 保存历史 Keeping Informed with Progress</title><author><name>David Harrigan</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html"/><updated>2010-03-24T00:00:00Z</updated><published>2010-03-24T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2010-03-24-keeping-informed-with-progress.html/</id><content type="html">
        
     
     &lt;p&gt;Sometimes when using Mercurial it seems to sit at the command prompt for quite
-some time as it churns over some files. Thankfully, since Mercurial 1.5 you
-can now take advantage of a new extension! You&amp;#8217;ll want to &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;edit your &amp;#8216;~/.hgrc&amp;#8217;
-file&lt;/a&gt; to contain something like&amp;nbsp;this:&lt;/p&gt;
+some time as it churns over some files. 
+有时 Mercurial 在处理多个文件时,在命令中会顿住不知道是否正常执行中.
+好在1.5之后,有内置扩展来改进.只要先[修订你的配置文件: &amp;#8216;~/.hgrc&amp;#8217;]hgrc]&amp;nbsp;包含类似声明:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[extensions]
 progress =
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;When this nifty little extension is enabled you should see something like&amp;nbsp;this:&lt;/p&gt;
+&lt;p&gt;这个伶俐的小扩展,将使你在比较耗时的操作时的到这样的输出:&lt;/p&gt;
 &lt;div class=&quot;screenshot&quot;&gt;
     &lt;a href=&quot;http://picasaweb.google.com/lh/photo/H_whTt3_9qWgidsk6Ao6pw?feat=directlink&quot;
        title=&quot;Progress when verifying a Mercurial repository&quot;&gt;
-        &lt;img src=&quot;http://lh3.ggpht.com/_VHXliiKPwhU/S6k5xh1fsAI/AAAAAAAABCg/2FDGDmPpNdM/s400/progress-verify.png&quot;
+        &lt;img src=&quot;http://zoomquiet.github.com/hgtip/beginner/progress-verify.png&quot;
              class=&quot;force-border&quot;
              alt=&quot;Progress when verifying a Mercurial repository&quot;/&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Notice the nice new progress bar? Here&amp;#8217;s another little&amp;nbsp;example:&lt;/p&gt;
+&lt;p&gt;注意到漂亮的进度条了嘛?&amp;nbsp;这有另外一个实例:&lt;/p&gt;
 &lt;div class=&quot;screenshot&quot;&gt;
     &lt;a href=&quot;http://picasaweb.google.com/lh/photo/ALwS1lIo-p7DFD8YRZzKMg?feat=embedwebsite&quot;
        title=&quot;Progress when cloning a remote Mercurial repository&quot;&gt;
-        &lt;img src=&quot;http://lh5.ggpht.com/_VHXliiKPwhU/S6k5xp_VMfI/AAAAAAAABCk/pyn7z_WLr98/s400/progress-clone-remote.png&quot;
+        &lt;img src=&quot;http://zoomquiet.github.com/hgtip/beginner/progress-clone-remote.png&quot;
              class=&quot;force-border&quot;
              alt=&quot;Progress when cloning a remote Mercurial repository&quot;/&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;I hope you find this little tip useful and it helps you in your daily usage of
-Mercurial. For more information on this extension, you can refer to &lt;a href=&quot;http://mercurial.selenic.com/wiki/ProgressExtension&quot;&gt;its
-page&lt;/a&gt; on the Mercurial&amp;nbsp;website.&lt;/p&gt;
+&lt;p&gt;希望这一技巧能帮到你.
+有关这一扩展的更多信息,请参考Mercurial 维基中 &lt;a href=&quot;http://mercurial.selenic.com/wiki/ProgressExtension&quot;&gt;progress&lt;/a&gt;&amp;nbsp;页面.&lt;/p&gt;
     
     
    </content></entry><entry><title>Merging MQ Patches with Rebase</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html"/><updated>2010-02-11T00:00:00Z</updated><published>2010-02-11T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html/</id><content type="html">
@@ -255,24 +254,17 @@ sglog = glog --style=/full/path/to/map-cmdline.sglog
 feel free to fork the &lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;repository&lt;/a&gt; on&amp;nbsp;BitBucket!&lt;/p&gt;
     
     
-   </content></entry><entry><title>Finding Uncommon Changesets</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html"/><updated>2009-12-09T00:00:00Z</updated><published>2009-12-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html/</id><content type="html">
+   </content></entry><entry><title>找出不寻常的变更集</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html"/><updated>2009-12-09T00:00:00Z</updated><published>2009-12-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html/</id><content type="html">
        
     
-    &lt;p&gt;This post was inspired by &lt;a href=&quot;http://www.selenic.com/pipermail/mercurial-devel/2009-December/017417.html&quot;&gt;an email&lt;/a&gt; on the &lt;a href=&quot;http://mercurial.selenic.com/wiki/MailingLists&quot;&gt;mercurial-devel mailing
-list&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;The question in a nutshell is: how can you determine which changesets are
-included in revision &lt;code&gt;X&lt;/code&gt; but &lt;em&gt;not&lt;/em&gt; included in revision &lt;code&gt;Y&lt;/code&gt;? This could be
-useful if you&amp;#8217;re updating a piece of software you use and want to know
-everything that changed between the old revision and the new&amp;nbsp;one.&lt;/p&gt;
-&lt;p&gt;It sounds like a simple task, but there are a few tricky things that you need
-to watch out&amp;nbsp;for.&lt;/p&gt;
-&lt;p&gt;Note: In this tip I&amp;#8217;ll be using the &lt;a href=&quot;/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/&quot;&gt;shortlog alias&lt;/a&gt; instead of the
-normal &lt;code&gt;hg log&lt;/code&gt; command to make the output more readable. Everything will work
-exactly the same with &lt;code&gt;hg log&lt;/code&gt; (because &lt;code&gt;hg slog&lt;/code&gt; is just an alias to &lt;code&gt;hg log&lt;/code&gt;
-with an extra template), so feel free to use that instead if you prefer more&amp;nbsp;detail.&lt;/p&gt;
-&lt;h3 id=&quot;the-simple-and-incorrect-way&quot;&gt;The Simple (and Incorrect)&amp;nbsp;Way&lt;/h3&gt;
-&lt;p&gt;Let&amp;#8217;s start with the simplest way to list revisions: the &lt;code&gt;--rev&lt;/code&gt; option. Say
-we have a simple repository whose graph looks like&amp;nbsp;this:&lt;/p&gt;
+    &lt;p&gt;这一技巧是从 &lt;a href=&quot;http://mercurial.selenic.com/wiki/MailingLists&quot;&gt;mercurial-devel 邮件列表&lt;/a&gt; 的&lt;a href=&quot;http://www.selenic.com/pipermail/mercurial-devel/2009-December/017417.html&quot;&gt;讨论&lt;/a&gt;中得到的灵感.&lt;/p&gt;
+&lt;p&gt;问题的要点是:你是否能指出哪些变更可以包含在版本 &lt;code&gt;X&lt;/code&gt; 而不包含在 &lt;code&gt;Y&lt;/code&gt; 版本中?&amp;nbsp;这通常在你需要明确两个软件版本中确切的差异时很有用.&lt;/p&gt;
+&lt;p&gt;这看起来很简单,但是有几个方面你都得同时考虑到.&lt;/p&gt;
+&lt;p&gt;注意:我将运用 &lt;a href=&quot;/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/&quot;&gt;精简日志&lt;/a&gt; 来使默认的 &lt;code&gt;hg log&lt;/code&gt; 输出更加可读.
+虽然操作使用的是 &lt;code&gt;hg log&lt;/code&gt; (其实,已经用 &lt;code&gt;hg  slog&lt;/code&gt; 配置了别名来替代 &lt;code&gt;hg log&lt;/code&gt;),
+所以,面对精简日志格式,请放轻松&amp;nbsp;;-)&lt;/p&gt;
+&lt;h3 id=&quot;&quot;&gt;简单方法(不完美的)&lt;/h3&gt;
+&lt;p&gt;先从简单的方式, 用 &lt;code&gt;--rev&lt;/code&gt; 来列出版本,某仓库使用图形日志时的输出可能是:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg glog
 o  4 Fix another bug. (6 seconds ago by Steve Losh) tip 
 |
@@ -284,18 +276,14 @@ o  1 Add a simple feature. (40 seconds ago by Steve Losh)
 |
 o  0 Initial revision. (7 minutes ago by Steve Losh)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you&amp;#8217;re currently at revision &lt;code&gt;2&lt;/code&gt; and want to know what changes would be
-included if you updated to &lt;code&gt;tip&lt;/code&gt;, you might use something like&amp;nbsp;this:&lt;/p&gt;
+&lt;p&gt;如果你目前在 版本&lt;code&gt;2&lt;/code&gt;,想知道如果升级到 &lt;code&gt;tip&lt;/code&gt; 得包含哪些变更集,先尝试:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt; $ hg slog --rev 2:tip
  2 Add another simple feature. (5 minutes ago by Steve Losh) 
  3 Fix a bug. (5 minutes ago by Steve Losh) 
  4 Fix another bug. (5 minutes ago by Steve Losh) tip
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;You can see that the output includes revision &lt;code&gt;2&lt;/code&gt;, which really shouldn&amp;#8217;t be
-listed because it&amp;#8217;s the one you&amp;#8217;re already at. This probably isn&amp;#8217;t a big deal
-because you can just ignore&amp;nbsp;it.&lt;/p&gt;
-&lt;p&gt;However, this approach doesn&amp;#8217;t work if you have multiple branches in the
-repository that are being worked on simultaneously. For&amp;nbsp;example:&lt;/p&gt;
+&lt;p&gt;会见到输出包含了 版本&lt;code&gt;2&lt;/code&gt;,实话说不应该列出来,不过,问题不大,你可以直接忽略.&lt;/p&gt;
+&lt;p&gt;而且,这种方法,在你有多个分支时就囧了:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg glog
 @  6 Fix a critical bug. (1 second ago by Steve Losh) tip 
 |
@@ -318,22 +306,18 @@ $ hg slog --rev 2:tip
 5 Start the rewrite of the UI. (54 seconds ago by Steve Losh) 
 6 Fix a critical bug. (31 seconds ago by Steve Losh) tip
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Notice that the output of the &lt;code&gt;hg slog&lt;/code&gt; command included changeset &lt;code&gt;5&lt;/code&gt;. It&amp;#8217;s
-on a separate branch, so updating from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;tip&lt;/code&gt; (&lt;code&gt;6&lt;/code&gt;) won&amp;#8217;t actually
-include changes from &lt;code&gt;5&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;This happens because when you specify a range of revisions Mercurial will step
-through them in the revision-number order. That means saying &lt;code&gt;1:4&lt;/code&gt; really
-means &amp;#8220;&lt;code&gt;1&lt;/code&gt;, &lt;code&gt;2&lt;/code&gt;, &lt;code&gt;3&lt;/code&gt;, and &lt;code&gt;4&lt;/code&gt; no matter which branches they happen to be&amp;nbsp;on.&amp;#8221;&lt;/p&gt;
-&lt;p&gt;We can do better than this by using some extra &lt;code&gt;hg log&lt;/code&gt; options.&lt;/p&gt;
-&lt;h3 id=&quot;the-correct-way&quot;&gt;The Correct&amp;nbsp;Way&lt;/h3&gt;
-&lt;p&gt;If we step back and think about the problem we&amp;#8217;re trying to solve, we can
-reduce it to a simple definition.  We want to see all changesets&amp;nbsp;that:&lt;/p&gt;
+&lt;p&gt;注意到这时 &lt;code&gt;hg slog&lt;/code&gt; 的输出包含了版本&lt;code&gt;5&lt;/code&gt;.
+这是个独立分支,当你从 版本&lt;code&gt;2&lt;/code&gt;升级到&lt;code&gt;tip&lt;/code&gt;(即版本&lt;code&gt;6&lt;/code&gt;)时,其实并没有包含版本&lt;code&gt;5&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;这是因为,你使用版本号来通告 Mercurial 进行处置的范畴.
+&lt;code&gt;1:4&lt;/code&gt; 的含义就是 &amp;#8220;&lt;code&gt;1&lt;/code&gt;, &lt;code&gt;2&lt;/code&gt;, &lt;code&gt;3&lt;/code&gt;, 到 &lt;code&gt;4&lt;/code&gt; 不论她们分布在什么分支上.&amp;#8221;&lt;/p&gt;
+&lt;p&gt;使用扩展参数,可以可以令 &lt;code&gt;hg log&lt;/code&gt; 更加精确.&lt;/p&gt;
+&lt;h3 id=&quot;_1&quot;&gt;当前方法&lt;/h3&gt;
+&lt;p&gt;如果我们退回来思考要解决的问题,&amp;nbsp;就可以缩小问题的定义.其实我们要查阅:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Are included by (i.e. ancestors of) the destination&amp;nbsp;revision.&lt;/li&gt;
-&lt;li&gt;Are &lt;strong&gt;not&lt;/strong&gt; included by the source&amp;nbsp;revision.&lt;/li&gt;
+&lt;li&gt;目标版本包含的变更(换而言之:继承的)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;除&lt;/strong&gt;了出发点版本已经包含的变更&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;To solve the first problem, we can use a combination of two options, &lt;code&gt;--rev&lt;/code&gt;
-and &lt;code&gt;--follow&lt;/code&gt;, like&amp;nbsp;so:&lt;/p&gt;
+&lt;p&gt;可以用两个参数 &lt;code&gt;--rev&lt;/code&gt; 和 &lt;code&gt;--follow&lt;/code&gt; 来解决第一个问题:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg slog --rev tip:0 --follow
 6 Fix a critical bug. (11 minutes ago by Steve Losh) tip
 4 Fix another bug. (20 minutes ago by Steve Losh) 
@@ -342,30 +326,33 @@ and &lt;code&gt;--follow&lt;/code&gt;, like&amp;nbsp;so:&lt;/p&gt;
 1 Add a simple feature. (21 minutes ago by Steve Losh) 
 0 Initial revision. (28 minutes ago by Steve Losh)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Notice how the extra changeset on the other branch isn&amp;#8217;t&amp;nbsp;shown.&lt;/p&gt;
-&lt;p&gt;Using &lt;code&gt;--rev DESTINATION:0&lt;/code&gt; with &lt;code&gt;--follow&lt;/code&gt; means &amp;#8220;show me every changeset
-that is an ancestor of &lt;code&gt;DESTINATION&lt;/code&gt;&amp;#8220;. Check out &lt;code&gt;hg help log&lt;/code&gt; for the details
-of what each option&amp;nbsp;does.&lt;/p&gt;
-&lt;p&gt;We&amp;#8217;ve still got one more thing to do &amp;#8212; we want to remove changesets that are
-already included in our current revision from the&amp;nbsp;list:&lt;/p&gt;
+&lt;p&gt;注意,这就没有包含其它分支上的变更了.&lt;/p&gt;
+&lt;p&gt;使用 &lt;code&gt;--rev DESTINATION:0&lt;/code&gt; 配合 &lt;code&gt;--follow&lt;/code&gt; 
+表达&amp;#8221;展示&lt;code&gt;DESTINATION&lt;/code&gt;所有继承的变更&amp;#8221;.
+用 &lt;code&gt;hg help log&lt;/code&gt; 来进一步了解所有参数细节.&lt;/p&gt;
+&lt;p&gt;现在就剩一件事儿了 &amp;#8212;&amp;nbsp;我们要清除当前版本已包含的变更:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg slog --rev tip:0 --follow --prune 2
 6 Fix a critical bug. (16 minutes ago by Steve Losh) tip
 4 Fix another bug. (25 minutes ago by Steve Losh) 
 3 Fix a bug. (25 minutes ago by Steve Losh)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;That&amp;#8217;s it! Changesets &lt;code&gt;6&lt;/code&gt;, &lt;code&gt;4&lt;/code&gt; and &lt;code&gt;3&lt;/code&gt; are the changesets that will take
-effect if we update from &lt;code&gt;2&lt;/code&gt; to &lt;code&gt;6&lt;/code&gt; in our sample&amp;nbsp;repository.&lt;/p&gt;
-&lt;p&gt;The general form for this command looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;p&gt;就酱! 在我们的仓库中,变更集&lt;code&gt;6&lt;/code&gt;,&lt;code&gt;4&lt;/code&gt;和&lt;code&gt;3&lt;/code&gt; 是从 &lt;code&gt;2&lt;/code&gt; 升级到 &lt;code&gt;6&lt;/code&gt; 需要历经的变更.&lt;/p&gt;
+&lt;p&gt;最终命令应该是这样的:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;hg slog --rev DESTINATION:0 --follow --prune SOURCE
+          |     |        ||     |       |     +-- 出发版本号
+          |     |        ||     |       +-- 剔除指定版本包含的变更集
+          |     |        ||     +-- 跟随变更路径,而不是无视分支
+          |     |        |+-- 对比到底部版本
+          |     |        +-- 连续版本
+          |     +-- 目标版本号
+          +-- 指定版本号范畴
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Of course you can use all the normal shortcuts for specifying revisions. If
-you want to see would be included in an update to &lt;code&gt;tip&lt;/code&gt; from the current
-revision you&amp;#8217;re working&amp;nbsp;on:&lt;/p&gt;
+&lt;p&gt;当然,你可以用版本的指代快捷形式.
+例如,要查阅从当前版本升级到 &lt;code&gt;tip&lt;/code&gt;(顶端)时包含的变更:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;hg slog -r tip:0 -fP .
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note: this command &lt;strong&gt;won&amp;#8217;t&lt;/strong&gt; work if you&amp;#8217;re updating &amp;#8220;backwards&amp;#8221;. It can only
-show you additional changesets that would be included &amp;#8212; it will not mention
-changesets that are included in &lt;code&gt;SOURCE&lt;/code&gt; but &lt;strong&gt;not&lt;/strong&gt; in &lt;code&gt;DESTINATION&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;注意: 这一命令在你向后升级时&lt;strong&gt;不&lt;/strong&gt;工作.那将仅显示你已经追加的变更
+&amp;#8212; 不会涉及 已经在 &lt;code&gt;SOURCE&lt;/code&gt; 中但&lt;strong&gt;不&lt;/strong&gt;在 &lt;code&gt;DESTINATION&lt;/code&gt; 中的变更.&lt;/p&gt;
     
     
    </content></entry><entry><title>Handling Binary Files in a Merge</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html/</id><content type="html">
@@ -443,27 +430,27 @@ update --clean&lt;/code&gt; for&amp;nbsp;this.&lt;/p&gt;
 &lt;/ul&gt;
     
     
-   </content></entry><entry><title>Reverting Dirty Files</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files.html/</id><content type="html">
+   </content></entry><entry><title>恢复整乱的文件</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-11-30-reverting-dirty-files.html/</id><content type="html">
        
     
-    &lt;p&gt;So you have a change you don&amp;#8217;t want to keep.&amp;nbsp;Example:&lt;/p&gt;
+    &lt;p&gt;好吧,你想放弃一些不靠谱的修订:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg status
 M fileone.txt
 M filetwo.txt
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Upon reviewing your changes you find out that &lt;code&gt;filetwo.txt&lt;/code&gt; is junk you want
-to get rid of. You &lt;em&gt;could&lt;/em&gt; go into the file and manually remove your changes,
-but Mercurial gives you a better tool for this: &lt;code&gt;hg revert&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;逐一打开这些文件手工修订回去,那绝对是坑爹的.
+所以,Mercurial 提供了专用命令: &lt;code&gt;hg revert&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg revert filetwo.txt
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you have many files that have changes (for example, you want to throw away
-all your work and start again), use the &lt;code&gt;--all&lt;/code&gt; command:&lt;/p&gt;
+&lt;p&gt;如果你要一次次放弃N个文件的变更,使用 &lt;code&gt;--all&lt;/code&gt; 开关:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg revert --all
 reverting fileone.txt
 reverting filetwo.txt
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This works like the &lt;code&gt;git reset --hard HEAD^&lt;/code&gt; command, for those of you
-familiar with&amp;nbsp;git.&lt;/p&gt;
+&lt;p&gt;对于 Git 宅而言,这一命令效果同 &lt;code&gt;git reset --hard HEAD^&lt;/code&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;译注&lt;/strong&gt;:
+这个技巧的前提是你还没有用 &lt;code&gt;hg ci&lt;/code&gt; 将变更检入仓库,
+如果你想恢复几个版本前的文件状态(多数情况下,是几个特定的文件) 那就要使用 &lt;code&gt;hg merge&lt;/code&gt; 小心的对指定文件的指定版本进行合并了&amp;#8230;&lt;/p&gt;
     
     
    </content></entry><entry><title>Combining Repositories</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html"/><updated>2009-11-17T00:00:00Z</updated><published>2009-11-17T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html/</id><content type="html">

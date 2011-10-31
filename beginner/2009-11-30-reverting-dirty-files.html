@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Reverting Dirty Files / hg tip</title>
+        <title>恢复整乱的文件 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Reverting Dirty Files</h2>
+                    <h2>恢复整乱的文件</h2>
                 
                 
     <p id="tip-info">
@@ -71,24 +71,24 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>So you have a change you don&#8217;t want to keep.&nbsp;Example:</p>
+    <p>好吧,你想放弃一些不靠谱的修订:</p>
 <pre><code>$ hg status
 M fileone.txt
 M filetwo.txt
 </code></pre>
-<p>Upon reviewing your changes you find out that <code>filetwo.txt</code> is junk you want
-to get rid of. You <em>could</em> go into the file and manually remove your changes,
-but Mercurial gives you a better tool for this: <code>hg revert</code></p>
+<p>逐一打开这些文件手工修订回去,那绝对是坑爹的.
+所以,Mercurial 提供了专用命令: <code>hg revert</code>:</p>
 <pre><code>$ hg revert filetwo.txt
 </code></pre>
-<p>If you have many files that have changes (for example, you want to throw away
-all your work and start again), use the <code>--all</code> command:</p>
+<p>如果你要一次次放弃N个文件的变更,使用 <code>--all</code> 开关:</p>
 <pre><code>$ hg revert --all
 reverting fileone.txt
 reverting filetwo.txt
 </code></pre>
-<p>This works like the <code>git reset --hard HEAD^</code> command, for those of you
-familiar with&nbsp;git.</p>
+<p>对于 Git 宅而言,这一命令效果同 <code>git reset --hard HEAD^</code> </p>
+<p><strong>译注</strong>:
+这个技巧的前提是你还没有用 <code>hg ci</code> 将变更检入仓库,
+如果你想恢复几个版本前的文件状态(多数情况下,是几个特定的文件) 那就要使用 <code>hg merge</code> 小心的对指定文件的指定版本进行合并了&#8230;</p>
     
     <!-- Hyde::Article::End -->
     
@@ -102,7 +102,7 @@ familiar with&nbsp;git.</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>You&#8217;ve made some changes you don&#8217;t want to commit, here&#8217;s how to clear&nbsp;them&nbsp;out.</p>
+                        <p>可能无心中你提交了一些变更,肿么办?</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

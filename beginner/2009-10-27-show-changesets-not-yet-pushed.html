@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Show Changesets Not Yet Pushed / hg tip</title>
+        <title>显示末推送的变更集 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Show Changesets Not Yet Pushed</h2>
+                    <h2>显示末推送的变更集</h2>
                 
                 
     <p id="tip-info">
@@ -71,12 +71,9 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Whenever you commit something to Mercurial that changeset normally stays on
-your machine until you explicitly push it on another server. Unlike a
-centralized system like Subversion, the push is a separate step, but sometimes
-you&#8217;ll want to know exactly what changesets you&#8217;re pushing before you send all
-your changes to the&nbsp;world.</p>
-<p>Mercurial has a feature that can tell you this: the <code>outgoing</code> command.&nbsp;Example:</p>
+    <p>每当你向 Mercurial 检入了一些修订时,在推送到其它仓库前,只存储在你的本地空间中.
+不象其它中央式系统,比如说 <span class="caps">SVN</span>,推送是个显式操作,&nbsp;所以,有些时候,你想知道会有哪些变更发布出来.</p>
+<p>Mercurial 使用 <code>outgoing</code> 命令可以向你汇报这点:</p>
 <pre><code>$ hg outgoing default
 comparing with ssh://hg@bitbucket.org/rwilcox/somehgrepo/
 searching for changes
@@ -95,8 +92,8 @@ user:        Ryan Wilcox &lt;rwilcox@wilcoxd.com&gt;
 date:        Sat Oct 24 21:06:45 2009 -0400
 summary:     last change
 </code></pre>
-<p>The parameter to passed to the outgoing command is the repository path you
-want to examine. The &#8220;default&#8221; path is assumed if you don&#8217;t specify&nbsp;one.</p>
+<p><code>outgoing</code> 命令需要的参数是你想探测的仓库路径.
+上述的 &#8220;default&#8221; 只是个假设,正常使用时应该指向准备推送的仓库&nbsp;<span class="caps">URL</span>.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -110,7 +107,7 @@ want to examine. The &#8220;default&#8221; path is assumed if you don&#8217;t sp
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Show what changesets you&#8217;ve created since last time&nbsp;you&nbsp;pushed.</p>
+                        <p>怎么查阅那些已经创建还未推送的变更集?</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

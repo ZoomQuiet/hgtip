@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Finding Uncommon Changesets / hg tip</title>
+        <title>找出不寻常的变更集 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Finding Uncommon Changesets</h2>
+                    <h2>找出不寻常的变更集</h2>
                 
                 
     <p id="tip-info">
@@ -71,21 +71,14 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>This post was inspired by <a href="http://www.selenic.com/pipermail/mercurial-devel/2009-December/017417.html">an email</a> on the <a href="http://mercurial.selenic.com/wiki/MailingLists">mercurial-devel mailing
-list</a>.</p>
-<p>The question in a nutshell is: how can you determine which changesets are
-included in revision <code>X</code> but <em>not</em> included in revision <code>Y</code>? This could be
-useful if you&#8217;re updating a piece of software you use and want to know
-everything that changed between the old revision and the new&nbsp;one.</p>
-<p>It sounds like a simple task, but there are a few tricky things that you need
-to watch out&nbsp;for.</p>
-<p>Note: In this tip I&#8217;ll be using the <a href="/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/">shortlog alias</a> instead of the
-normal <code>hg log</code> command to make the output more readable. Everything will work
-exactly the same with <code>hg log</code> (because <code>hg slog</code> is just an alias to <code>hg log</code>
-with an extra template), so feel free to use that instead if you prefer more&nbsp;detail.</p>
-<h3 id="the-simple-and-incorrect-way">The Simple (and Incorrect)&nbsp;Way</h3>
-<p>Let&#8217;s start with the simplest way to list revisions: the <code>--rev</code> option. Say
-we have a simple repository whose graph looks like&nbsp;this:</p>
+    <p>这一技巧是从 <a href="http://mercurial.selenic.com/wiki/MailingLists">mercurial-devel 邮件列表</a> 的<a href="http://www.selenic.com/pipermail/mercurial-devel/2009-December/017417.html">讨论</a>中得到的灵感.</p>
+<p>问题的要点是:你是否能指出哪些变更可以包含在版本 <code>X</code> 而不包含在 <code>Y</code> 版本中?&nbsp;这通常在你需要明确两个软件版本中确切的差异时很有用.</p>
+<p>这看起来很简单,但是有几个方面你都得同时考虑到.</p>
+<p>注意:我将运用 <a href="/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/">精简日志</a> 来使默认的 <code>hg log</code> 输出更加可读.
+虽然操作使用的是 <code>hg log</code> (其实,已经用 <code>hg  slog</code> 配置了别名来替代 <code>hg log</code>),
+所以,面对精简日志格式,请放轻松&nbsp;;-)</p>
+<h3 id="">简单方法(不完美的)</h3>
+<p>先从简单的方式, 用 <code>--rev</code> 来列出版本,某仓库使用图形日志时的输出可能是:</p>
 <pre><code>$ hg glog
 o  4 Fix another bug. (6 seconds ago by Steve Losh) tip 
 |
@@ -97,18 +90,14 @@ o  1 Add a simple feature. (40 seconds ago by Steve Losh)
 |
 o  0 Initial revision. (7 minutes ago by Steve Losh)
 </code></pre>
-<p>If you&#8217;re currently at revision <code>2</code> and want to know what changes would be
-included if you updated to <code>tip</code>, you might use something like&nbsp;this:</p>
+<p>如果你目前在 版本<code>2</code>,想知道如果升级到 <code>tip</code> 得包含哪些变更集,先尝试:</p>
 <pre><code> $ hg slog --rev 2:tip
  2 Add another simple feature. (5 minutes ago by Steve Losh) 
  3 Fix a bug. (5 minutes ago by Steve Losh) 
  4 Fix another bug. (5 minutes ago by Steve Losh) tip
 </code></pre>
-<p>You can see that the output includes revision <code>2</code>, which really shouldn&#8217;t be
-listed because it&#8217;s the one you&#8217;re already at. This probably isn&#8217;t a big deal
-because you can just ignore&nbsp;it.</p>
-<p>However, this approach doesn&#8217;t work if you have multiple branches in the
-repository that are being worked on simultaneously. For&nbsp;example:</p>
+<p>会见到输出包含了 版本<code>2</code>,实话说不应该列出来,不过,问题不大,你可以直接忽略.</p>
+<p>而且,这种方法,在你有多个分支时就囧了:</p>
 <pre><code>$ hg glog
 @  6 Fix a critical bug. (1 second ago by Steve Losh) tip 
 |
@@ -131,22 +120,18 @@ $ hg slog --rev 2:tip
 5 Start the rewrite of the UI. (54 seconds ago by Steve Losh) 
 6 Fix a critical bug. (31 seconds ago by Steve Losh) tip
 </code></pre>
-<p>Notice that the output of the <code>hg slog</code> command included changeset <code>5</code>. It&#8217;s
-on a separate branch, so updating from <code>2</code> to <code>tip</code> (<code>6</code>) won&#8217;t actually
-include changes from <code>5</code>.</p>
-<p>This happens because when you specify a range of revisions Mercurial will step
-through them in the revision-number order. That means saying <code>1:4</code> really
-means &#8220;<code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code> no matter which branches they happen to be&nbsp;on.&#8221;</p>
-<p>We can do better than this by using some extra <code>hg log</code> options.</p>
-<h3 id="the-correct-way">The Correct&nbsp;Way</h3>
-<p>If we step back and think about the problem we&#8217;re trying to solve, we can
-reduce it to a simple definition.  We want to see all changesets&nbsp;that:</p>
+<p>注意到这时 <code>hg slog</code> 的输出包含了版本<code>5</code>.
+这是个独立分支,当你从 版本<code>2</code>升级到<code>tip</code>(即版本<code>6</code>)时,其实并没有包含版本<code>5</code>.</p>
+<p>这是因为,你使用版本号来通告 Mercurial 进行处置的范畴.
+<code>1:4</code> 的含义就是 &#8220;<code>1</code>, <code>2</code>, <code>3</code>, 到 <code>4</code> 不论她们分布在什么分支上.&#8221;</p>
+<p>使用扩展参数,可以可以令 <code>hg log</code> 更加精确.</p>
+<h3 id="_1">当前方法</h3>
+<p>如果我们退回来思考要解决的问题,&nbsp;就可以缩小问题的定义.其实我们要查阅:</p>
 <ul>
-<li>Are included by (i.e. ancestors of) the destination&nbsp;revision.</li>
-<li>Are <strong>not</strong> included by the source&nbsp;revision.</li>
+<li>目标版本包含的变更(换而言之:继承的)</li>
+<li><strong>除</strong>了出发点版本已经包含的变更</li>
 </ul>
-<p>To solve the first problem, we can use a combination of two options, <code>--rev</code>
-and <code>--follow</code>, like&nbsp;so:</p>
+<p>可以用两个参数 <code>--rev</code> 和 <code>--follow</code> 来解决第一个问题:</p>
 <pre><code>$ hg slog --rev tip:0 --follow
 6 Fix a critical bug. (11 minutes ago by Steve Losh) tip
 4 Fix another bug. (20 minutes ago by Steve Losh) 
@@ -155,30 +140,33 @@ and <code>--follow</code>, like&nbsp;so:</p>
 1 Add a simple feature. (21 minutes ago by Steve Losh) 
 0 Initial revision. (28 minutes ago by Steve Losh)
 </code></pre>
-<p>Notice how the extra changeset on the other branch isn&#8217;t&nbsp;shown.</p>
-<p>Using <code>--rev DESTINATION:0</code> with <code>--follow</code> means &#8220;show me every changeset
-that is an ancestor of <code>DESTINATION</code>&#8220;. Check out <code>hg help log</code> for the details
-of what each option&nbsp;does.</p>
-<p>We&#8217;ve still got one more thing to do &#8212; we want to remove changesets that are
-already included in our current revision from the&nbsp;list:</p>
+<p>注意,这就没有包含其它分支上的变更了.</p>
+<p>使用 <code>--rev DESTINATION:0</code> 配合 <code>--follow</code> 
+表达&#8221;展示<code>DESTINATION</code>所有继承的变更&#8221;.
+用 <code>hg help log</code> 来进一步了解所有参数细节.</p>
+<p>现在就剩一件事儿了 &#8212;&nbsp;我们要清除当前版本已包含的变更:</p>
 <pre><code>$ hg slog --rev tip:0 --follow --prune 2
 6 Fix a critical bug. (16 minutes ago by Steve Losh) tip
 4 Fix another bug. (25 minutes ago by Steve Losh) 
 3 Fix a bug. (25 minutes ago by Steve Losh)
 </code></pre>
-<p>That&#8217;s it! Changesets <code>6</code>, <code>4</code> and <code>3</code> are the changesets that will take
-effect if we update from <code>2</code> to <code>6</code> in our sample&nbsp;repository.</p>
-<p>The general form for this command looks like&nbsp;this:</p>
+<p>就酱! 在我们的仓库中,变更集<code>6</code>,<code>4</code>和<code>3</code> 是从 <code>2</code> 升级到 <code>6</code> 需要历经的变更.</p>
+<p>最终命令应该是这样的:</p>
 <pre><code>hg slog --rev DESTINATION:0 --follow --prune SOURCE
+          |     |        ||     |       |     +-- 出发版本号
+          |     |        ||     |       +-- 剔除指定版本包含的变更集
+          |     |        ||     +-- 跟随变更路径,而不是无视分支
+          |     |        |+-- 对比到底部版本
+          |     |        +-- 连续版本
+          |     +-- 目标版本号
+          +-- 指定版本号范畴
 </code></pre>
-<p>Of course you can use all the normal shortcuts for specifying revisions. If
-you want to see would be included in an update to <code>tip</code> from the current
-revision you&#8217;re working&nbsp;on:</p>
+<p>当然,你可以用版本的指代快捷形式.
+例如,要查阅从当前版本升级到 <code>tip</code>(顶端)时包含的变更:</p>
 <pre><code>hg slog -r tip:0 -fP .
 </code></pre>
-<p>Note: this command <strong>won&#8217;t</strong> work if you&#8217;re updating &#8220;backwards&#8221;. It can only
-show you additional changesets that would be included &#8212; it will not mention
-changesets that are included in <code>SOURCE</code> but <strong>not</strong> in <code>DESTINATION</code>.</p>
+<p>注意: 这一命令在你向后升级时<strong>不</strong>工作.那将仅显示你已经追加的变更
+&#8212; 不会涉及 已经在 <code>SOURCE</code> 中但<strong>不</strong>在 <code>DESTINATION</code> 中的变更.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -192,8 +180,7 @@ changesets that are included in <code>SOURCE</code> but <strong>not</strong> in 
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>How can you tell which changesets are included in revision <code>X</code> but <strong>not</strong> in
-<code>Y</code>?</p>
+                        <p>你能指出那个变更包含在版本 <code>X</code> 但是<strong>不</strong>包含在 <code>Y</code> 中?</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
