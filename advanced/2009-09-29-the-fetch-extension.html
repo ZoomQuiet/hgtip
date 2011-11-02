@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>The Fetch Extension / hg tip</title>
+        <title>Fetch 扩展 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>The Fetch Extension</h2>
+                    <h2>Fetch 扩展</h2>
                 
                 
     <p id="tip-info">
@@ -71,31 +71,26 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Users who have recently migrated from Git are often surprised by the behaviour
-of <code>hg pull</code>. Whereas <code>git pull</code> updates the working directory, automatically
-merges and commits, <code>hg pull</code> just adds the remote changesets to your local
-repo without touching your working&nbsp;directory.</p>
-<p>9 times out of 10, you&#8217;ll want the auto-merge style. Fortunately, it&#8217;s not far
-away. <a href="2009-09-30-configuring-mercurial.html">Edit your <code>~/.hgrc</code> file</a> and add&nbsp;this:</p>
+    <p>git 用户经常被 <code>hg pull</code> 郁闷住.
+因为 <code>git pull</code> 会自动更新工作目录,完成合并及检入,
+<code>hg pull</code> 仅仅是将远程变更集追加到本地仓库中而已,对工作目录没有作任何操作.</p>
+<p>现在不用郁闷了,<a href="2009-09-30-configuring-mercurial.html">修订你的配置 <code>~/.hgrc</code> </a>&nbsp;:</p>
 <pre><code>[extensions]
 hgext.fetch =
 </code></pre>
-<p>Now, you can go from&nbsp;this:</p>
+<p>现在,你可以将以下操作:</p>
 <pre><code>$ hg pull
 $ hg update remote_head
 $ hg merge local_head
 $ hg commit -m "Merged."
 </code></pre>
-<p>To&nbsp;this:</p>
+<p>合并为一次:</p>
 <pre><code>$ hg fetch
 </code></pre>
-<p>By default, <code>fetch</code> will use the head of the pulled remote changes as the
-first parent of the merge, and the head of your local changes as the second
-parent. You can make it perform the opposite by&nbsp;using:</p>
+<p>默认情况下, <code>fetch</code> 将使用远程变更集作为合并的第一父版辈,本地的变更作为第二父辈.&nbsp;当然,你可以反过来使用:</p>
 <pre><code>$ hg fetch --switch-parent
 </code></pre>
-<p>For more information, consult the <a href="http://mercurial.selenic.com/wiki/FetchExtension">wiki documentation</a> and the
-the output of <code>hg help fetch</code>.</p>
+<p>更多信息参考 <a href="http://mercurial.selenic.com/wiki/FetchExtension">官方维基</a> 以及内置手册: <code>hg help fetch</code>.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -109,8 +104,7 @@ the output of <code>hg help fetch</code>.</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>If you&#8217;ve migrated from Git and miss the auto-merging action of <code>git pull</code>,
-this might be the extension you&#8217;re&nbsp;looking&nbsp;for.</p>
+                        <p>如果是从git 迁移过来,一定会很想念会自动合并操作的 <code>git pull</code>,&nbsp;其实有扩展可以作这事儿的.</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

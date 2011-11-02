@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Create a Git Mirror / hg tip</title>
+        <title>使用 Git 镜像 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Create a Git Mirror</h2>
+                    <h2>使用 Git 镜像</h2>
                 
                 
     <p id="tip-info">
@@ -71,77 +71,68 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Of all the distributed revision control systems like Mercurial,
-<a href="http://git-scm.com">git</a> is probably the most popular. If you use Mercurial
-for a project you can quickly and easily make a git mirror of your project so
-that git users can&nbsp;contribute!</p>
-<h3 id="install-hg-git">Install&nbsp;hg-git</h3>
-<p>First, you&#8217;ll need to download the <a href="http://hg-git.github.com/">hg-git</a>&nbsp;plugin:</p>
+    <p>相对其它类似Mercurial 的分布式版本控制系统,
+<a href="http://git-scm.com">git</a> 是最流行的一种.
+如果你的项目使用 Mercurial,
+可以轻松的建立一个 git 镜像仓库,这样,那些 git&nbsp;用户就可以对你的项目进行方便的贡献了!</p>
+<h3 id="hg-git">安装&nbsp;hg-git</h3>
+<p>首先,你得下载 <a href="http://hg-git.github.com/">hg-git</a>&nbsp;插件:</p>
 <pre><code>easy_install dulwich
 hg clone http://bitbucket.org/durin42/hg-git/
 </code></pre>
-<p>Now <a href="2009-09-30-configuring-mercurial.html">edit your <code>~/.hgrc</code> file</a> to&nbsp;contain:</p>
+<p><strong>提示:</strong> 当前Python&nbsp;环境有更好的模块管理系统,可以使用一行命令完成安装:</p>
+<pre><code># pip install hg-git
+</code></pre>
+<p>现在<a href="2009-09-30-configuring-mercurial.html">修订你的 <code>~/.hgrc</code> </a>&nbsp;包含:</p>
 <pre><code>[extensions]
 hggit = /path/to/hg-git
 </code></pre>
-<h3 id="create-a-github-account">Create a GitHub&nbsp;Account</h3>
-<p>You&#8217;ll need a place to put your git mirror, and <a href="http://github.com/">GitHub</a>
-is perfect for that. Go ahead and <a href="http://github.com/plans">sign up</a> for a
-GitHub account if you don&#8217;t already have&nbsp;one.</p>
-<h3 id="create-a-repository-on-github">Create a Repository on&nbsp;GitHub</h3>
-<p>Now that you have a GitHub account, you&#8217;ll need to create a repository with
-the &#8220;New Repository&#8221;&nbsp;button.</p>
-<p>Once you create a new repository, you&#8217;ll be looking at a page that looks like&nbsp;this:</p>
+<h3 id="github">创建 GitHub&nbsp;帐号</h3>
+<p>你肯定需要有地儿部署你的git 镜像,<a href="http://github.com/">GitHub</a> 是最好的选择.
+到 GitHub 的<a href="http://github.com/plans">注册</a> 页面先创建个帐号吧.&nbsp;当然已经有了最好.</p>
+<h3 id="github_1">在 GitHub&nbsp;创建仓库</h3>
+<p>使用 &#8220;New Repository&#8221;&nbsp;按钮创建仓库先.</p>
+<p>一但创建了仓库,你应该可以见到如下页面:</p>
 <div class="screenshot">
     <a href="http://www.flickr.com/photos/sjl7678/4091674740/" title="GitHub New Repo Sample by Steve Losh, on Flickr"><img src="http://farm3.static.flickr.com/2580/4091674740_f6d488f9a5.jpg" width="432" height="500" alt="GitHub New Repo Sample" /></a>
 </div>
 
-<p>See the <code>git@github.com:username/project.git</code> <span class="caps">URL</span>? Remember that, because
-that&#8217;s what you&#8217;ll need to use when you push your&nbsp;mirror.</p>
-<h3 id="push-your-project">Push Your&nbsp;Project</h3>
-<p>Now that you&#8217;ve installed <code>hg-git</code> and created a repository for your project
-on GitHub, you need to push your Mercurial repository to GitHub. First, add
-the git <span class="caps">URL</span> to your Mercurial repository by editing the <code>.hg/hgrc</code> file in
-your project to&nbsp;contain:</p>
+<p>的到 <code>git@github.com:username/project.git</code> ?&nbsp;用你的帐号名,替换对应用户名,这将用以推送镜像仓库.</p>
+<h3 id="">发布你的项目</h3>
+<p>现在安装好了 <code>hg-git</code> 并创建了对应的 GitHub 镜像仓库,你需要将己有的 Mercurial 仓库推送进 GitHub.
+首先,要将 git 的仓库地址增订到你的 Mercurial 仓库中的 <code>.hg/hgrc</code> 配置中:</p>
 <pre><code>[paths]
 git = git+ssh://git@github.com/username/project.git
 </code></pre>
-<p><strong><span class="caps">IMPORTANT</span> <span class="caps">NOTE</span>:</strong> You will need to replace the <code>:</code> after <code>github.com</code> with a
-<code>/</code> (forward slash). This is necessary because of how Mercurial handles
-repository&nbsp;paths!</p>
-<p>You&#8217;ll also need to replace <code>username</code> and <code>project</code> with the appropriate
-values, of&nbsp;course.</p>
-<p>Now you just need to push to the <code>git</code> path to create your&nbsp;mirror:</p>
+<p><strong>重要提示:</strong> 你得用<code>/</code>(正斜杠)来替代<code>github.com</code> 后的<code>:</code>.因为这是 Mercurial&nbsp;的仓库访问格式.</p>
+<p>当然,你也得将 <code>username</code> 和 <code>project</code> 根据之前的 git&nbsp;仓库信息进行替换.</p>
+<p>现在,你要向 <code>git</code> 推送,以便创建镜像:</p>
 <pre><code>hg push git
 </code></pre>
-<p>This will take a few seconds, especially if you have a big repository. Once it
-finishes you&#8217;ll have a 100% functional git mirror at
-http://github.com/username/project/. Git users can clone your project by
-running <code>git clone git://github.com/username/project.git</code> and might never even
-realize that you use&nbsp;Mercurial.</p>
-<h3 id="accepting-contributions">Accepting&nbsp;Contributions</h3>
-<p>Creating a mirror for git users to clone is very nice, but eventually (if your
-project is at all interesting) someone is going to send you a pull request on&nbsp;GitHub.</p>
-<p><code>hg-git</code> makes it easy to deal with contributions from git users. First, add
-the contributor&#8217;s fork to your projects&#8217;&nbsp;paths:</p>
+<p>如果你的仓库很太,这将消耗些时间.
+一担正常完成,你的Mercurial 仓库就拥有了一个 100% 的git仓库镜像,
+git 用户可以使用 <code>git clone git://github.com/username/project.git</code> 来克隆你的化,加入开发,而没有意识到你其实在用&nbsp;mercurial.</p>
+<h3 id="_1">接受贡献</h3>
+<p>为 git 用户创建仓库镜像很简单,
+(如果你的项目很有趣)终究会有人在GitHub 里向你发出下拉申请的,这时,如何简单的将 git 用户的修订,下拉到 Mercurial&nbsp;仓库来?</p>
+<p><code>hg-git</code> 让一切轻松自在.
+首先要将贡献者的分支仓库追加到你的项目路径中(增补 <code>.hg/hgrc</code>):</p>
 <pre><code>[paths]
 git = git+ssh://git@github.com/username/project.git
 contributor = git+ssh://git@github.com/contributor_username/project.git
 </code></pre>
-<p>Again, <strong>make sure you replace the <code>:</code> after <code>github.com</code> with a <code>/</code> (forward&nbsp;slash)!</strong></p>
-<p>Then pull their changes into your Mercurial&nbsp;repository:</p>
+<p>再次提醒, <strong>将<code>github.com</code>后的<code>:</code>用<code>/</code> (正斜杠)替代!</strong></p>
+<p>然后就可以 pull 那些变更集到你的 Mercurial&nbsp;仓库:</p>
 <pre><code>hg pull contributor
 </code></pre>
-<p>You can use <a href="/tips/beginner/2009-10-03-stay-sane-with-graphlog/">graphlog</a> to
-see exactly what your repository looks like at this point (and if you need to&nbsp;merge).</p>
-<p>Merge if you need (and/or want) to merge, and then push their contributions to
-your main Mercurial repository and your git&nbsp;mirror:</p>
+<p>你可以使用 <a href="/tips/beginner/2009-10-03-stay-sane-with-graphlog/">graphlog</a>&nbsp;来非常直观的观察(如果需要合并时).</p>
+<p>合并你需要的(想要的), 再将这些贡献推送到你的Mercurial 主仓库以及 git&nbsp;镜像仓库:</p>
 <pre><code>hg push
 hg push git
 </code></pre>
-<p>That covers the basics! Things can get more complicated if you&#8217;ve got a
-heavily branching workflow, but this tip should get your on your way to
-accepting patches from git&nbsp;users.</p>
+<p>以上是基本操作!
+如果你有很变态的多分支开发流程,那么事儿就洧这么简单,
+不过,当前小贴士足以使你用习惯的方式来接受来自 git&nbsp;用户的贡献.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -155,8 +146,7 @@ accepting patches from git&nbsp;users.</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>You&#8217;ve chosen Mercurial, but lots of other people prefer git.  Make it easy
-for them to contribute to&nbsp;your&nbsp;project.</p>
+                        <p>我们选择了 Mercurial ,不过另外有很多人使用&nbsp;git.&nbsp;可以简单的让他们也对你的仓库贡献.</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

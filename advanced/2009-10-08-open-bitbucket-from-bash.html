@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Open BitBucket from Bash / hg tip</title>
+        <title>从Bash 中打开BitBucket / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Open BitBucket from Bash</h2>
+                    <h2>从Bash 中打开BitBucket</h2>
                 
                 
     <p id="tip-info">
@@ -71,49 +71,44 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>If a lot of the repositories you work with are on <a href="http://bitbucket.org/">BitBucket</a>, you probably
-find yourself going to their project pages pretty often. You can avoid having
-to manually open a browser and type in a <span class="caps">URL</span> by adding a small function to
-your <code>~/.bashrc</code> file.</p>
-<h3 id="for-mac-os-x">For Mac <span class="caps">OS</span>&nbsp;X</h3>
-<p>Add this to your <code>~/.bashrc</code> file if you use <span class="caps">OS</span>&nbsp;X:</p>
+    <p>可能你有很多仓库托管在 <a href="http://bitbucket.org/">BitBucket</a>,
+可能你发觉经常要访问她们的页面.
+其实,只要在 <code>~/.bashrc</code> 小小配置一下,就可以避免在浏览器里输入网址.</p>
+<h3 id="mac-os-x">对 Mac <span class="caps">OS</span>&nbsp;X</h3>
+<p>追加以下函式到你的 <code>~/.bashrc</code> 中:</p>
 <pre><code>bitb() {
     local P="$(hg paths 2&gt;/dev/null | grep 'bitbucket.org' | head -1)"
     local URL="$(echo $P | sed -e's|.*\(bitbucket.org.*\)|http://\1|')"
     [[ -n $URL ]] &amp;&amp; open $URL || echo "No BitBucket path found!"
 }
 </code></pre>
-<p>Once you&#8217;ve added it, either open a new Terminal window or run <code>source
-~/.bashrc</code>. From now on you can use <code>bitb</code> to open up the BitBucket page for
-the repository you&#8217;re currently working&nbsp;in.</p>
-<h3 id="for-cygwin-on-windows">For Cygwin on&nbsp;Windows</h3>
-<p>Add this to your <code>~/.bashrc</code> file if you use&nbsp;Cygwin:</p>
+<p>完成追加后,打开新终端窗口,或是执行 <code>source ~/.bashrc</code> 来生效.
+然后,你在当前工作目录中,就可以使用 <code>bitb</code> 来打开 BitBucket&nbsp;中对应的页面了.</p>
+<h3 id="windows-cygwin">对 Windows 中的&nbsp;Cygwin</h3>
+<p>追加以下函式到你的 <code>~/.bashrc</code> 中:</p>
 <pre><code>bitb() {
     local P="$(hg paths 2&gt;/dev/null | grep 'bitbucket.org' | head -1)"
     local URL="$(echo $P | sed -e's|.*\(bitbucket.org.*\)|http://\1|')"
     [[ -n $URL ]] &amp;&amp; cygstart $URL || echo "No BitBucket path found!"
 }
 </code></pre>
-<p>Once you&#8217;ve added it, either open a new Cygwin window or run <code>source
-~/.bashrc</code>. From now on you can use <code>bitb</code> to open up the BitBucket page for
-the repository you&#8217;re currently working&nbsp;in.</p>
-<h3 id="for-linux">For&nbsp;Linux</h3>
-<p>Add this to your <code>~/.bashrc</code> file if you use&nbsp;Linux:</p>
+<p>完成追加后,打开新Cygwin窗口,或是执行 <code>source ~/.bashrc</code> 来生效.
+然后,你在当前工作目录中,就可以使用 <code>bitb</code> 来打开 BitBucket&nbsp;中对应的页面了.</p>
+<h3 id="linux">对&nbsp;Linux</h3>
+<p>追加以下函式到你的 <code>~/.bashrc</code> 中:</p>
 <pre><code>bitb() {
     local P="$(hg paths 2&gt;/dev/null | grep 'bitbucket.org' | head -1)"
     local URL="$(echo $P | sed -e's|.*\(bitbucket.org.*\)|http://\1|')"
     [[ -n $URL ]] &amp;&amp; /path/to/your/browser $URL || echo "No BitBucket path found!"
 }
 </code></pre>
-<p>Replace <code>/path/to/your/browser</code> with the correct path to your web&nbsp;browser.</p>
-<p>Once you&#8217;ve added it, either open a new terminal window or run <code>source
-~/.bashrc</code>. From now on you can use <code>bitb</code> to open up the BitBucket page for
-the repository you&#8217;re currently working&nbsp;in.</p>
-<h3 id="for-others">For&nbsp;Others</h3>
-<p>If you use an <span class="caps">OS</span> not listed here, the important line that you might need to
-change is the last one. Replace <code>open</code> in the <span class="caps">OS</span> X example with whatever you
-use to open URLs from the command line, then add your change as a comment here
-so other people can use&nbsp;it!</p>
+<p>用你实际的浏览器路径来替换 <code>/path/to/your/browser</code> .</p>
+<p>完成追加后,打开新终端窗口,或是执行 <code>source ~/.bashrc</code> 来生效.
+然后,你在当前工作目录中,就可以使用 <code>bitb</code> 来打开 BitBucket&nbsp;中对应的页面了.</p>
+<h3 id="os-for-others">对其它<span class="caps">OS</span> For&nbsp;Others</h3>
+<p>如果你的<span class="caps">OS</span> 不在上述情况,
+可能需要手工修订最后一行.
+参照 <span class="caps">OS</span> X 例子中的脚本,把 <code>open</code> 替换成你在命令行中可以打开<span class="caps">URL</span> 的操作,&nbsp;成功后,请通过本页的评注分享出来,令所有人受益rz&#8230;</p>
     
     <!-- Hyde::Article::End -->
     
@@ -127,7 +122,7 @@ so other people can use&nbsp;it!</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Tired of manually firing up a web browser to go a repository&#8217;s&nbsp;BitBucket&nbsp;page?</p>
+                        <p>厌倦了从浏览器中打开&nbsp;BitBucket?</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Configuring User Auth for HTTPS / hg tip</title>
+        <title>为HTTPS配置认证 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Configuring User Auth for HTTPS</h2>
+                    <h2>为HTTPS配置认证</h2>
                 
                 
     <p id="tip-info">
@@ -71,32 +71,25 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>If you use <span class="caps">HTTPS</span> as your chosen method of pushing/pulling to a repo, you&#8217;ll
-find that every time you do so, Mercurial will ask for your credentials.
-Fortunately, a simple piece of configuration in your <code>~/.hgrc</code> file can fix&nbsp;this.</p>
-<p><strong>Note</strong>: This is a new feature that was introduced in Mercurial 1.3. If you
-have an older version you&#8217;ll need to update to use this&nbsp;tip!</p>
-<p><strong>Note</strong>: This tip involves putting your username and password in plain text
-in your <code>~/.hgrc</code>. It&#8217;s usually a lot more secure to&nbsp;either:</p>
-<ul>
-<li>Use <span class="caps">SSH</span> and <code>ssh-agent</code> (see <a href="http://github.com/guides/how-to-not-have-to-type-your-password-for-every-push">this article</a>),&nbsp;or</li>
-<li>Enter your password every&nbsp;time.</li>
-</ul>
-<p>If you are not <strong>100%</strong> sure that you are the only one with access to your
-<code>~/.hgrc</code> file, then stop&nbsp;now.</p>
-<p>The <code>[auth]</code> section in your <code>~/.hgrc</code> file contains credentials for <span class="caps">HTTP</span>
-authentication. Each set of credentials can be given an arbitrary name; for
-the purposes of this tip we&#8217;ll assume you&#8217;re using BitBucket to host your
-repository, so this set of credentials will be called <code>bb</code>.</p>
-<p><a href="2009-09-30-configuring-mercurial.html">Add the following to your <code>~/.hgrc</code></a>:</p>
+    <p>如果你选择通过 <span class="caps">HTTPS</span> 界面来对仓库进行 push/pull,
+会发觉每次 Mercurial 都要对你进行认证.
+其实在 <code>~/.hgrc</code> 中简单的配置一下,就可以避免.</p>
+<p><strong>注意</strong>: 这是 Mercurial 1.3&nbsp;之后的新特性,要享受这一贴士,得先升级.</p>
+<p><strong>注意</strong>: 这招其实会在配置文件 <code>~/.hgrc</code> 中明文记录你的用户名和口令.通常推荐使用更加安全的:
+<em> 使用 <span class="caps">SSH</span> 或是 <code>ssh-agent</code> (参考 <a href="http://github.com/guides/how-to-not-have-to-type-your-password-for-every-push">this article</a>)
+</em>&nbsp;或是,每次手工输入口令!</p>
+<p>如果你不能 <strong>100%</strong> 确信 <code>~/.hgrc</code> 只有你可以接触到,那么表用这招.</p>
+<p>在 <code>~/.hgrc</code> 文件中 <code>[autor]</code> 那节,可以包含多个 <span class="caps">HTTP</span> 认证声明.
+每个认证参数可以指定任意的用户名.
+假定使用 BitBucket 服务, 那么我们配置 <code>bb</code> 的认证.</p>
+<p><a href="2009-09-30-configuring-mercurial.html">在 <code>~/.hgrc</code> 中追加</a>:</p>
 <pre><code>[auth]
 bb.prefix = https://bitbucket.org
 bb.username = {username}
 bb.password = {password}
 </code></pre>
-<p>Replacing <code>{username}</code> and <code>{password}</code> with your BitBucket&nbsp;credentials.</p>
-<p>You can also specify multiple sets of credentials with different prefixes. For
-example, if you have two BitBucket&nbsp;accounts:</p>
+<p>将 <code>{username}</code> 和 <code>{password}</code> 替换为你的论证信息.</p>
+<p>如果你拥有多个 BitBucket&nbsp;的帐号,那么也可以指定多个认证身份:</p>
 <pre><code>[auth]
 bb1.prefix = https://bitbucket.org/foo/
 bb1.username = foo
@@ -106,10 +99,9 @@ bb2.prefix = https://bitbucket.org/bar/
 bb2.username = bar
 bb2.password = bar_passwd
 </code></pre>
-<p>Pushing to any repo whose <span class="caps">URI</span> starts with <code>https://bitbucket.org/foo/</code> will
-use the &#8216;foo&#8217; account, and likewise for &#8216;bar&#8217;. In this case, however, you can
-take advantage of the fact that Mercurial will always choose the set of
-credentials with the most specific matching prefix. Therefore, if you&nbsp;have:</p>
+<p>向仓库 <code>https://bitbucket.org/foo/</code> 推送时,使用 <code>foo</code> 帐号,
+同理,用 <code>bar</code> 身份向<code>https://bitbucket.org/bar/</code> 推送 .
+进一步的,你可以指定 Mercurial&nbsp;只是对特殊仓库时,使用指定帐号,例如:</p>
 <pre><code>[auth]
 bb1.prefix = https://bitbucket.org/
 bb1.username = foo
@@ -119,20 +111,17 @@ bb2.prefix = https://bitbucket.org/bar/
 bb2.username = bar
 bb2.password = bar_passwd
 </code></pre>
-<p>Then any non-<code>/bar/</code> repos will use the &#8216;foo&#8217; account, because it is the only
-matching prefix. <code>/bar/</code> repos will use the &#8216;bar&#8217; account, since both of them
-match but &#8216;bar&#8217; is more&nbsp;specific.</p>
-<p>Finally, you can tell Mercurial that a given prefix should match for <em>both</em>
-<span class="caps">HTTP</span> and <span class="caps">HTTPS</span> by stripping the scheme part from the prefix and adding a
-<code>schemes</code> section to the&nbsp;credentials:</p>
+<p>那么所有非<code>/bar/</code> 仓库的操作将使用 <code>foo</code> 帐号,
+而 <code>/bar/</code> 仓库将使用 <code>bar</code> 帐号,因为这时,路径匹配度最高.</p>
+<p>最终,可以告诉 Mercurial <em>不论</em> <span class="caps">HTTP</span> 还是 <span class="caps">HTTPS</span> 协议,都使用指定认证,
+这需要追加 <code>schemes</code> 参数:</p>
 <pre><code>[auth]
 bb.prefix = bitbucket.org
 bb.username = foo
 bb.password = foo_passwd
 bb.schemes = http https
 </code></pre>
-<p>For detailed reference information, consult the
-<a href="http://www.selenic.com/mercurial/hgrc.5.html#auth">hgrc <code>auth</code> documentation</a>.</p>
+<p>进一步的请参考 <a href="http://www.selenic.com/mercurial/hgrc.5.html#auth">hgrc <code>auth</code> 文档</a>.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -146,8 +135,7 @@ bb.schemes = http https
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Configure Mercurial to not prompt for your password every time you push/pull
-via&nbsp;<span class="caps"><span class="caps">HTTPS</span></span>.</p>
+                        <p>Mercurial 支持不通过 <span class="caps"><span class="caps">HTTPS</span></span> 对远程仓库进行&nbsp;push/pull&nbsp;时,不用每次都输入口令.</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

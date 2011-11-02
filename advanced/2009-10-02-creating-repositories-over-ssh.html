@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Creating Repositories Over SSH / hg tip</title>
+        <title>透过SSH 创建仓库 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Creating Repositories Over SSH</h2>
+                    <h2>透过SSH 创建仓库</h2>
                 
                 
     <p id="tip-info">
@@ -71,22 +71,19 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Let&#8217;s say you&#8217;ve got a bunch of repositories on another computer somewhere,
-and you <a href="http://hgbook.red-bean.com/read/collaborating-with-other-people.html#sec:collab:ssh">use <span class="caps">SSH</span> to push and pull from them</a>.</p>
-<p>What if you make a new repository locally and do some work, then want to
-create that repository on the server? The most common way is to log into the
-server and create an empty repository&nbsp;first:</p>
+    <p>假设你在别的主机里有一堆仓库,可以<a href="http://hgbook.red-bean.com/read/collaborating-with-other-people.html#sec:collab:ssh">通过<span class="caps">SSH</span>对她们进行 push/pull</a>.</p>
+<p>那么,当你在本地创建了新仓库完成了一些工作后,
+如何将仓库发布到远程主机?&nbsp;通常的作法是登录到主机创建空仓库先:</p>
 <pre><code>$ ssh yourserver
 $ cd path/to/repos
 $ hg init newrepo
 $ logout
 $ hg push ssh://yourserver/path/to/repos/newrepos
 </code></pre>
-<p>That works, but it&#8217;s a lot of typing. Mercurial has a feature that will help
-you out: you can use <code>hg clone</code> to <em>create</em> a new repository over&nbsp;ssh:</p>
+<p>这个方法当然可行,不过, Mercurial 支持你透过 ssh 使用 <code>hg clone</code> 将仓库直接 <em>创建</em>&nbsp;到远程主机:</p>
 <pre><code>$ hg clone . ssh://yourserver/path/to/repos/newrepos
 </code></pre>
-<p><strong>Note:</strong> You&#8217;ll still need to add the new path to <code>.hg/hgrc</code> manually.</p>
+<p><strong>注意:</strong> 不过,你依然需要在主机里的 <code>.hg/hgrc</code> 完成进一步配置.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -100,8 +97,7 @@ you out: you can use <code>hg clone</code> to <em>create</em> a new repository o
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>You don&#8217;t need to log into the server to create a new repository, you can use
-<code>hg clone</code> to&nbsp;do&nbsp;it.</p>
+                        <p>要创建仓库,你不用登录服务器,通过 <code>hg clone</code>就成!</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

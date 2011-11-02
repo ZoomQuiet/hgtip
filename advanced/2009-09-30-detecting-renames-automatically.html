@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Detecting Renames Automatically / hg tip</title>
+        <title>自动察觉重命名 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Detecting Renames Automatically</h2>
+                    <h2>自动察觉重命名</h2>
                 
                 
     <p id="tip-info">
@@ -71,32 +71,23 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>The <code>hg addremove</code> command comes in handy when you manually move around a
-bunch of files. You can use any interface you like (Finder, Windows Explorer,
-a shell, etc) to change the structure and then run <code>hg addremove</code> to tell
-Mercurial to figure out what you&nbsp;changed.</p>
-<p>A little-known feature of <code>hg addremove</code> is the ability to detect when you&#8217;ve
-moved or renamed a file and record that action as a rename instead of a
-separate add and remove. Recording the action as a rename lets Mercurial merge
-changes more&nbsp;intelligently.</p>
-<p>To tell Mercurial to detect renames, you can use the <code>--similarity</code> option
-with <code>hg addremove</code>:</p>
+    <p>进行批量文件处置时,<code>hg addremove</code> 命令很有用.
+你可以在习惯的文件管理界面(Finder,资源管理器, shell 等等)中调整目录结构,
+然后使用 <code>hg addremove</code> 来告诉 Mercurial&nbsp;你作了什么.</p>
+<p>进一步的 <code>hg addremove</code> 其实可以指定到底是进行重命名,还是单独的 add 和 remove 操作.
+这点对 Mercurial&nbsp;进行明智的合并很重要.</p>
+<p>让 Mercurial 捜察重命名，使用 <code>--similarity</code> 参数:</p>
 <pre><code>$ hg addremove --similarity 100
 </code></pre>
-<p>The number is a percentage. In this example, Mercurial will count an
-add/remove pair as a rename action only if the added file is identical (100%
-similar) to the removed&nbsp;file.</p>
-<p>Using a lower number will catch renames that also include other changes to the
-file, but increases the risk of false positives. A good habit is to do all
-your file and directory structure changes as one commit, and keep changes to
-the <em>contents</em> of those files for a separate&nbsp;commit.</p>
-<p>If you find yourself using this frequently you can make <code>--similarity 100</code> a
-default by <a href="2009-09-30-configuring-mercurial.html">editing your <code>~/.hgrc</code> file</a> to&nbsp;contain:</p>
+<p>给出的数字是百分率.
+当前例子的意思是, 只有 add/remove 文件完全相同时(100%),Mercurial&nbsp;才视为重命名.</p>
+<p>使用较小的数字会使捕获的重命名操作,可能包含其它变更,引发误报.
+好习惯是,将目录结构的调整,集中到一次提交里,而将文件<em>内容</em>的变更,包含到另外提交中.</p>
+<p>如果发觉你在频繁的使用 <code>--similarity 100</code> 参数,那么最好 <a href="2009-09-30-configuring-mercurial.html">编辑 <code>~/.hgrc</code> file</a>&nbsp;包含以下配置:</p>
 <pre><code>[defaults]
 addremove = --similarity 100
 </code></pre>
-<p>Be careful, using <code>[defaults]</code> will affect <em>every</em> run of the command,
-including when it is run from a&nbsp;script!</p>
+<p>注意, <code>[default]</code> 一节的所有配置,在Hg&nbsp;由脚本调用时被调用!</p>
     
     <!-- Hyde::Article::End -->
     
@@ -110,7 +101,7 @@ including when it is run from a&nbsp;script!</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Mercurial can figure out which adds/removes are actually renames, <em>if</em> you&nbsp;ask&nbsp;nicely.</p>
+                        <p>Mercurial 可以指出哪些 add/remove 其实是重命名, <em>只要</em>&nbsp;会问&#8230;</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
