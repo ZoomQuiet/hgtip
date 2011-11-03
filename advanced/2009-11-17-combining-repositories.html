@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Combining Repositories / hg tip</title>
+        <title>仓库整合 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Combining Repositories</h2>
+                    <h2>仓库整合</h2>
                 
                 
     <p id="tip-info">
@@ -71,17 +71,12 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Thomas&#8217; last tip about <a href="/tips/advanced/2009-11-16-using-convert-to-decompose-your-repository/">decomposing repositories</a> made me want to
-write about the inverse: combining two separate repositories into a single&nbsp;repository.</p>
-<p>Let&#8217;s say you&#8217;ve working on a project. The code lives in <code>project</code> while the
-documentation lives in <code>docs</code>. You might decide that it would be nice to have
-them in the same repository, so when someone clones your project&#8217;s code they
-get the documentation&nbsp;too.</p>
-<p>You <em>could</em> just create a new repository and copy all the data into it, but
-that wouldn&#8217;t let you keep your nice history of changesets. Let&#8217;s take a look
-at how to combine these separate&nbsp;repositories.</p>
-<h2 id="create-the-new-combined-repository">Create the New, Combined&nbsp;Repository</h2>
-<p>First we&#8217;ll create the new repository where everything is going to&nbsp;live:</p>
+    <p>Thomas 分享的技巧 <a href="2009-11-16-using-convert-to-decompose-your-repository.html">分解仓库 </a> 令俺意识到,相反的需求乍整?&nbsp;将两个仓库整合为一个.</p>
+<p>比如,你的项目,代码都在 <code>project</code> 仓库,而文档都在 <code>docs</code>.&nbsp;发觉这么搞很蛋痛,决定整合在一起方便大家.</p>
+<p>你 <em>可以</em> 创建新仓库,并复制入所有相关数据,
+但是这样一来,就无法保留历史变更了.&nbsp;让我们来研究一下怎么完美作到仓库的整合.</p>
+<h2 id="">创建全新的目标仓库</h2>
+<p>首先创建目标新仓库:</p>
 <pre><code>$ ls
 total 24
 drwxr-xr-x  5 sjl   170B Nov 17 19:56 docs
@@ -97,11 +92,10 @@ drwxr-xr-x  5 sjl   170B Nov 17 19:56 docs
 drwxr-xr-x  3 sjl   102B Nov 17 20:04 project
 drwxr-xr-x  4 sjl   136B Nov 17 19:58 project-code
 </code></pre>
-<p>We&#8217;ve moved <code>project</code> to <code>project-code</code> to get it out of the way for the&nbsp;moment.</p>
-<h2 id="prepare-each-repository">Prepare Each&nbsp;Repository</h2>
-<p>We probably don&#8217;t want to just dump everything into the root folder of the new
-repository, so let&#8217;s move things around a bit. First we&#8217;ll move everything in
-the <code>project</code> repository into a <code>src/</code> directory:</p>
+<p>我们先将原 <code>project</code> 仓库变成 <code>project-code</code>.</p>
+<h2 id="_1">整理好各仓库</h2>
+<p>我们当然不想将所有东西吐到新仓库的根目录里.
+所以,首先我们将原 <code>project</code> 仓库的数据迁移到 <code>src/</code> 目录里:</p>
 <pre><code>$ cd project-code
 
 $ mkdir src
@@ -120,7 +114,7 @@ recording removal of myproject.py as rename to src/myproject.py (100% similar)
 
 $ hg commit -m 'Move the code into the src/ directory.'
 </code></pre>
-<p>Now we&#8217;ll do the same for the <code>docs</code> repository:</p>
+<p>同理对<code>doc</code> 仓库也进行处理:</p>
 <pre><code>$ cd ../docs
 
 $ mkdir docs
@@ -142,9 +136,8 @@ recording removal of README as rename to docs/README (100% similar)
 
 $ hg commit -m 'Move the documentation into the docs/ directory.'
 </code></pre>
-<h2 id="pull-both-repositories">Pull Both&nbsp;Repositories</h2>
-<p>Now that we&#8217;ve adjusted the structure to our liking, we need to pull both
-repositories into <code>project</code>:</p>
+<h2 id="_2">拉入全部仓库</h2>
+<p>现在,我们已经调整好了仓库结构,需要将原仓库逐一拉入 <code>project</code>:</p>
 <pre><code>$ cd ..
 
 $ ls
@@ -185,13 +178,12 @@ $ ls
 total 0
 drwxr-xr-x  3 sjl   102B Nov 17 20:15 src
 </code></pre>
-<p>Notice that we used the <code>--force</code> flag with <code>hg pull</code> to say to Mercurial:
-&#8220;It&#8217;s okay, I know what I&#8217;m doing, I really do want to combine these&nbsp;repositories.&#8221;</p>
-<h2 id="merge-the-repositories">Merge the&nbsp;Repositories</h2>
-<p>Take a look at the output of the last <code>ls</code> command. See how there&#8217;s still just
-the <code>src/</code> directory? We need to merge the two repositories together to get a
-truly &#8220;combined&#8221;&nbsp;repository.</p>
-<p>To make this a bit more clear, let&#8217;s look at the graph of our new&nbsp;repository:</p>
+<p>注意,我们在 <code>hg pull</code> 时使用 <code>--force</code> 标记来告诉 Mercurial:&nbsp;&#8221;没事儿,俺知道俺在作什么,俺真的要将这俩仓库合并起来.&#8221;</p>
+<h2 id="_3">合并仓库</h2>
+<p>回顾一下最后那个 <code>ls</code> 命令的输出.
+为毛只有 <code>src/</code> 目录?
+那是因为我们必须进行合并,才真正完成仓库的 <code>整合</code>.</p>
+<p>先来观察一下新仓库的图形日志,来明确真实情况:</p>
 <pre><code>$ hg glog
 o  6 Move the documentation into the docs/ directory. (7 minutes ago by Steve Losh) tip
 |
@@ -207,10 +199,9 @@ o  1 Implement some basic functionality. (21 minutes ago by Steve Losh)
 |
 o  0 Start the project. (21 minutes ago by Steve Losh)
 </code></pre>
-<p>See how we have two separate graphs? Changesets 0 to 3 are linked, and
-changesets 4 to 6 are linked. Now we need to merge these two graphs together.
-This should be trivial because we&#8217;ve organized the folder structure beforehand
-so there won&#8217;t be any&nbsp;conflicts:</p>
+<p>看到了吧,实际上有两个版本树.
+变更集0到3是有关联的,而4一直链接到6,不过,3和4却没有什么关联.
+现在我们要将这两个版本树焊接到一起.&nbsp;这其实牵扯的事儿很小,毕竟之前也没有什么关联:</p>
 <pre><code>$ hg update 6
 2 files updated, 0 files merged, 1 files removed, 0 files unresolved
 
@@ -220,7 +211,7 @@ $ hg merge 3
 
 $ hg commit -m 'Combine the source and docs repositories.'
 </code></pre>
-<p>Now take a look at the&nbsp;graph:</p>
+<p>现在再观察一下树图:</p>
 <pre><code>$ hg glog
 @    7 Combine the source and docs repositories. (37 seconds ago by Steve Losh) tip
 |\
@@ -243,12 +234,8 @@ total 0
 drwxr-xr-x  4 sjl   136B Nov 17 20:22 docs
 drwxr-xr-x  3 sjl   102B Nov 17 20:22 src
 </code></pre>
-<p>Our two separate repositories are now nicely merged into one, with the
-changesets intact! Now we can delete the old repositories and push the new one
-to our public server for people to&nbsp;use.</p>
-<p>This is especially nice because we haven&#8217;t changed the changeset hashes, which
-means that we can easily merge changesets from people that are still using the
-old, separate&nbsp;repositories.</p>
+<p>我们原先两个仓库,已经完美合并成了一个!&nbsp;现在可以删除旧仓库,将新仓库提供给大伙使用了.</p>
+<p>更加<span class="caps">NB</span>的是,因为实际上我们并没有改变历史变更集的散列值,&nbsp;这意味着原先使用独立仓库的老用户,可以无缝使用新仓库!</p>
     
     <!-- Hyde::Article::End -->
     
@@ -262,8 +249,7 @@ old, separate&nbsp;repositories.</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>What can you do when you realize: &#8220;Oh, maybe the documentation should be in
-the same repository as&nbsp;the&nbsp;code?&#8221;</p>
+                        <p>当你发觉:&#8221;嗯,文档应该和代码在同一仓库哪!&#8221;,这时乍弄?!</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

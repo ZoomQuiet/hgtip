@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Handling Binary Files in a Merge / hg tip</title>
+        <title>二进制文件的合并 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Handling Binary Files in a Merge</h2>
+                    <h2>二进制文件的合并</h2>
                 
                 
     <p id="tip-info">
@@ -71,71 +71,64 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Say you&#8217;re building a website and you keep your images in the Mercurial
-repository for the site. Eventually two people are going to change that file
-at the same time and have a merge&nbsp;conflict.</p>
-<h3 id="setting-up-mercurial-for-different-merge-tools">Setting up Mercurial for Different Merge&nbsp;Tools</h3>
-<p>In your <code>~/.hgrc</code> file, you should add the following&nbsp;section:</p>
+    <p>比如说,你在构建一个web站点,将使用的图片也用 Mercurial 进行了管理.&nbsp;若同时有两个人对图片进行了变更就引发了二进制文件的冲突.</p>
+<h3 id="mercurial-setting-up-mercurial-for-different-merge-tools">为合并工具配置 Mercurial  Setting up Mercurial for Different Merge&nbsp;Tools</h3>
+<p>在你的 <code>~/.hgrc</code> 文件中,先增订如下配置:</p>
 <pre><code>[merge-tools]
 diff_images.args = $output $other
 
 [merge-patterns]
 **.png = diff_images
 </code></pre>
-<p>Now, create a <code>diff_images</code> shell script, set it to executable, and put it on
-your $<span class="caps">PATH</span>. Mine&nbsp;is:</p>
+<p>现在,创建 <code>diff_images</code> 脚本,并配置为可执行,丢到 <code>$PATH</code> 里,类似:</p>
 <pre><code>open -a GraphicConverter $1 $2 -W 
-# opens the first and second parameter with GraphicConverter, waiting
-# until same is quit before letting the shell continue.
+# 用GraphicConverter 打开第一/二参数进行处置
+# 直到返回,再继续脚本运行.
 </code></pre>
-<p>Now a merge that contains <code>.png</code> files that conflict will open up
-GraphicConverter. There will be two images that open up: one as it exists in
-the your source tree now, and one from Mercurial. You can tell the difference
-because the one from Mercurial will have a lot of random-seeming letters after
-the file extension. For example, if your conflicting file is <code>image.png</code>,
-GraphicConverter will open up two windows: <code>image.png</code> and
-<code>image.png~other.bQkQxd</code>.</p>
-<p>Manually move your changes from the new file into the original file
-(<code>image.png</code>), saving the original when done and quitting GraphicConverter.
-These are the changes that will be&nbsp;committed.</p>
-<h3 id="how-this-setup-works">How this Setup&nbsp;Works</h3>
-<p>First, <code>diff_images.args</code> sets up two parameters to pass into the graphics&nbsp;tool:</p>
+<p>现在遇到<code>.png</code> 文件的合并冲突时,将使用 <code>GraphicConverter</code>打开两个图片:</p>
 <ul>
-<li><code>$output</code> is the file that Mercurial will commit, and contains the version
-  from the first&nbsp;parent.</li>
-<li><code>$other</code> is the version from revision you are merging&nbsp;in.</li>
+<li>当前你工作中目录中的</li>
+<li>存在Mercurial&nbsp;仓库中的</li>
 </ul>
-<p>There are other options that the <code>.args</code> parameter&nbsp;provides:</p>
+<p>你能轻易的识别出这两种文件,因为从 Mercurial 中提取的图片有个随机字母组成的很长的扩展名.
+例如,如果冲突的文件是<code>image.png</code>那么 
+GraphicConverter 在两个窗口打开: <code>image.png</code> 和 <code>image.png〜other.bQkQxd</code>。</p>
+<p>手动移动新的文件到原文件(<code>image.png</code>)以确认更改,
+保存,完成后 <code>GraphicConverter</code> 就退出.&nbsp;现在就可以检入变更了.</p>
+<h3 id="">工作原理</h3>
+<p>首先,通过 <code>diff_images.args</code> 配置两个参数用调用图像工具:</p>
 <ul>
-<li><code>$local</code> is a copy of <code>$output</code>, but changes to this file will be ignored in
-  the&nbsp;merge.</li>
-<li><code>$base</code> is the file from the revision right before the contents of the file&nbsp;diverged.</li>
+<li><code>$output</code> 指Mercurial&nbsp;将检入的文件,包含继承自父辈的变更</li>
+<li><code>$other</code> 指准备进行合并的版本</li>
 </ul>
-<p>You could use these to set up a three way merge, if you desired, or enhance
-<code>diff_images</code> to show the user the contents of the file <em>before</em> this merge
-mess&nbsp;happened.</p>
-<p>Next, the <code>[merge-patterns]</code> section associates what merge tool to use when a
-file name matches a particular&nbsp;pattern.</p>
-<p>Without the merge-pattern section, <code>diff_images</code> would be considered for a
-diff candidate, but skipped over because Mercurial will assume that
-<code>diff_images</code> can&#8217;t handle diffing binary files. Adding lines to
-<code>[merge-pattern]</code> will tell Mercurial that <code>diff_images</code> can handle the file
-types&nbsp;specified.</p>
-<p>Instead of putting in a merge-patterns section, you could add a line, like
-<code>diff_images.args</code>, that tells Mercurial that <code>diff_images</code> can handle binary
-documents: <code>diff_images.binary = True</code></p>
-<p>However, this will make <code>diff_images</code> a candidate for <em>all</em> binary differences,
-which GraphicConverter may not be up to (for example, diffing mp3s would not
-be a good task for&nbsp;GraphicConverter).</p>
-<h3 id="when-things-go-terribly-wrong-aborting-the-merge">When Things Go Terribly Wrong: Aborting the&nbsp;Merge</h3>
-<p>Merges can <em>not</em> be aborted via the standard <code>hg revert</code> mechanism. Try it and
-you&#8217;ll&nbsp;get:</p>
+<p>其实,还有其它 <code>.args</code> 参数可用:</p>
+<ul>
+<li><code>$local</code> 是 <code>$output</code> 的复本,不过合并会忽略文件的历史变更集</li>
+<li><code>$base</code> 是发生分岐前的文件</li>
+</ul>
+<p>您能用这些设置三种合并方式,
+提高<code>diff_images</code> 的展现能力,向用户出示合并 <em>前</em>&nbsp;发生了什么.</p>
+<p>接下来的 <code>[merge-patterns]</code> 部分,声明对匹配什么模式的文件使用合并工具.</p>
+<p>如果没有 <code>merge-pattern</code> 这节配置,
+<code>diff_images</code>会作为差异处置候选程序,
+很可能因 Mercurual 判定 <code>diff_images</code> 不操作二进制文件差异而被略过.
+添加了 <code>[merge-pattern]</code> 就会告之 Mercurial <code>diff_images</code> 
+可以处理的文件类型,从而达到效果.</p>
+<p>另外,可以用 <code>diff_images.args</code> 来替代<code>merge-patterns</code>
+告诉 Mercurial <code>diff_images</code> 可以处理二进制文件:</p>
+<pre><code>diff_images.binary= TRUE
+</code></pre>
+<p>然而,这将使 <code>diff_images</code> 尝试对 <em>所有</em> 二进制文件进行差异处理,
+对 <code>GraphicConverter</code> 而言显然 <span class="caps">HOLD</span> 不住
+(例如,对mp3音乐文件进行差异处理,肯定不是 <code>GraphicConverter</code> 能作的)</p>
+<h3 id="_1">发生恶性错误时:中止合并</h3>
+<p>合并 <em>不能</em> 通过标准的 <code>hg revert</code> 来恢复.&nbsp;尝试一下,你会得到:</p>
 <pre><code>$ hg revert --all
 abort: uncommitted merge - please provide a specific revision
 </code></pre>
-<p>But you just want to blow away your merge work and start from scratch. Use <code>hg
-update --clean</code> for&nbsp;this.</p>
-<h3 id="references">References</h3>
+<p>不过,要是想放弃你的合并,从头再来.
+使用<code>hg update --clean</code>.</p>
+<h3 id="_2">参考</h3>
 <ul>
 <li><a href="http://mercurial.selenic.com/wiki/MergeToolConfiguration">Merge Tool Configuration on the Mercurial&nbsp;Wiki</a></li>
 <li><a href="http://mercurial.selenic.com/bts/issue1533">Issue 1533: &#8220;abort: outstanding uncommitted merges should mention update&nbsp;-C&#8221;</a></li>
@@ -154,9 +147,7 @@ update --clean</code> for&nbsp;this.</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Mostly we deal with text, source code etc. But sometimes
-we put binary files into our repository and dealing with the inevitable merge
-conflict is not as easy as&nbsp;source&nbsp;code.</p>
+                        <p>多数情况我们使用纯文本,代码什么的.但是有时,我们需要将二进制文件放到仓库中,&nbsp;这时的合并乍整?</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

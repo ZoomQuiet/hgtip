@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-11-02T18:26:23Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-11-03T18:59:08Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
        
     
     &lt;p&gt;If you tried &lt;code&gt;hg help --debug&lt;/code&gt;, you may be familiar with the commands prefixed
@@ -353,74 +353,67 @@ $ hg slog --rev 2:tip
 &amp;#8212; 不会涉及 已经在 &lt;code&gt;SOURCE&lt;/code&gt; 中但&lt;strong&gt;不&lt;/strong&gt;在 &lt;code&gt;DESTINATION&lt;/code&gt; 中的变更.&lt;/p&gt;
     
     
-   </content></entry><entry><title>Handling Binary Files in a Merge</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html/</id><content type="html">
+   </content></entry><entry><title>二进制文件的合并</title><author><name>Ryan Wilcox</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html"/><updated>2009-11-30T00:00:00Z</updated><published>2009-11-30T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-30-merging-binary-files.html/</id><content type="html">
        
     
-    &lt;p&gt;Say you&amp;#8217;re building a website and you keep your images in the Mercurial
-repository for the site. Eventually two people are going to change that file
-at the same time and have a merge&amp;nbsp;conflict.&lt;/p&gt;
-&lt;h3 id=&quot;setting-up-mercurial-for-different-merge-tools&quot;&gt;Setting up Mercurial for Different Merge&amp;nbsp;Tools&lt;/h3&gt;
-&lt;p&gt;In your &lt;code&gt;~/.hgrc&lt;/code&gt; file, you should add the following&amp;nbsp;section:&lt;/p&gt;
+    &lt;p&gt;比如说,你在构建一个web站点,将使用的图片也用 Mercurial 进行了管理.&amp;nbsp;若同时有两个人对图片进行了变更就引发了二进制文件的冲突.&lt;/p&gt;
+&lt;h3 id=&quot;mercurial-setting-up-mercurial-for-different-merge-tools&quot;&gt;为合并工具配置 Mercurial  Setting up Mercurial for Different Merge&amp;nbsp;Tools&lt;/h3&gt;
+&lt;p&gt;在你的 &lt;code&gt;~/.hgrc&lt;/code&gt; 文件中,先增订如下配置:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[merge-tools]
 diff_images.args = $output $other
 
 [merge-patterns]
 **.png = diff_images
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now, create a &lt;code&gt;diff_images&lt;/code&gt; shell script, set it to executable, and put it on
-your $&lt;span class=&quot;caps&quot;&gt;PATH&lt;/span&gt;. Mine&amp;nbsp;is:&lt;/p&gt;
+&lt;p&gt;现在,创建 &lt;code&gt;diff_images&lt;/code&gt; 脚本,并配置为可执行,丢到 &lt;code&gt;$PATH&lt;/code&gt; 里,类似:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;open -a GraphicConverter $1 $2 -W 
-# opens the first and second parameter with GraphicConverter, waiting
-# until same is quit before letting the shell continue.
+# 用GraphicConverter 打开第一/二参数进行处置
+# 直到返回,再继续脚本运行.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now a merge that contains &lt;code&gt;.png&lt;/code&gt; files that conflict will open up
-GraphicConverter. There will be two images that open up: one as it exists in
-the your source tree now, and one from Mercurial. You can tell the difference
-because the one from Mercurial will have a lot of random-seeming letters after
-the file extension. For example, if your conflicting file is &lt;code&gt;image.png&lt;/code&gt;,
-GraphicConverter will open up two windows: &lt;code&gt;image.png&lt;/code&gt; and
-&lt;code&gt;image.png~other.bQkQxd&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Manually move your changes from the new file into the original file
-(&lt;code&gt;image.png&lt;/code&gt;), saving the original when done and quitting GraphicConverter.
-These are the changes that will be&amp;nbsp;committed.&lt;/p&gt;
-&lt;h3 id=&quot;how-this-setup-works&quot;&gt;How this Setup&amp;nbsp;Works&lt;/h3&gt;
-&lt;p&gt;First, &lt;code&gt;diff_images.args&lt;/code&gt; sets up two parameters to pass into the graphics&amp;nbsp;tool:&lt;/p&gt;
+&lt;p&gt;现在遇到&lt;code&gt;.png&lt;/code&gt; 文件的合并冲突时,将使用 &lt;code&gt;GraphicConverter&lt;/code&gt;打开两个图片:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;$output&lt;/code&gt; is the file that Mercurial will commit, and contains the version
-  from the first&amp;nbsp;parent.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;$other&lt;/code&gt; is the version from revision you are merging&amp;nbsp;in.&lt;/li&gt;
+&lt;li&gt;当前你工作中目录中的&lt;/li&gt;
+&lt;li&gt;存在Mercurial&amp;nbsp;仓库中的&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;There are other options that the &lt;code&gt;.args&lt;/code&gt; parameter&amp;nbsp;provides:&lt;/p&gt;
+&lt;p&gt;你能轻易的识别出这两种文件,因为从 Mercurial 中提取的图片有个随机字母组成的很长的扩展名.
+例如,如果冲突的文件是&lt;code&gt;image.png&lt;/code&gt;那么 
+GraphicConverter 在两个窗口打开: &lt;code&gt;image.png&lt;/code&gt; 和 &lt;code&gt;image.png〜other.bQkQxd&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;手动移动新的文件到原文件(&lt;code&gt;image.png&lt;/code&gt;)以确认更改,
+保存,完成后 &lt;code&gt;GraphicConverter&lt;/code&gt; 就退出.&amp;nbsp;现在就可以检入变更了.&lt;/p&gt;
+&lt;h3 id=&quot;&quot;&gt;工作原理&lt;/h3&gt;
+&lt;p&gt;首先,通过 &lt;code&gt;diff_images.args&lt;/code&gt; 配置两个参数用调用图像工具:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;$local&lt;/code&gt; is a copy of &lt;code&gt;$output&lt;/code&gt;, but changes to this file will be ignored in
-  the&amp;nbsp;merge.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;$base&lt;/code&gt; is the file from the revision right before the contents of the file&amp;nbsp;diverged.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$output&lt;/code&gt; 指Mercurial&amp;nbsp;将检入的文件,包含继承自父辈的变更&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$other&lt;/code&gt; 指准备进行合并的版本&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;You could use these to set up a three way merge, if you desired, or enhance
-&lt;code&gt;diff_images&lt;/code&gt; to show the user the contents of the file &lt;em&gt;before&lt;/em&gt; this merge
-mess&amp;nbsp;happened.&lt;/p&gt;
-&lt;p&gt;Next, the &lt;code&gt;[merge-patterns]&lt;/code&gt; section associates what merge tool to use when a
-file name matches a particular&amp;nbsp;pattern.&lt;/p&gt;
-&lt;p&gt;Without the merge-pattern section, &lt;code&gt;diff_images&lt;/code&gt; would be considered for a
-diff candidate, but skipped over because Mercurial will assume that
-&lt;code&gt;diff_images&lt;/code&gt; can&amp;#8217;t handle diffing binary files. Adding lines to
-&lt;code&gt;[merge-pattern]&lt;/code&gt; will tell Mercurial that &lt;code&gt;diff_images&lt;/code&gt; can handle the file
-types&amp;nbsp;specified.&lt;/p&gt;
-&lt;p&gt;Instead of putting in a merge-patterns section, you could add a line, like
-&lt;code&gt;diff_images.args&lt;/code&gt;, that tells Mercurial that &lt;code&gt;diff_images&lt;/code&gt; can handle binary
-documents: &lt;code&gt;diff_images.binary = True&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;However, this will make &lt;code&gt;diff_images&lt;/code&gt; a candidate for &lt;em&gt;all&lt;/em&gt; binary differences,
-which GraphicConverter may not be up to (for example, diffing mp3s would not
-be a good task for&amp;nbsp;GraphicConverter).&lt;/p&gt;
-&lt;h3 id=&quot;when-things-go-terribly-wrong-aborting-the-merge&quot;&gt;When Things Go Terribly Wrong: Aborting the&amp;nbsp;Merge&lt;/h3&gt;
-&lt;p&gt;Merges can &lt;em&gt;not&lt;/em&gt; be aborted via the standard &lt;code&gt;hg revert&lt;/code&gt; mechanism. Try it and
-you&amp;#8217;ll&amp;nbsp;get:&lt;/p&gt;
+&lt;p&gt;其实,还有其它 &lt;code&gt;.args&lt;/code&gt; 参数可用:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$local&lt;/code&gt; 是 &lt;code&gt;$output&lt;/code&gt; 的复本,不过合并会忽略文件的历史变更集&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$base&lt;/code&gt; 是发生分岐前的文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;您能用这些设置三种合并方式,
+提高&lt;code&gt;diff_images&lt;/code&gt; 的展现能力,向用户出示合并 &lt;em&gt;前&lt;/em&gt;&amp;nbsp;发生了什么.&lt;/p&gt;
+&lt;p&gt;接下来的 &lt;code&gt;[merge-patterns]&lt;/code&gt; 部分,声明对匹配什么模式的文件使用合并工具.&lt;/p&gt;
+&lt;p&gt;如果没有 &lt;code&gt;merge-pattern&lt;/code&gt; 这节配置,
+&lt;code&gt;diff_images&lt;/code&gt;会作为差异处置候选程序,
+很可能因 Mercurual 判定 &lt;code&gt;diff_images&lt;/code&gt; 不操作二进制文件差异而被略过.
+添加了 &lt;code&gt;[merge-pattern]&lt;/code&gt; 就会告之 Mercurial &lt;code&gt;diff_images&lt;/code&gt; 
+可以处理的文件类型,从而达到效果.&lt;/p&gt;
+&lt;p&gt;另外,可以用 &lt;code&gt;diff_images.args&lt;/code&gt; 来替代&lt;code&gt;merge-patterns&lt;/code&gt;
+告诉 Mercurial &lt;code&gt;diff_images&lt;/code&gt; 可以处理二进制文件:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;diff_images.binary= TRUE
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然而,这将使 &lt;code&gt;diff_images&lt;/code&gt; 尝试对 &lt;em&gt;所有&lt;/em&gt; 二进制文件进行差异处理,
+对 &lt;code&gt;GraphicConverter&lt;/code&gt; 而言显然 &lt;span class=&quot;caps&quot;&gt;HOLD&lt;/span&gt; 不住
+(例如,对mp3音乐文件进行差异处理,肯定不是 &lt;code&gt;GraphicConverter&lt;/code&gt; 能作的)&lt;/p&gt;
+&lt;h3 id=&quot;_1&quot;&gt;发生恶性错误时:中止合并&lt;/h3&gt;
+&lt;p&gt;合并 &lt;em&gt;不能&lt;/em&gt; 通过标准的 &lt;code&gt;hg revert&lt;/code&gt; 来恢复.&amp;nbsp;尝试一下,你会得到:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg revert --all
 abort: uncommitted merge - please provide a specific revision
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;But you just want to blow away your merge work and start from scratch. Use &lt;code&gt;hg
-update --clean&lt;/code&gt; for&amp;nbsp;this.&lt;/p&gt;
-&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+&lt;p&gt;不过,要是想放弃你的合并,从头再来.
+使用&lt;code&gt;hg update --clean&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;_2&quot;&gt;参考&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://mercurial.selenic.com/wiki/MergeToolConfiguration&quot;&gt;Merge Tool Configuration on the Mercurial&amp;nbsp;Wiki&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://mercurial.selenic.com/bts/issue1533&quot;&gt;Issue 1533: &amp;#8220;abort: outstanding uncommitted merges should mention update&amp;nbsp;-C&amp;#8221;&lt;/a&gt;&lt;/li&gt;
@@ -451,20 +444,15 @@ reverting filetwo.txt
 如果你想恢复几个版本前的文件状态(多数情况下,是几个特定的文件) 那就要使用 &lt;code&gt;hg merge&lt;/code&gt; 小心的对指定文件的指定版本进行合并了&amp;#8230;&lt;/p&gt;
     
     
-   </content></entry><entry><title>Combining Repositories</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html"/><updated>2009-11-17T00:00:00Z</updated><published>2009-11-17T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html/</id><content type="html">
+   </content></entry><entry><title>仓库整合</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html"/><updated>2009-11-17T00:00:00Z</updated><published>2009-11-17T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-17-combining-repositories.html/</id><content type="html">
        
     
-    &lt;p&gt;Thomas&amp;#8217; last tip about &lt;a href=&quot;/tips/advanced/2009-11-16-using-convert-to-decompose-your-repository/&quot;&gt;decomposing repositories&lt;/a&gt; made me want to
-write about the inverse: combining two separate repositories into a single&amp;nbsp;repository.&lt;/p&gt;
-&lt;p&gt;Let&amp;#8217;s say you&amp;#8217;ve working on a project. The code lives in &lt;code&gt;project&lt;/code&gt; while the
-documentation lives in &lt;code&gt;docs&lt;/code&gt;. You might decide that it would be nice to have
-them in the same repository, so when someone clones your project&amp;#8217;s code they
-get the documentation&amp;nbsp;too.&lt;/p&gt;
-&lt;p&gt;You &lt;em&gt;could&lt;/em&gt; just create a new repository and copy all the data into it, but
-that wouldn&amp;#8217;t let you keep your nice history of changesets. Let&amp;#8217;s take a look
-at how to combine these separate&amp;nbsp;repositories.&lt;/p&gt;
-&lt;h2 id=&quot;create-the-new-combined-repository&quot;&gt;Create the New, Combined&amp;nbsp;Repository&lt;/h2&gt;
-&lt;p&gt;First we&amp;#8217;ll create the new repository where everything is going to&amp;nbsp;live:&lt;/p&gt;
+    &lt;p&gt;Thomas 分享的技巧 &lt;a href=&quot;2009-11-16-using-convert-to-decompose-your-repository.html&quot;&gt;分解仓库 &lt;/a&gt; 令俺意识到,相反的需求乍整?&amp;nbsp;将两个仓库整合为一个.&lt;/p&gt;
+&lt;p&gt;比如,你的项目,代码都在 &lt;code&gt;project&lt;/code&gt; 仓库,而文档都在 &lt;code&gt;docs&lt;/code&gt;.&amp;nbsp;发觉这么搞很蛋痛,决定整合在一起方便大家.&lt;/p&gt;
+&lt;p&gt;你 &lt;em&gt;可以&lt;/em&gt; 创建新仓库,并复制入所有相关数据,
+但是这样一来,就无法保留历史变更了.&amp;nbsp;让我们来研究一下怎么完美作到仓库的整合.&lt;/p&gt;
+&lt;h2 id=&quot;&quot;&gt;创建全新的目标仓库&lt;/h2&gt;
+&lt;p&gt;首先创建目标新仓库:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ ls
 total 24
 drwxr-xr-x  5 sjl   170B Nov 17 19:56 docs
@@ -480,11 +468,10 @@ drwxr-xr-x  5 sjl   170B Nov 17 19:56 docs
 drwxr-xr-x  3 sjl   102B Nov 17 20:04 project
 drwxr-xr-x  4 sjl   136B Nov 17 19:58 project-code
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We&amp;#8217;ve moved &lt;code&gt;project&lt;/code&gt; to &lt;code&gt;project-code&lt;/code&gt; to get it out of the way for the&amp;nbsp;moment.&lt;/p&gt;
-&lt;h2 id=&quot;prepare-each-repository&quot;&gt;Prepare Each&amp;nbsp;Repository&lt;/h2&gt;
-&lt;p&gt;We probably don&amp;#8217;t want to just dump everything into the root folder of the new
-repository, so let&amp;#8217;s move things around a bit. First we&amp;#8217;ll move everything in
-the &lt;code&gt;project&lt;/code&gt; repository into a &lt;code&gt;src/&lt;/code&gt; directory:&lt;/p&gt;
+&lt;p&gt;我们先将原 &lt;code&gt;project&lt;/code&gt; 仓库变成 &lt;code&gt;project-code&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;_1&quot;&gt;整理好各仓库&lt;/h2&gt;
+&lt;p&gt;我们当然不想将所有东西吐到新仓库的根目录里.
+所以,首先我们将原 &lt;code&gt;project&lt;/code&gt; 仓库的数据迁移到 &lt;code&gt;src/&lt;/code&gt; 目录里:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ cd project-code
 
 $ mkdir src
@@ -503,7 +490,7 @@ recording removal of myproject.py as rename to src/myproject.py (100% similar)
 
 $ hg commit -m &#39;Move the code into the src/ directory.&#39;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we&amp;#8217;ll do the same for the &lt;code&gt;docs&lt;/code&gt; repository:&lt;/p&gt;
+&lt;p&gt;同理对&lt;code&gt;doc&lt;/code&gt; 仓库也进行处理:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ cd ../docs
 
 $ mkdir docs
@@ -525,9 +512,8 @@ recording removal of README as rename to docs/README (100% similar)
 
 $ hg commit -m &#39;Move the documentation into the docs/ directory.&#39;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;pull-both-repositories&quot;&gt;Pull Both&amp;nbsp;Repositories&lt;/h2&gt;
-&lt;p&gt;Now that we&amp;#8217;ve adjusted the structure to our liking, we need to pull both
-repositories into &lt;code&gt;project&lt;/code&gt;:&lt;/p&gt;
+&lt;h2 id=&quot;_2&quot;&gt;拉入全部仓库&lt;/h2&gt;
+&lt;p&gt;现在,我们已经调整好了仓库结构,需要将原仓库逐一拉入 &lt;code&gt;project&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ cd ..
 
 $ ls
@@ -568,13 +554,12 @@ $ ls
 total 0
 drwxr-xr-x  3 sjl   102B Nov 17 20:15 src
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Notice that we used the &lt;code&gt;--force&lt;/code&gt; flag with &lt;code&gt;hg pull&lt;/code&gt; to say to Mercurial:
-&amp;#8220;It&amp;#8217;s okay, I know what I&amp;#8217;m doing, I really do want to combine these&amp;nbsp;repositories.&amp;#8221;&lt;/p&gt;
-&lt;h2 id=&quot;merge-the-repositories&quot;&gt;Merge the&amp;nbsp;Repositories&lt;/h2&gt;
-&lt;p&gt;Take a look at the output of the last &lt;code&gt;ls&lt;/code&gt; command. See how there&amp;#8217;s still just
-the &lt;code&gt;src/&lt;/code&gt; directory? We need to merge the two repositories together to get a
-truly &amp;#8220;combined&amp;#8221;&amp;nbsp;repository.&lt;/p&gt;
-&lt;p&gt;To make this a bit more clear, let&amp;#8217;s look at the graph of our new&amp;nbsp;repository:&lt;/p&gt;
+&lt;p&gt;注意,我们在 &lt;code&gt;hg pull&lt;/code&gt; 时使用 &lt;code&gt;--force&lt;/code&gt; 标记来告诉 Mercurial:&amp;nbsp;&amp;#8221;没事儿,俺知道俺在作什么,俺真的要将这俩仓库合并起来.&amp;#8221;&lt;/p&gt;
+&lt;h2 id=&quot;_3&quot;&gt;合并仓库&lt;/h2&gt;
+&lt;p&gt;回顾一下最后那个 &lt;code&gt;ls&lt;/code&gt; 命令的输出.
+为毛只有 &lt;code&gt;src/&lt;/code&gt; 目录?
+那是因为我们必须进行合并,才真正完成仓库的 &lt;code&gt;整合&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;先来观察一下新仓库的图形日志,来明确真实情况:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg glog
 o  6 Move the documentation into the docs/ directory. (7 minutes ago by Steve Losh) tip
 |
@@ -590,10 +575,9 @@ o  1 Implement some basic functionality. (21 minutes ago by Steve Losh)
 |
 o  0 Start the project. (21 minutes ago by Steve Losh)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;See how we have two separate graphs? Changesets 0 to 3 are linked, and
-changesets 4 to 6 are linked. Now we need to merge these two graphs together.
-This should be trivial because we&amp;#8217;ve organized the folder structure beforehand
-so there won&amp;#8217;t be any&amp;nbsp;conflicts:&lt;/p&gt;
+&lt;p&gt;看到了吧,实际上有两个版本树.
+变更集0到3是有关联的,而4一直链接到6,不过,3和4却没有什么关联.
+现在我们要将这两个版本树焊接到一起.&amp;nbsp;这其实牵扯的事儿很小,毕竟之前也没有什么关联:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg update 6
 2 files updated, 0 files merged, 1 files removed, 0 files unresolved
 
@@ -603,7 +587,7 @@ $ hg merge 3
 
 $ hg commit -m &#39;Combine the source and docs repositories.&#39;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now take a look at the&amp;nbsp;graph:&lt;/p&gt;
+&lt;p&gt;现在再观察一下树图:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg glog
 @    7 Combine the source and docs repositories. (37 seconds ago by Steve Losh) tip
 |\
@@ -626,52 +610,40 @@ total 0
 drwxr-xr-x  4 sjl   136B Nov 17 20:22 docs
 drwxr-xr-x  3 sjl   102B Nov 17 20:22 src
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Our two separate repositories are now nicely merged into one, with the
-changesets intact! Now we can delete the old repositories and push the new one
-to our public server for people to&amp;nbsp;use.&lt;/p&gt;
-&lt;p&gt;This is especially nice because we haven&amp;#8217;t changed the changeset hashes, which
-means that we can easily merge changesets from people that are still using the
-old, separate&amp;nbsp;repositories.&lt;/p&gt;
+&lt;p&gt;我们原先两个仓库,已经完美合并成了一个!&amp;nbsp;现在可以删除旧仓库,将新仓库提供给大伙使用了.&lt;/p&gt;
+&lt;p&gt;更加&lt;span class=&quot;caps&quot;&gt;NB&lt;/span&gt;的是,因为实际上我们并没有改变历史变更集的散列值,&amp;nbsp;这意味着原先使用独立仓库的老用户,可以无缝使用新仓库!&lt;/p&gt;
     
     
-   </content></entry><entry><title>Using Convert to Decompose Your Repository</title><author><name>Thomas G. Willis</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository.html"/><updated>2009-11-16T00:00:00Z</updated><published>2009-11-16T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository.html/</id><content type="html">
+   </content></entry><entry><title>用 Convert 来分解仓库</title><author><name>Thomas G. Willis</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository.html"/><updated>2009-11-16T00:00:00Z</updated><published>2009-11-16T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-16-using-convert-to-decompose-your-repository.html/</id><content type="html">
        
     
-    &lt;p&gt;Say you have a repository that has evolved to contain many projects (folders).
-And you have decided you&amp;#8217;d be better off if each project (folder) were a
-separate repository. You can use the &lt;code&gt;convert&lt;/code&gt; extension to do just that and
-retain your changeset&amp;nbsp;history.&lt;/p&gt;
-&lt;p&gt;For example, a repository laid out like&amp;nbsp;this:&lt;/p&gt;
+    &lt;p&gt;如果你的仓库包含了很多项目(目录).&lt;/p&gt;
+&lt;p&gt;现在,你决定将每个项目(目录)拆分到独立仓库.
+那么,使用 &lt;code&gt;convert&lt;/code&gt; 扩展来处置,还能保留历史变更.&lt;/p&gt;
+&lt;p&gt;例如,当前仓库是这样的:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;/yourrepository
     /DatabaseFoo
     /SweetBusinessLogic
     /BaseUI
     /AnotherDamnContentManagementSystem
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;You may have decided at some point that AnotherDamnContentManagementSystem
-really should belong in its own repository, and had you been able to predict
-the future so long ago, you would have seen that it was truly a poor choice on
-your part to combine them all together in one like you were still using
-Perforce and assumed that this whole version control thing was a super
-expensive&amp;nbsp;operation.&lt;/p&gt;
-&lt;p&gt;Well lucky for you, the convert extension can help you undo this embarrassing
-decision before you show your work to the Venture Capitalist you&amp;#8217;re meeting
-for&amp;nbsp;lunch.&lt;/p&gt;
-&lt;p&gt;First &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;enable the convert extension&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;若认定 &lt;code&gt;AnotherDamnContentManagementSystem&lt;/code&gt; 真的要启用独立仓库,&amp;nbsp;并且能预见到继续和其它项目混到一起进行版本控制,很囧很杯具.&lt;/p&gt;
+&lt;p&gt;那么,你非常幸运的可以使用 &lt;code&gt;convert&lt;/code&gt; 扩展快速完成调整,而不耽搁和风投进行午餐.&lt;/p&gt;
+&lt;p&gt;首先 &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;激活 convert 扩展&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[extensions]
 convert =
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The convert command has a &lt;code&gt;--filemap&lt;/code&gt; parameter which allows you to specify
-what you want included in the operation and what you don&amp;#8217;t.  You can even have
-things renamed as part of the operation. A filemap for the operation we are to
-perform will look like&amp;nbsp;this:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;convert&lt;/code&gt; 命令有 &lt;code&gt;--filemap&lt;/code&gt; 参数,可以指定哪些目录进行转换,哪些忽略.
+你甚至可以将更名包含到操作里.
+一般 &lt;code&gt;--filemap&lt;/code&gt; 这么来定义:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;include AnotherDamnContentManagementSystem
 rename .
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then your command to convert will look like&amp;nbsp;this:&lt;/p&gt;
+&lt;p&gt;然后,就可以这么调用&lt;code&gt;convert&lt;/code&gt; :&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg convert --filemap myfilemap bigrepo AnotherDamnContentManagementSystem-Repo
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And that&amp;#8217;s it. AnotherDamnContentManagementSystem is now its own Mercurial&amp;nbsp;repository.&lt;/p&gt;
+&lt;p&gt;齐活儿.
+现在 &lt;code&gt;AnotherDamnContentManagementSystem&lt;/code&gt; 已经在自个儿的仓库中了.&lt;/p&gt;
     
     
    </content></entry><entry><title>使用 Git 镜像</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-09-create-a-git-mirror.html"/><updated>2009-11-09T00:00:00Z</updated><published>2009-11-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2009-11-09-create-a-git-mirror.html/</id><content type="html">

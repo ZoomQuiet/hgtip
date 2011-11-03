@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Using Convert to Decompose Your Repository / hg tip</title>
+        <title>用 Convert 来分解仓库 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Using Convert to Decompose Your Repository</h2>
+                    <h2>用 Convert 来分解仓库</h2>
                 
                 
     <p id="tip-info">
@@ -71,41 +71,33 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Say you have a repository that has evolved to contain many projects (folders).
-And you have decided you&#8217;d be better off if each project (folder) were a
-separate repository. You can use the <code>convert</code> extension to do just that and
-retain your changeset&nbsp;history.</p>
-<p>For example, a repository laid out like&nbsp;this:</p>
+    <p>如果你的仓库包含了很多项目(目录).</p>
+<p>现在,你决定将每个项目(目录)拆分到独立仓库.
+那么,使用 <code>convert</code> 扩展来处置,还能保留历史变更.</p>
+<p>例如,当前仓库是这样的:</p>
 <pre><code>/yourrepository
     /DatabaseFoo
     /SweetBusinessLogic
     /BaseUI
     /AnotherDamnContentManagementSystem
 </code></pre>
-<p>You may have decided at some point that AnotherDamnContentManagementSystem
-really should belong in its own repository, and had you been able to predict
-the future so long ago, you would have seen that it was truly a poor choice on
-your part to combine them all together in one like you were still using
-Perforce and assumed that this whole version control thing was a super
-expensive&nbsp;operation.</p>
-<p>Well lucky for you, the convert extension can help you undo this embarrassing
-decision before you show your work to the Venture Capitalist you&#8217;re meeting
-for&nbsp;lunch.</p>
-<p>First <a href="2009-09-30-configuring-mercurial.html">enable the convert extension</a>:</p>
+<p>若认定 <code>AnotherDamnContentManagementSystem</code> 真的要启用独立仓库,&nbsp;并且能预见到继续和其它项目混到一起进行版本控制,很囧很杯具.</p>
+<p>那么,你非常幸运的可以使用 <code>convert</code> 扩展快速完成调整,而不耽搁和风投进行午餐.</p>
+<p>首先 <a href="2009-09-30-configuring-mercurial.html">激活 convert 扩展</a>:</p>
 <pre><code>[extensions]
 convert =
 </code></pre>
-<p>The convert command has a <code>--filemap</code> parameter which allows you to specify
-what you want included in the operation and what you don&#8217;t.  You can even have
-things renamed as part of the operation. A filemap for the operation we are to
-perform will look like&nbsp;this:</p>
+<p><code>convert</code> 命令有 <code>--filemap</code> 参数,可以指定哪些目录进行转换,哪些忽略.
+你甚至可以将更名包含到操作里.
+一般 <code>--filemap</code> 这么来定义:</p>
 <pre><code>include AnotherDamnContentManagementSystem
 rename .
 </code></pre>
-<p>Then your command to convert will look like&nbsp;this:</p>
+<p>然后,就可以这么调用<code>convert</code> :</p>
 <pre><code>$ hg convert --filemap myfilemap bigrepo AnotherDamnContentManagementSystem-Repo
 </code></pre>
-<p>And that&#8217;s it. AnotherDamnContentManagementSystem is now its own Mercurial&nbsp;repository.</p>
+<p>齐活儿.
+现在 <code>AnotherDamnContentManagementSystem</code> 已经在自个儿的仓库中了.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -119,9 +111,7 @@ rename .
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>What if your repository is too big for its own britches, and you would rather
-the projects contained within be their own repositories? But darn it, what
-about&nbsp;the&nbsp;history?</p>
+                        <p>当仓库变得异常庞大,而你想让不同的项目启用专用仓库时,乍整?&nbsp;历史版本泥?</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
