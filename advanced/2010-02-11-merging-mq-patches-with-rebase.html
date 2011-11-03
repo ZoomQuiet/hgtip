@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Merging MQ Patches with Rebase / hg tip</title>
+        <title>用`变基`扩展来合并MQ补丁 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Merging MQ Patches with Rebase</h2>
+                    <h2>用`变基`扩展来合并MQ补丁</h2>
                 
                 
     <p id="tip-info">
@@ -71,21 +71,18 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p><strong>First of all:</strong> I want to try something new with this tip. This is the first
-tip that includes a screencast. It&#8217;s a complex topic and I think a screencast
-is the best way to talk about it. Please post a comment and let me know if you
-like it or if you think hgtip should stick to text-only&nbsp;tips!</p>
-<p>This tip is for those of you that are familiar and comfortable with using
-<a href="http://mercurial.selenic.com/wiki/MqExtension"><span class="caps">MQ</span></a> to handle patches. If you use <span class="caps">MQ</span> regularly you may have noticed some
-problems. One of the biggest problems appears when you have some patches and
-someone else commits something that changes the files you&#8217;re working&nbsp;on.</p>
-<p>The normal workflow is to pull their changes, <code>qpop</code> your patches, update to
-the new repository (or branch) tip, and <code>qpush</code> your patches. Unfortunately <span class="caps">MQ</span>
-doesn&#8217;t keep track of the parents of patches, so it can&#8217;t intelligently merge
-changes when you <code>qpush</code>.</p>
-<p>The way to get around this limitation is to use the <a href="http://mercurial.selenic.com/wiki/RebaseExtension">rebase extension</a> to
-rebase your <span class="caps">MQ</span> patches while they&#8217;re still applied. I&#8217;ll demonstrate how to do
-this in the screencast&nbsp;below:</p>
+    <p><strong>首先:</strong> 在这里,俺想尝试新东西~ 这是首个包含截屏录像的贴士.
+这是一个复杂的主题,俺认为用操作录像的形式可以更好的表述.请评注,反馈给俺知道你的体验,
+是喜欢呢,还是期望 <code>hgtip</code> 保持纯文本的形式?!</p>
+<p><strong>好吧~</strong>反正俺从珠海电信是看不到这个录像的&#8230;</p>
+<p>这一贴士是为已能熟练并舒适使用 <a href="http://mercurial.selenic.com/wiki/MqExtension"><span class="caps">MQ</span></a>来处理补丁的好人.
+如果常用<span class="caps">MQ</span>,您可能已经注意到一些问题.&nbsp;最大的麻烦一般发生在你处理一堆补丁时,又有人正好在对你处理中的文件提交了新修订.</p>
+<p>正常的流程是先下拉他们的变更集,
+<code>qpop</code>你的补丁,更新到新的仓库(或是分支),
+再<code>qpush</code>你的补丁.
+不幸的是<span class="caps">MQ</span>不保留补丁的继承轨迹,从而在你进行<code>qpush</code>时无法智能合并.</p>
+<p>解决这一问题的方法,就是使用<a href="http://mercurial.selenic.com/wiki/RebaseExtension">变基扩展</a>,
+在<span class="caps">MQ</span>补丁期间确保他们可用.&nbsp;我将在下面的截屏录像里演示如何进行:</p>
 <div class="screencast">
 <object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0' width='560' height='345'><param name='movie' value='http://screenr.com/Content/assets/screenr_1116090935.swf' /><param name='flashvars' value='i=46386' /><param name='allowFullScreen' value='true' /><embed src='http://screenr.com/Content/assets/screenr_1116090935.swf' flashvars='i=46386' allowFullScreen='true' width='560' height='345' pluginspage='http://www.macromedia.com/go/getflashplayer'></embed></object>
 </div>
@@ -102,7 +99,7 @@ this in the screencast&nbsp;below:</p>
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p><span class="caps"><span class="caps">MQ</span></span> patches don&#8217;t usually merge well, but you can use the rebase extension to&nbsp;fix&nbsp;that!</p>
+                        <p><span class="caps"><span class="caps">MQ</span></span>补丁并不总能良好合并,不过可以用<code>rebase</code>扩展来搞掂!</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>

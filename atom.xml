@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-11-03T18:59:08Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-11-03T22:56:00Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
        
     
     &lt;p&gt;If you tried &lt;code&gt;hg help --debug&lt;/code&gt;, you may be familiar with the commands prefixed
 with &amp;#8216;debug&amp;#8217;. Most of them are used to inspect Mercurial&amp;#8217;s internal storage,
 but some can come handy in certain situations. Two of these commands are &lt;code&gt;hg
 debugsetparents&lt;/code&gt; and &lt;code&gt;hg debugrebuildstate&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;如果尝试过&lt;code&gt;hg help --debug&lt;/code&gt;,
+可能已熟悉有&amp;#8217;调试&amp;#8217;前缀命令.
+他们多数用以检查 Mercurial 的内部存储情况,有的更加得心应手.
+比如说,这两个:&lt;code&gt;hg debugsetparents&lt;/code&gt; 和 &lt;code&gt;hg debugrebuildstate&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The first command forces Mercurial to forget the &amp;#8220;real&amp;#8221; parent revisions of a
 working-copy in favor of the specified revisions in &amp;#8216;debugsetparents&amp;#8217;. The
-second command is forcing Mercurial to rebuild its internal&amp;nbsp;state.&lt;/p&gt;
+second command is forcing Mercurial to rebuild its internal state.
+第一个命令能强令 Mercurial 的工作复本忘记&amp;#8221;真正&amp;#8221;的父辈版本,而指向&lt;code&gt;debugsetparents&lt;/code&gt;指定的修订版本.
+第二个命令是迫使 Mercurial&amp;nbsp;重建其内部状态.&lt;/p&gt;
 &lt;p&gt;So how can this be useful in normal conditions at all? Here are 3 scenarios
-where it comes handy to work with&amp;nbsp;them:&lt;/p&gt;
-&lt;h3 id=&quot;1-late-binding-working-copy-with-repository&quot;&gt;1. Late-binding working-copy with&amp;nbsp;repository.&lt;/h3&gt;
+where it comes handy to work with them:
+那么,在正常情景里他们有用嘛?&amp;nbsp;这里俺列举3种场景来说明他们怎么方便我们的工作的:&lt;/p&gt;
+&lt;h3 id=&quot;1-late-binding-working-copy-with-repository&quot;&gt;1. 将工作复本绑定到仓库 Late-binding working-copy with&amp;nbsp;repository.&lt;/h3&gt;
 &lt;p&gt;Imagine an interesting project hosted with Mercurial. At first you only
 download a snapshot of the project to inspect the code and try something out.
 You didn&amp;#8217;t clone it fully, because you wanted to avoid the overhead to just
-check the&amp;nbsp;source.&lt;/p&gt;
+check the source.
+设想有个Mercurial 发布的有趣项目.
+起初,你只下载了一份儿项目的快照代码来体验.&amp;nbsp;并没有完全克隆仓库,因为你要避免网络开销,只是看一下最新的代码.&lt;/p&gt;
 &lt;p&gt;Later in the process of playing with the code, you realize that this is going
 to be a longer-lasting relationship, so you decide to clone the repo and
 commit your changes. Since it is quite a big working-copy and you
 renamed/deleted/added some files, you don&amp;#8217;t want to copy the whole thing over
 some checkout in order to not confuse the working-copy state. So how to commit
 this state at the proper&amp;nbsp;location?&lt;/p&gt;
-&lt;p&gt;The solution is to copy the .hg folder into the snapshot&amp;#8217;s root and&amp;nbsp;issue:&lt;/p&gt;
+&lt;p&gt;在后来赏玩代码的过程中,你整明白了所有关系,
+于是你想克隆仓库,并提交你的修订.
+由于这货非常庞大,而且你已经重命名/删除/添加了一些文件,
+又不想简单粗暴的复制覆盖到克隆仓库上.&amp;nbsp;那么如何提交你的修订到适当的版本呢?&lt;/p&gt;
+&lt;p&gt;The solution is to copy the .hg folder into the snapshot&amp;#8217;s root and issue:
+解决方案是复制 &lt;code&gt;.hg&lt;/code&gt; 目录到快照根目录中,并执行:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg debugsetparent tip
 $ hg debugrebuildstate
 $ hg commit -Am &quot;my snapshot&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&quot;2-creating-alternate-check-ins&quot;&gt;2. Creating alternate&amp;nbsp;check-ins.&lt;/h3&gt;
+&lt;h3 id=&quot;2-creating-alternate-check-ins&quot;&gt;2. 创建备用检查插件 Creating alternate&amp;nbsp;check-ins.&lt;/h3&gt;
 &lt;p&gt;If you are anything like me, you don&amp;#8217;t trust yourself. Therefore, you&amp;#8217;d want
 to add alternative work &lt;span class=&quot;caps&quot;&gt;BEFORE&lt;/span&gt; you delete one of the alternatives. So the
 usual workflow of using rollback to take back an ill-composed commit is not
-your&amp;nbsp;thing.&lt;/p&gt;
+your thing.
+如果你像我一样不信任自个儿.
+因此,你想要添加删除之前的替代品之一，替代工作。因此，
+通常使用回滚收回虐待组成提交的工作流程是不&amp;nbsp;你的事。&lt;/p&gt;
 &lt;p&gt;Instead, it is possible to&amp;nbsp;simply:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg debugsetparent tip^^
 $ hg debugrebuildstate
@@ -149,60 +166,52 @@ progress =
 有关这一扩展的更多信息,请参考Mercurial 维基中 &lt;a href=&quot;http://mercurial.selenic.com/wiki/ProgressExtension&quot;&gt;progress&lt;/a&gt;&amp;nbsp;页面.&lt;/p&gt;
     
     
-   </content></entry><entry><title>Merging MQ Patches with Rebase</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html"/><updated>2010-02-11T00:00:00Z</updated><published>2010-02-11T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html/</id><content type="html">
+   </content></entry><entry><title>用`变基`扩展来合并MQ补丁</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html"/><updated>2010-02-11T00:00:00Z</updated><published>2010-02-11T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-02-11-merging-mq-patches-with-rebase.html/</id><content type="html">
        
     
-    &lt;p&gt;&lt;strong&gt;First of all:&lt;/strong&gt; I want to try something new with this tip. This is the first
-tip that includes a screencast. It&amp;#8217;s a complex topic and I think a screencast
-is the best way to talk about it. Please post a comment and let me know if you
-like it or if you think hgtip should stick to text-only&amp;nbsp;tips!&lt;/p&gt;
-&lt;p&gt;This tip is for those of you that are familiar and comfortable with using
-&lt;a href=&quot;http://mercurial.selenic.com/wiki/MqExtension&quot;&gt;&lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;&lt;/a&gt; to handle patches. If you use &lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt; regularly you may have noticed some
-problems. One of the biggest problems appears when you have some patches and
-someone else commits something that changes the files you&amp;#8217;re working&amp;nbsp;on.&lt;/p&gt;
-&lt;p&gt;The normal workflow is to pull their changes, &lt;code&gt;qpop&lt;/code&gt; your patches, update to
-the new repository (or branch) tip, and &lt;code&gt;qpush&lt;/code&gt; your patches. Unfortunately &lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;
-doesn&amp;#8217;t keep track of the parents of patches, so it can&amp;#8217;t intelligently merge
-changes when you &lt;code&gt;qpush&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The way to get around this limitation is to use the &lt;a href=&quot;http://mercurial.selenic.com/wiki/RebaseExtension&quot;&gt;rebase extension&lt;/a&gt; to
-rebase your &lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt; patches while they&amp;#8217;re still applied. I&amp;#8217;ll demonstrate how to do
-this in the screencast&amp;nbsp;below:&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;首先:&lt;/strong&gt; 在这里,俺想尝试新东西~ 这是首个包含截屏录像的贴士.
+这是一个复杂的主题,俺认为用操作录像的形式可以更好的表述.请评注,反馈给俺知道你的体验,
+是喜欢呢,还是期望 &lt;code&gt;hgtip&lt;/code&gt; 保持纯文本的形式?!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;好吧~&lt;/strong&gt;反正俺从珠海电信是看不到这个录像的&amp;#8230;&lt;/p&gt;
+&lt;p&gt;这一贴士是为已能熟练并舒适使用 &lt;a href=&quot;http://mercurial.selenic.com/wiki/MqExtension&quot;&gt;&lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;&lt;/a&gt;来处理补丁的好人.
+如果常用&lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;,您可能已经注意到一些问题.&amp;nbsp;最大的麻烦一般发生在你处理一堆补丁时,又有人正好在对你处理中的文件提交了新修订.&lt;/p&gt;
+&lt;p&gt;正常的流程是先下拉他们的变更集,
+&lt;code&gt;qpop&lt;/code&gt;你的补丁,更新到新的仓库(或是分支),
+再&lt;code&gt;qpush&lt;/code&gt;你的补丁.
+不幸的是&lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;不保留补丁的继承轨迹,从而在你进行&lt;code&gt;qpush&lt;/code&gt;时无法智能合并.&lt;/p&gt;
+&lt;p&gt;解决这一问题的方法,就是使用&lt;a href=&quot;http://mercurial.selenic.com/wiki/RebaseExtension&quot;&gt;变基扩展&lt;/a&gt;,
+在&lt;span class=&quot;caps&quot;&gt;MQ&lt;/span&gt;补丁期间确保他们可用.&amp;nbsp;我将在下面的截屏录像里演示如何进行:&lt;/p&gt;
 &lt;div class=&quot;screencast&quot;&gt;
 &lt;object classid=&#39;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&#39; codebase=&#39;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0&#39; width=&#39;560&#39; height=&#39;345&#39;&gt;&lt;param name=&#39;movie&#39; value=&#39;http://screenr.com/Content/assets/screenr_1116090935.swf&#39; /&gt;&lt;param name=&#39;flashvars&#39; value=&#39;i=46386&#39; /&gt;&lt;param name=&#39;allowFullScreen&#39; value=&#39;true&#39; /&gt;&lt;embed src=&#39;http://screenr.com/Content/assets/screenr_1116090935.swf&#39; flashvars=&#39;i=46386&#39; allowFullScreen=&#39;true&#39; width=&#39;560&#39; height=&#39;345&#39; pluginspage=&#39;http://www.macromedia.com/go/getflashplayer&#39;&gt;&lt;/embed&gt;&lt;/object&gt;
 &lt;/div&gt;
     
     
-   </content></entry><entry><title>Styling Mercurial’s CLI</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli.html"/><updated>2010-01-15T00:00:00Z</updated><published>2010-01-15T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli.html/</id><content type="html">
+   </content></entry><entry><title>风格化Mercurial的CLI</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli.html"/><updated>2010-01-15T00:00:00Z</updated><published>2010-01-15T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-01-15-styling-mercurials-cli.html/</id><content type="html">
        
     
-    &lt;p&gt;Mercurial has a great command line interface and many people use it without
-ever feeling the need for a &lt;span class=&quot;caps&quot;&gt;GUI&lt;/span&gt; to manage their repositories. However, we can
-make it even better by taking advantage of Mercurial&amp;#8217;s templating&amp;nbsp;features.&lt;/p&gt;
-&lt;p&gt;In this tip I&amp;#8217;m going to post some of the templates I use and show you how to
-use them yourself. Check out &lt;code&gt;hg help templating&lt;/code&gt; if you want more details on
-how the templating actually&amp;nbsp;works.&lt;/p&gt;
-&lt;p&gt;If you like what you see you can grab my templates by cloning their
-&lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;repository&lt;/a&gt; from&amp;nbsp;BitBucket:&lt;/p&gt;
+    &lt;p&gt;Mercurial 拥有一个非常捧的命令行界面,多数开发者在仓库中工作时根本用不上图形界面的工具.&amp;nbsp;不过,通过模板功能我们可以将其变得更加爽直.&lt;/p&gt;
+&lt;p&gt;本贴士会展示一些我自个儿在用的模板给你作参考.
+要想明白模板具体怎么工作的,推荐参考 &lt;code&gt;hg help templating&lt;/code&gt; 内置手册.&lt;/p&gt;
+&lt;p&gt;如果你喜欢俺的分享,可以直接从BitBucket中的&lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;仓库&lt;/a&gt;克隆一份来用:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;hg clone http://bitbucket.org/sjl/mercurial-cli-templates/
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span class=&quot;caps&quot;&gt;NOTE&lt;/span&gt;:&lt;/strong&gt; I&amp;#8217;ve customized the colors of my Terminal, so the colors will look
-different for you. If you like the colors I&amp;#8217;m using you can read the
-&lt;a href=&quot;http://stevelosh.com/blog/2009/03/candy-colored-terminal/&quot;&gt;blog entry&lt;/a&gt; I wrote about&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://stevelosh.com/blog/2009/03/candy-colored-terminal/&quot;&gt;blog entry&lt;/a&gt; I wrote about it.
+&lt;strong&gt;注意:&lt;/strong&gt; 我对自个儿的终端进行了颜色定制,
+如果你喜欢俺的定制,推荐阅读我为之专门写的&lt;a href=&quot;http://stevelosh.com/blog/2009/03/candy-colored-terminal/&quot;&gt;Blog文章&lt;/a&gt;.&lt;/p&gt;
 &lt;div class=&quot;toc&quot;&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#short-log&quot;&gt;Short Log&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#nice-log&quot;&gt;Nice&amp;nbsp;Log&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#short-graphlog&quot;&gt;Short&amp;nbsp;Graphlog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;#contribute&quot;&gt;Contribute&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#&quot;&gt;短日志&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#_1&quot;&gt;美日志&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#_2&quot;&gt;简图志&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#_3&quot;&gt;贡献&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;h2 id=&quot;short-log&quot;&gt;Short&amp;nbsp;Log&lt;/h2&gt;
-&lt;p&gt;In a &lt;a href=&quot;/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/&quot;&gt;previous tip&lt;/a&gt; I described how to create an &lt;code&gt;hg slog&lt;/code&gt; alias that
-can be very useful for counting changesets. With the right styling it can be
-useful in your day-to-day work. Here&amp;#8217;s what the output of my &lt;code&gt;hg slog&lt;/code&gt; command
-looks&amp;nbsp;like:&lt;/p&gt;
+&lt;h2 id=&quot;&quot;&gt;短日志&lt;/h2&gt;
+&lt;p&gt;在 &lt;a href=&quot;../beginner/2009-10-07-shortlog-for-fun-and-profit.html&quot;&gt;前述贴士&lt;/a&gt; 里,我描述了如何通过 &lt;code&gt;hg slog&lt;/code&gt; 的别名命令来统计变更集.
+配合适当的风格对你的日常工作将更加好用.
+这里展示一下 &lt;code&gt;hg slog&lt;/code&gt; 的效果:&lt;/p&gt;
 &lt;div class=&quot;screenshot&quot;&gt;
     &lt;a href=&quot;http://www.flickr.com/photos/sjl7678/4277311247/&quot;
        title=&quot;hg-slog by Steve Losh, on Flickr&quot;&gt;
@@ -211,14 +220,13 @@ looks&amp;nbsp;like:&lt;/p&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;To use this template you can &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;p&gt;使用这一模板,得 &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;修订 ~/.hgrc &lt;/a&gt;&amp;nbsp;包含以下配置:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[alias]
 slog = log --style=/full/path/to/map-cmdline.slog
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;nice-log&quot;&gt;Nice&amp;nbsp;Log&lt;/h2&gt;
-&lt;p&gt;The short log is great a quick review of the past few changesets, but for a
-much more detailed view of a particular changeset I&amp;#8217;ve created an &lt;code&gt;hg nlog&lt;/code&gt;
-alias, which looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;h2 id=&quot;_1&quot;&gt;美日志&lt;/h2&gt;
+&lt;p&gt;用短日志样式来快速回顾过往变更变更集很赞,
+不过,要想查阅指定变更集的详细信息时,我创建了 &lt;code&gt;hg nlog&lt;/code&gt; 别名,输出的效果如下:&lt;/p&gt;
 &lt;div class=&quot;screenshot&quot;&gt;
     &lt;a href=&quot;http://www.flickr.com/photos/sjl7678/4278058138/&quot;
        title=&quot;hg-nlog by Steve Losh, on Flickr&quot;&gt;
@@ -227,14 +235,13 @@ alias, which looks like&amp;nbsp;this:&lt;/p&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;To use this template you can &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;p&gt;使用这一模板,得 &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;修订 ~/.hgrc &lt;/a&gt;&amp;nbsp;包含以下配置:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[alias]
 nlog = log --style=/full/path/to/map-cmdline.nlog
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;short-graphlog&quot;&gt;Short&amp;nbsp;Graphlog&lt;/h2&gt;
-&lt;p&gt;The &lt;a href=&quot;/tips/beginner/2009-10-03-stay-sane-with-graphlog/&quot;&gt;graphlog&lt;/a&gt; command is wonderful for reviewing the history of
-repositories with branches, but we can make it more compact and easier to read
-with another template. The result looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;h2 id=&quot;_2&quot;&gt;简图志&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;/tips/beginner/2009-10-03-stay-sane-with-graphlog/&quot;&gt;图形日志&lt;/a&gt; 命令对回顾仓库的分支情况非常有用,
+不过,我们可以运用模板来更加简洁的查阅.&amp;nbsp;最终效果如下:&lt;/p&gt;
 &lt;div class=&quot;screenshot&quot;&gt;
     &lt;a href=&quot;http://www.flickr.com/photos/sjl7678/4277311549/&quot;
        title=&quot;hg-sglog by Steve Losh, on Flickr&quot;&gt;
@@ -243,13 +250,13 @@ with another template. The result looks like&amp;nbsp;this:&lt;/p&gt;
     &lt;/a&gt;
 &lt;/div&gt;
 
-&lt;p&gt;To use this template you can &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;edit your ~/.hgrc file&lt;/a&gt; to contain the&amp;nbsp;following:&lt;/p&gt;
+&lt;p&gt;使用这一模板,得 &lt;a href=&quot;2009-09-30-configuring-mercurial.html&quot;&gt;修订 ~/.hgrc &lt;/a&gt;&amp;nbsp;包含以下配置:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[alias]
 sglog = glog --style=/full/path/to/map-cmdline.sglog
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;contribute&quot;&gt;Contribute&lt;/h2&gt;
-&lt;p&gt;If you have any other templates you find useful, or some improvements to mine,
-feel free to fork the &lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;repository&lt;/a&gt; on&amp;nbsp;BitBucket!&lt;/p&gt;
+&lt;h2 id=&quot;_3&quot;&gt;贡献&lt;/h2&gt;
+&lt;p&gt;如果你有更加漂亮的模板,或是对俺的有所改进,
+可以在 BitBucket 中自由分支 &lt;a href=&quot;http://bitbucket.org/sjl/mercurial-cli-templates/&quot;&gt;仓库&lt;/a&gt;&amp;nbsp;继续增订.&lt;/p&gt;
     
     
    </content></entry><entry><title>找出不寻常的变更集</title><author><name>Steve Losh</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html"/><updated>2009-12-09T00:00:00Z</updated><published>2009-12-09T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/beginner/2009-12-09-finding-uncommon-changesets.html/</id><content type="html">

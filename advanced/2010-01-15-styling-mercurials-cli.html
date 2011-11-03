@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Styling Mercurial’s CLI / hg tip</title>
+        <title>风格化Mercurial的CLI / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Styling Mercurial’s CLI</h2>
+                    <h2>风格化Mercurial的CLI</h2>
                 
                 
     <p id="tip-info">
@@ -71,34 +71,29 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>Mercurial has a great command line interface and many people use it without
-ever feeling the need for a <span class="caps">GUI</span> to manage their repositories. However, we can
-make it even better by taking advantage of Mercurial&#8217;s templating&nbsp;features.</p>
-<p>In this tip I&#8217;m going to post some of the templates I use and show you how to
-use them yourself. Check out <code>hg help templating</code> if you want more details on
-how the templating actually&nbsp;works.</p>
-<p>If you like what you see you can grab my templates by cloning their
-<a href="http://bitbucket.org/sjl/mercurial-cli-templates/">repository</a> from&nbsp;BitBucket:</p>
+    <p>Mercurial 拥有一个非常捧的命令行界面,多数开发者在仓库中工作时根本用不上图形界面的工具.&nbsp;不过,通过模板功能我们可以将其变得更加爽直.</p>
+<p>本贴士会展示一些我自个儿在用的模板给你作参考.
+要想明白模板具体怎么工作的,推荐参考 <code>hg help templating</code> 内置手册.</p>
+<p>如果你喜欢俺的分享,可以直接从BitBucket中的<a href="http://bitbucket.org/sjl/mercurial-cli-templates/">仓库</a>克隆一份来用:</p>
 <pre><code>hg clone http://bitbucket.org/sjl/mercurial-cli-templates/
 </code></pre>
-<p><strong><span class="caps">NOTE</span>:</strong> I&#8217;ve customized the colors of my Terminal, so the colors will look
-different for you. If you like the colors I&#8217;m using you can read the
-<a href="http://stevelosh.com/blog/2009/03/candy-colored-terminal/">blog entry</a> I wrote about&nbsp;it.</p>
+<p><a href="http://stevelosh.com/blog/2009/03/candy-colored-terminal/">blog entry</a> I wrote about it.
+<strong>注意:</strong> 我对自个儿的终端进行了颜色定制,
+如果你喜欢俺的定制,推荐阅读我为之专门写的<a href="http://stevelosh.com/blog/2009/03/candy-colored-terminal/">Blog文章</a>.</p>
 <div class="toc">
 <ul>
-<li><a href="#short-log">Short Log</a><ul>
-<li><a href="#nice-log">Nice&nbsp;Log</a></li>
-<li><a href="#short-graphlog">Short&nbsp;Graphlog</a></li>
-<li><a href="#contribute">Contribute</a></li>
+<li><a href="#">短日志</a><ul>
+<li><a href="#_1">美日志</a></li>
+<li><a href="#_2">简图志</a></li>
+<li><a href="#_3">贡献</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<h2 id="short-log">Short&nbsp;Log</h2>
-<p>In a <a href="/tips/beginner/2009-10-07-shortlog-for-fun-and-profit/">previous tip</a> I described how to create an <code>hg slog</code> alias that
-can be very useful for counting changesets. With the right styling it can be
-useful in your day-to-day work. Here&#8217;s what the output of my <code>hg slog</code> command
-looks&nbsp;like:</p>
+<h2 id="">短日志</h2>
+<p>在 <a href="../beginner/2009-10-07-shortlog-for-fun-and-profit.html">前述贴士</a> 里,我描述了如何通过 <code>hg slog</code> 的别名命令来统计变更集.
+配合适当的风格对你的日常工作将更加好用.
+这里展示一下 <code>hg slog</code> 的效果:</p>
 <div class="screenshot">
     <a href="http://www.flickr.com/photos/sjl7678/4277311247/"
        title="hg-slog by Steve Losh, on Flickr">
@@ -107,14 +102,13 @@ looks&nbsp;like:</p>
     </a>
 </div>
 
-<p>To use this template you can <a href="2009-09-30-configuring-mercurial.html">edit your ~/.hgrc file</a> to contain the&nbsp;following:</p>
+<p>使用这一模板,得 <a href="2009-09-30-configuring-mercurial.html">修订 ~/.hgrc </a>&nbsp;包含以下配置:</p>
 <pre><code>[alias]
 slog = log --style=/full/path/to/map-cmdline.slog
 </code></pre>
-<h2 id="nice-log">Nice&nbsp;Log</h2>
-<p>The short log is great a quick review of the past few changesets, but for a
-much more detailed view of a particular changeset I&#8217;ve created an <code>hg nlog</code>
-alias, which looks like&nbsp;this:</p>
+<h2 id="_1">美日志</h2>
+<p>用短日志样式来快速回顾过往变更变更集很赞,
+不过,要想查阅指定变更集的详细信息时,我创建了 <code>hg nlog</code> 别名,输出的效果如下:</p>
 <div class="screenshot">
     <a href="http://www.flickr.com/photos/sjl7678/4278058138/"
        title="hg-nlog by Steve Losh, on Flickr">
@@ -123,14 +117,13 @@ alias, which looks like&nbsp;this:</p>
     </a>
 </div>
 
-<p>To use this template you can <a href="2009-09-30-configuring-mercurial.html">edit your ~/.hgrc file</a> to contain the&nbsp;following:</p>
+<p>使用这一模板,得 <a href="2009-09-30-configuring-mercurial.html">修订 ~/.hgrc </a>&nbsp;包含以下配置:</p>
 <pre><code>[alias]
 nlog = log --style=/full/path/to/map-cmdline.nlog
 </code></pre>
-<h2 id="short-graphlog">Short&nbsp;Graphlog</h2>
-<p>The <a href="/tips/beginner/2009-10-03-stay-sane-with-graphlog/">graphlog</a> command is wonderful for reviewing the history of
-repositories with branches, but we can make it more compact and easier to read
-with another template. The result looks like&nbsp;this:</p>
+<h2 id="_2">简图志</h2>
+<p><a href="/tips/beginner/2009-10-03-stay-sane-with-graphlog/">图形日志</a> 命令对回顾仓库的分支情况非常有用,
+不过,我们可以运用模板来更加简洁的查阅.&nbsp;最终效果如下:</p>
 <div class="screenshot">
     <a href="http://www.flickr.com/photos/sjl7678/4277311549/"
        title="hg-sglog by Steve Losh, on Flickr">
@@ -139,13 +132,13 @@ with another template. The result looks like&nbsp;this:</p>
     </a>
 </div>
 
-<p>To use this template you can <a href="2009-09-30-configuring-mercurial.html">edit your ~/.hgrc file</a> to contain the&nbsp;following:</p>
+<p>使用这一模板,得 <a href="2009-09-30-configuring-mercurial.html">修订 ~/.hgrc </a>&nbsp;包含以下配置:</p>
 <pre><code>[alias]
 sglog = glog --style=/full/path/to/map-cmdline.sglog
 </code></pre>
-<h2 id="contribute">Contribute</h2>
-<p>If you have any other templates you find useful, or some improvements to mine,
-feel free to fork the <a href="http://bitbucket.org/sjl/mercurial-cli-templates/">repository</a> on&nbsp;BitBucket!</p>
+<h2 id="_3">贡献</h2>
+<p>如果你有更加漂亮的模板,或是对俺的有所改进,
+可以在 BitBucket 中自由分支 <a href="http://bitbucket.org/sjl/mercurial-cli-templates/">仓库</a>&nbsp;继续增订.</p>
     
     <!-- Hyde::Article::End -->
     
@@ -159,8 +152,7 @@ feel free to fork the <a href="http://bitbucket.org/sjl/mercurial-cli-templates/
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Mercurial&#8217;s command line interface is great, but with a little bit of work we
-can make it&nbsp;even&nbsp;better!</p>
+                        <p>Mercurial&nbsp;的命令行界面很赞,不过,只要一点点儿改进就可以更加赞!</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
