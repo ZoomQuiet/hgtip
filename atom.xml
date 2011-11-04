@@ -1,64 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-11-03T22:56:00Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>Debug Command Tricks</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mercurial tips from hgtip.com</title><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/atom.xml" rel="self"/><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip"/><updated>2011-11-04T15:27:06Z</updated><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/</id><entry><title>调试类命令的戏法</title><author><name>Friedrich Kastner-Masilko</name></author><link href="http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html"/><updated>2010-04-23T00:00:00Z</updated><published>2010-04-23T00:00:00Z</published><id>http://hgtip.com/http://zoomquiet.github.com/hgtip/advanced/2010-04-23-debug-command-tricks.html/</id><content type="html">
        
     
-    &lt;p&gt;If you tried &lt;code&gt;hg help --debug&lt;/code&gt;, you may be familiar with the commands prefixed
-with &amp;#8216;debug&amp;#8217;. Most of them are used to inspect Mercurial&amp;#8217;s internal storage,
-but some can come handy in certain situations. Two of these commands are &lt;code&gt;hg
-debugsetparents&lt;/code&gt; and &lt;code&gt;hg debugrebuildstate&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;如果尝试过&lt;code&gt;hg help --debug&lt;/code&gt;,
+    &lt;p&gt;如果尝试过&lt;code&gt;hg help --debug&lt;/code&gt;,
 可能已熟悉有&amp;#8217;调试&amp;#8217;前缀命令.
 他们多数用以检查 Mercurial 的内部存储情况,有的更加得心应手.
 比如说,这两个:&lt;code&gt;hg debugsetparents&lt;/code&gt; 和 &lt;code&gt;hg debugrebuildstate&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The first command forces Mercurial to forget the &amp;#8220;real&amp;#8221; parent revisions of a
-working-copy in favor of the specified revisions in &amp;#8216;debugsetparents&amp;#8217;. The
-second command is forcing Mercurial to rebuild its internal state.
-第一个命令能强令 Mercurial 的工作复本忘记&amp;#8221;真正&amp;#8221;的父辈版本,而指向&lt;code&gt;debugsetparents&lt;/code&gt;指定的修订版本.
+&lt;p&gt;第一个命令能强令 Mercurial 的工作复本忘记&amp;#8221;真正&amp;#8221;的父辈版本,而指向&lt;code&gt;debugsetparents&lt;/code&gt;指定的修订版本.
 第二个命令是迫使 Mercurial&amp;nbsp;重建其内部状态.&lt;/p&gt;
-&lt;p&gt;So how can this be useful in normal conditions at all? Here are 3 scenarios
-where it comes handy to work with them:
-那么,在正常情景里他们有用嘛?&amp;nbsp;这里俺列举3种场景来说明他们怎么方便我们的工作的:&lt;/p&gt;
-&lt;h3 id=&quot;1-late-binding-working-copy-with-repository&quot;&gt;1. 将工作复本绑定到仓库 Late-binding working-copy with&amp;nbsp;repository.&lt;/h3&gt;
-&lt;p&gt;Imagine an interesting project hosted with Mercurial. At first you only
-download a snapshot of the project to inspect the code and try something out.
-You didn&amp;#8217;t clone it fully, because you wanted to avoid the overhead to just
-check the source.
-设想有个Mercurial 发布的有趣项目.
+&lt;p&gt;那么,在正常情景里他们有用嘛?&amp;nbsp;这里俺列举3种场景来说明他们怎么方便我们的工作的:&lt;/p&gt;
+&lt;h3 id=&quot;1&quot;&gt;1.&amp;nbsp;将工作复本绑定到仓库&lt;/h3&gt;
+&lt;p&gt;设想有个Mercurial 发布的有趣项目.
 起初,你只下载了一份儿项目的快照代码来体验.&amp;nbsp;并没有完全克隆仓库,因为你要避免网络开销,只是看一下最新的代码.&lt;/p&gt;
-&lt;p&gt;Later in the process of playing with the code, you realize that this is going
-to be a longer-lasting relationship, so you decide to clone the repo and
-commit your changes. Since it is quite a big working-copy and you
-renamed/deleted/added some files, you don&amp;#8217;t want to copy the whole thing over
-some checkout in order to not confuse the working-copy state. So how to commit
-this state at the proper&amp;nbsp;location?&lt;/p&gt;
 &lt;p&gt;在后来赏玩代码的过程中,你整明白了所有关系,
 于是你想克隆仓库,并提交你的修订.
 由于这货非常庞大,而且你已经重命名/删除/添加了一些文件,
 又不想简单粗暴的复制覆盖到克隆仓库上.&amp;nbsp;那么如何提交你的修订到适当的版本呢?&lt;/p&gt;
-&lt;p&gt;The solution is to copy the .hg folder into the snapshot&amp;#8217;s root and issue:
-解决方案是复制 &lt;code&gt;.hg&lt;/code&gt; 目录到快照根目录中,并执行:&lt;/p&gt;
+&lt;p&gt;解决方案是复制 &lt;code&gt;.hg&lt;/code&gt; 目录到快照根目录中,并执行:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg debugsetparent tip
 $ hg debugrebuildstate
 $ hg commit -Am &quot;my snapshot&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&quot;2-creating-alternate-check-ins&quot;&gt;2. 创建备用检查插件 Creating alternate&amp;nbsp;check-ins.&lt;/h3&gt;
-&lt;p&gt;If you are anything like me, you don&amp;#8217;t trust yourself. Therefore, you&amp;#8217;d want
-to add alternative work &lt;span class=&quot;caps&quot;&gt;BEFORE&lt;/span&gt; you delete one of the alternatives. So the
-usual workflow of using rollback to take back an ill-composed commit is not
-your thing.
-如果你像我一样不信任自个儿.
-因此,你想要添加删除之前的替代品之一，替代工作。因此，
-通常使用回滚收回虐待组成提交的工作流程是不&amp;nbsp;你的事。&lt;/p&gt;
-&lt;p&gt;Instead, it is possible to&amp;nbsp;simply:&lt;/p&gt;
+&lt;h3 id=&quot;2&quot;&gt;2.&amp;nbsp;创建有备胎的检入&lt;/h3&gt;
+&lt;p&gt;如果你像我一样不信任自个儿.
+那么,你一定也在删除之&lt;strong&gt;前&lt;/strong&gt;追加一份备用的.&amp;nbsp;用回滚来虐待提交,那不是你的范儿.&lt;/p&gt;
+&lt;p&gt;其实可以这么来:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg debugsetparent tip^^
 $ hg debugrebuildstate
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And you are back at the state you where before you commited, just with the
-&amp;#8220;wrong&amp;#8221; commit still&amp;nbsp;there.&lt;/p&gt;
-&lt;h3 id=&quot;3-simulate-gits-no-ff-merges-with-anonymous-heads&quot;&gt;3. Simulate Git&amp;#8217;s &amp;#8212;no-ff merges with anonymous&amp;nbsp;heads.&lt;/h3&gt;
-&lt;p&gt;Most of the workflows for Git are easily reproducible with Mercurial, but some
-of them (&lt;a href=&quot;http://nvie.com/git-model&quot;&gt;gitflow&lt;/a&gt;) use so-called &amp;#8220;non-fast-forward&amp;#8221; merges. These merges
-can be done in Mercurial, too, but only with&amp;nbsp;named-branches:&lt;/p&gt;
+&lt;p&gt;这样就恢复到你提交前的状态,甚至于&amp;#8221;问题&amp;#8221;提交,还存在.&lt;/p&gt;
+&lt;h3 id=&quot;3-git-no-ff&quot;&gt;3. 模拟 Git 的&amp;#8212;no-ff&amp;nbsp;匿名头合并&lt;/h3&gt;
+&lt;p&gt;多数Git的工作流程能很容易的在Mercurial里再现,
+但有些(&lt;a href=&quot;http://nvie.com/git-model&quot;&gt;gitflow&lt;/a&gt;)使用所谓的 &amp;#8220;non-fast-forward&amp;#8221; 合并.
+这种合并也可以在Mercurial&amp;nbsp;做到,但是只能对命名分行:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg sl
 $ echo x &amp;gt; x
 $ hg ci -Am &quot;base&quot;
@@ -87,9 +61,9 @@ $ hg glog
 o  changeset:   0:387ca709aeaf
    summary:     base
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;As you can see in the above graphlog output, the merge contains no actual
-information besides indicating the merging of two named-branches (&amp;#8216;default&amp;#8217;
-and &amp;#8216;feature&amp;#8217;). As with Mercurial 1.5.1, you can&amp;#8217;t do that with anonymous&amp;nbsp;heads:&lt;/p&gt;
+&lt;p&gt;如你所见,上面graphlog的输出说明,合并除了两个分支的名称
+(&amp;#8216;default&amp;#8217; 和 &amp;#8216;feature&amp;#8217;) 并没有包含实际的详细信息.
+从 Mercurial 1.5.1&amp;nbsp;开始,你可以基于匿名头来进行合并了:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ echo x &amp;gt; x
 $ hg ci -Am &quot;base&quot;
 adding x
@@ -100,10 +74,9 @@ $ hg up 0
 $ hg merge 1
 abort: nothing to merge (use &#39;hg update&#39; or check &#39;hg heads&#39;)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Why would you want to do that with anonymous heads, anyway? Well, one way of
-simulating Git branches is the bookmark extension. Unfortunately, using
-bookmarks (to name anonymous heads) is still using anonymous heads, so the
-above problem gets in your&amp;nbsp;way:&lt;/p&gt;
+&lt;p&gt;一定得用匿名头嘛?
+好吧,另种方法是用书签扩展来模拟 git 的分支.
+杯具的是,用书签(来标识匿名头部)仍然是匿名头部,&amp;nbsp;上述问题可以用以下方式来解决:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg bookmark master
 $ hg bookmark feature -r 1
 $ hg bookmark
@@ -112,7 +85,7 @@ $ hg bookmark
 $ hg merge feature
 abort: nothing to merge (use &#39;hg update&#39; or check &#39;hg heads&#39;)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The&amp;nbsp;solution:&lt;/p&gt;
+&lt;p&gt;效果如:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ hg debugsetparents master feature
 $ hg revert -a -r feature
 reverting x

@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Debug Command Tricks / hg tip</title>
+        <title>调试类命令的戏法 / hg tip</title>
         
         
             <link href="http://feeds.feedburner.com/hgtip/" rel="alternate"
@@ -61,7 +61,7 @@
             
             <div id="content">
                 
-                    <h2>Debug Command Tricks</h2>
+                    <h2>调试类命令的戏法</h2>
                 
                 
     <p id="tip-info">
@@ -71,63 +71,37 @@
     
     <!-- Hyde::Article::Begin -->
     
-    <p>If you tried <code>hg help --debug</code>, you may be familiar with the commands prefixed
-with &#8216;debug&#8217;. Most of them are used to inspect Mercurial&#8217;s internal storage,
-but some can come handy in certain situations. Two of these commands are <code>hg
-debugsetparents</code> and <code>hg debugrebuildstate</code>.</p>
-<p>如果尝试过<code>hg help --debug</code>,
+    <p>如果尝试过<code>hg help --debug</code>,
 可能已熟悉有&#8217;调试&#8217;前缀命令.
 他们多数用以检查 Mercurial 的内部存储情况,有的更加得心应手.
 比如说,这两个:<code>hg debugsetparents</code> 和 <code>hg debugrebuildstate</code>.</p>
-<p>The first command forces Mercurial to forget the &#8220;real&#8221; parent revisions of a
-working-copy in favor of the specified revisions in &#8216;debugsetparents&#8217;. The
-second command is forcing Mercurial to rebuild its internal state.
-第一个命令能强令 Mercurial 的工作复本忘记&#8221;真正&#8221;的父辈版本,而指向<code>debugsetparents</code>指定的修订版本.
+<p>第一个命令能强令 Mercurial 的工作复本忘记&#8221;真正&#8221;的父辈版本,而指向<code>debugsetparents</code>指定的修订版本.
 第二个命令是迫使 Mercurial&nbsp;重建其内部状态.</p>
-<p>So how can this be useful in normal conditions at all? Here are 3 scenarios
-where it comes handy to work with them:
-那么,在正常情景里他们有用嘛?&nbsp;这里俺列举3种场景来说明他们怎么方便我们的工作的:</p>
-<h3 id="1-late-binding-working-copy-with-repository">1. 将工作复本绑定到仓库 Late-binding working-copy with&nbsp;repository.</h3>
-<p>Imagine an interesting project hosted with Mercurial. At first you only
-download a snapshot of the project to inspect the code and try something out.
-You didn&#8217;t clone it fully, because you wanted to avoid the overhead to just
-check the source.
-设想有个Mercurial 发布的有趣项目.
+<p>那么,在正常情景里他们有用嘛?&nbsp;这里俺列举3种场景来说明他们怎么方便我们的工作的:</p>
+<h3 id="1">1.&nbsp;将工作复本绑定到仓库</h3>
+<p>设想有个Mercurial 发布的有趣项目.
 起初,你只下载了一份儿项目的快照代码来体验.&nbsp;并没有完全克隆仓库,因为你要避免网络开销,只是看一下最新的代码.</p>
-<p>Later in the process of playing with the code, you realize that this is going
-to be a longer-lasting relationship, so you decide to clone the repo and
-commit your changes. Since it is quite a big working-copy and you
-renamed/deleted/added some files, you don&#8217;t want to copy the whole thing over
-some checkout in order to not confuse the working-copy state. So how to commit
-this state at the proper&nbsp;location?</p>
 <p>在后来赏玩代码的过程中,你整明白了所有关系,
 于是你想克隆仓库,并提交你的修订.
 由于这货非常庞大,而且你已经重命名/删除/添加了一些文件,
 又不想简单粗暴的复制覆盖到克隆仓库上.&nbsp;那么如何提交你的修订到适当的版本呢?</p>
-<p>The solution is to copy the .hg folder into the snapshot&#8217;s root and issue:
-解决方案是复制 <code>.hg</code> 目录到快照根目录中,并执行:</p>
+<p>解决方案是复制 <code>.hg</code> 目录到快照根目录中,并执行:</p>
 <pre><code>$ hg debugsetparent tip
 $ hg debugrebuildstate
 $ hg commit -Am "my snapshot"
 </code></pre>
-<h3 id="2-creating-alternate-check-ins">2. 创建备用检查插件 Creating alternate&nbsp;check-ins.</h3>
-<p>If you are anything like me, you don&#8217;t trust yourself. Therefore, you&#8217;d want
-to add alternative work <span class="caps">BEFORE</span> you delete one of the alternatives. So the
-usual workflow of using rollback to take back an ill-composed commit is not
-your thing.
-如果你像我一样不信任自个儿.
-因此,你想要添加删除之前的替代品之一，替代工作。因此，
-通常使用回滚收回虐待组成提交的工作流程是不&nbsp;你的事。</p>
-<p>Instead, it is possible to&nbsp;simply:</p>
+<h3 id="2">2.&nbsp;创建有备胎的检入</h3>
+<p>如果你像我一样不信任自个儿.
+那么,你一定也在删除之<strong>前</strong>追加一份备用的.&nbsp;用回滚来虐待提交,那不是你的范儿.</p>
+<p>其实可以这么来:</p>
 <pre><code>$ hg debugsetparent tip^^
 $ hg debugrebuildstate
 </code></pre>
-<p>And you are back at the state you where before you commited, just with the
-&#8220;wrong&#8221; commit still&nbsp;there.</p>
-<h3 id="3-simulate-gits-no-ff-merges-with-anonymous-heads">3. Simulate Git&#8217;s &#8212;no-ff merges with anonymous&nbsp;heads.</h3>
-<p>Most of the workflows for Git are easily reproducible with Mercurial, but some
-of them (<a href="http://nvie.com/git-model">gitflow</a>) use so-called &#8220;non-fast-forward&#8221; merges. These merges
-can be done in Mercurial, too, but only with&nbsp;named-branches:</p>
+<p>这样就恢复到你提交前的状态,甚至于&#8221;问题&#8221;提交,还存在.</p>
+<h3 id="3-git-no-ff">3. 模拟 Git 的&#8212;no-ff&nbsp;匿名头合并</h3>
+<p>多数Git的工作流程能很容易的在Mercurial里再现,
+但有些(<a href="http://nvie.com/git-model">gitflow</a>)使用所谓的 &#8220;non-fast-forward&#8221; 合并.
+这种合并也可以在Mercurial&nbsp;做到,但是只能对命名分行:</p>
 <pre><code>$ hg sl
 $ echo x &gt; x
 $ hg ci -Am "base"
@@ -156,9 +130,9 @@ $ hg glog
 o  changeset:   0:387ca709aeaf
    summary:     base
 </code></pre>
-<p>As you can see in the above graphlog output, the merge contains no actual
-information besides indicating the merging of two named-branches (&#8216;default&#8217;
-and &#8216;feature&#8217;). As with Mercurial 1.5.1, you can&#8217;t do that with anonymous&nbsp;heads:</p>
+<p>如你所见,上面graphlog的输出说明,合并除了两个分支的名称
+(&#8216;default&#8217; 和 &#8216;feature&#8217;) 并没有包含实际的详细信息.
+从 Mercurial 1.5.1&nbsp;开始,你可以基于匿名头来进行合并了:</p>
 <pre><code>$ echo x &gt; x
 $ hg ci -Am "base"
 adding x
@@ -169,10 +143,9 @@ $ hg up 0
 $ hg merge 1
 abort: nothing to merge (use 'hg update' or check 'hg heads')
 </code></pre>
-<p>Why would you want to do that with anonymous heads, anyway? Well, one way of
-simulating Git branches is the bookmark extension. Unfortunately, using
-bookmarks (to name anonymous heads) is still using anonymous heads, so the
-above problem gets in your&nbsp;way:</p>
+<p>一定得用匿名头嘛?
+好吧,另种方法是用书签扩展来模拟 git 的分支.
+杯具的是,用书签(来标识匿名头部)仍然是匿名头部,&nbsp;上述问题可以用以下方式来解决:</p>
 <pre><code>$ hg bookmark master
 $ hg bookmark feature -r 1
 $ hg bookmark
@@ -181,7 +154,7 @@ $ hg bookmark
 $ hg merge feature
 abort: nothing to merge (use 'hg update' or check 'hg heads')
 </code></pre>
-<p>The&nbsp;solution:</p>
+<p>效果如:</p>
 <pre><code>$ hg debugsetparents master feature
 $ hg revert -a -r feature
 reverting x
@@ -214,7 +187,7 @@ o  changeset:   0:6965ee5bb884
             <div id="excerpt">
                 
                     <!-- Hyde::Excerpt::Begin -->
-                        <p>Mercurial has some &#8220;hidden&#8221; debug commands that can make your day in special&nbsp;situations.&nbsp;Mercurial含有一些&#8221;隐藏&#8221;的调试命令,有助你处理某些特殊情况.</p>
+                        <p>Mercurial含有一些&#8221;隐藏&#8221;的调试命令,有助你处理某些特殊情况.</p>
                     <!-- Hyde::Excerpt::End -->
                 
             </div>
